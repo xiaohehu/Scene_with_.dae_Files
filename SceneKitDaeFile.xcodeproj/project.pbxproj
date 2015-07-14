@@ -14,6 +14,14 @@
 		824B9B9C1B557F5A006C58DF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 824B9B9B1B557F5A006C58DF /* Images.xcassets */; };
 		824B9B9F1B557F5A006C58DF /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 824B9B9D1B557F5A006C58DF /* LaunchScreen.xib */; };
 		824B9BAB1B557F5A006C58DF /* SceneKitDaeFileTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 824B9BAA1B557F5A006C58DF /* SceneKitDaeFileTests.m */; };
+		824B9BB51B5580FE006C58DF /* SceneKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824B9BB41B5580FE006C58DF /* SceneKit.framework */; };
+		824B9BB91B55835F006C58DF /* GoogleEarth.dae in Resources */ = {isa = PBXBuildFile; fileRef = 824B9BB81B55835F006C58DF /* GoogleEarth.dae */; };
+		824B9BC51B559306006C58DF /* GoogleEarth.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 824B9BC41B559306006C58DF /* GoogleEarth.jpg */; };
+		824B9BCB1B55A292006C58DF /* Building_00A.dae in Resources */ = {isa = PBXBuildFile; fileRef = 824B9BC61B55A292006C58DF /* Building_00A.dae */; };
+		824B9BCC1B55A292006C58DF /* Building_00B.dae in Resources */ = {isa = PBXBuildFile; fileRef = 824B9BC71B55A292006C58DF /* Building_00B.dae */; };
+		824B9BCD1B55A292006C58DF /* Building_01A.dae in Resources */ = {isa = PBXBuildFile; fileRef = 824B9BC81B55A292006C58DF /* Building_01A.dae */; };
+		824B9BCE1B55A292006C58DF /* Building_01B.dae in Resources */ = {isa = PBXBuildFile; fileRef = 824B9BC91B55A292006C58DF /* Building_01B.dae */; };
+		824B9BCF1B55A292006C58DF /* Building_02.dae in Resources */ = {isa = PBXBuildFile; fileRef = 824B9BCA1B55A292006C58DF /* Building_02.dae */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +48,14 @@
 		824B9BA41B557F5A006C58DF /* SceneKitDaeFileTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SceneKitDaeFileTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		824B9BA91B557F5A006C58DF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		824B9BAA1B557F5A006C58DF /* SceneKitDaeFileTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SceneKitDaeFileTests.m; sourceTree = "<group>"; };
+		824B9BB41B5580FE006C58DF /* SceneKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SceneKit.framework; path = System/Library/Frameworks/SceneKit.framework; sourceTree = SDKROOT; };
+		824B9BB81B55835F006C58DF /* GoogleEarth.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = GoogleEarth.dae; sourceTree = "<group>"; };
+		824B9BC41B559306006C58DF /* GoogleEarth.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = GoogleEarth.jpg; sourceTree = "<group>"; };
+		824B9BC61B55A292006C58DF /* Building_00A.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = Building_00A.dae; sourceTree = "<group>"; };
+		824B9BC71B55A292006C58DF /* Building_00B.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = Building_00B.dae; sourceTree = "<group>"; };
+		824B9BC81B55A292006C58DF /* Building_01A.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = Building_01A.dae; sourceTree = "<group>"; };
+		824B9BC91B55A292006C58DF /* Building_01B.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = Building_01B.dae; sourceTree = "<group>"; };
+		824B9BCA1B55A292006C58DF /* Building_02.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = Building_02.dae; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +63,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				824B9BB51B5580FE006C58DF /* SceneKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,6 +80,7 @@
 		824B9B821B557F5A006C58DF = {
 			isa = PBXGroup;
 			children = (
+				824B9BB41B5580FE006C58DF /* SceneKit.framework */,
 				824B9B8D1B557F5A006C58DF /* SceneKitDaeFile */,
 				824B9BA71B557F5A006C58DF /* SceneKitDaeFileTests */,
 				824B9B8C1B557F5A006C58DF /* Products */,
@@ -86,6 +104,13 @@
 				824B9B951B557F5A006C58DF /* ViewController.h */,
 				824B9B961B557F5A006C58DF /* ViewController.m */,
 				824B9B981B557F5A006C58DF /* Main.storyboard */,
+				824B9BC61B55A292006C58DF /* Building_00A.dae */,
+				824B9BC71B55A292006C58DF /* Building_00B.dae */,
+				824B9BC81B55A292006C58DF /* Building_01A.dae */,
+				824B9BC91B55A292006C58DF /* Building_01B.dae */,
+				824B9BCA1B55A292006C58DF /* Building_02.dae */,
+				824B9BB81B55835F006C58DF /* GoogleEarth.dae */,
+				824B9BC41B559306006C58DF /* GoogleEarth.jpg */,
 				824B9B9B1B557F5A006C58DF /* Images.xcassets */,
 				824B9B9D1B557F5A006C58DF /* LaunchScreen.xib */,
 				824B9B8E1B557F5A006C58DF /* Supporting Files */,
@@ -199,9 +224,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				824B9BCB1B55A292006C58DF /* Building_00A.dae in Resources */,
+				824B9BB91B55835F006C58DF /* GoogleEarth.dae in Resources */,
+				824B9BCF1B55A292006C58DF /* Building_02.dae in Resources */,
 				824B9B9A1B557F5A006C58DF /* Main.storyboard in Resources */,
+				824B9BCE1B55A292006C58DF /* Building_01B.dae in Resources */,
+				824B9BC51B559306006C58DF /* GoogleEarth.jpg in Resources */,
 				824B9B9F1B557F5A006C58DF /* LaunchScreen.xib in Resources */,
 				824B9B9C1B557F5A006C58DF /* Images.xcassets in Resources */,
+				824B9BCC1B55A292006C58DF /* Building_00B.dae in Resources */,
+				824B9BCD1B55A292006C58DF /* Building_01A.dae in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
