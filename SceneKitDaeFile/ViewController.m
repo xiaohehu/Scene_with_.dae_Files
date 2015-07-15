@@ -8,16 +8,16 @@
 
 #import "ViewController.h"
 
-static float initCamX = -13000.0;
-static float initCamY = 14000.0;
-static float initCamZ = 23000.0;
+static float initCamX = -10000.0;
+static float initCamY = 15000.0;
+static float initCamZ = 20000.0;
 static float camera2X = 5000;
-static float camera2Y = 1000;
+static float camera2Y = 300;
 static float camera2Z = 20000;
 static float initCamR = 40.0/50.0;
 static float initCamR_x = 1.0;
 static float initCamR_y = 1.0;
-static float initCamR_z = 0.15;
+static float initCamR_z = 0.28;
 
 @interface ViewController () {
 
@@ -73,7 +73,9 @@ static float initCamR_z = 0.15;
 }
 
 #pragma mark - Init all Scene Nodes and add to scene view
-
+/*
+ * Create a array of rotation angles for camera
+ */
 - (void)createCameraPositionArray {
     NSNumber *rotation1 = [NSNumber numberWithFloat:-M_PI_4];
     NSNumber *rotation2 = [NSNumber numberWithFloat:-1.0 * M_PI];
@@ -81,10 +83,20 @@ static float initCamR_z = 0.15;
     arr_cameraRotation = @[rotation1, rotation2, rotation3];
 }
 
+/*
+ * Read the scene node from a .dae file
+ * Returns a SCNNode varible
+ */
 - (SCNNode *)getTheNodebyFileName:(NSString *)fileName andID:(NSString *)nodeID {
     NSURL *sceneURL = [[NSBundle mainBundle] URLForResource:fileName withExtension:@"dae"];
     SCNSceneSource *sceneSource = [SCNSceneSource sceneSourceWithURL:sceneURL options:nil];
     return [sceneSource entryWithIdentifier:nodeID withClass:[SCNNode class]];
+}
+
+- (SCNMaterial *)getMaterialByColor:(UIColor *)color {
+    SCNMaterial *material = [SCNMaterial material];
+    material.diffuse.contents = color;
+    return material;
 }
 
 - (void)createElements {
@@ -92,6 +104,9 @@ static float initCamR_z = 0.15;
     _myscene.scene = scene;
     _myscene.antialiasingMode = SCNAntialiasingModeMultisampling4X;
     
+    /*
+     * Create floor node and added image
+     */
     floorNode = [self getTheNodebyFileName:@"GoogleEarth" andID:@"Plane001"];
     floorNode.geometry.firstMaterial.diffuse.contents = [UIImage imageNamed:@"GoogleEarth.jpg"];
     [_myscene.scene.rootNode addChildNode: floorNode];
@@ -104,38 +119,87 @@ static float initCamR_z = 0.15;
     [_myscene.scene.rootNode addChildNode: blockNode];
     
     building0NodeA = [self getTheNodebyFileName:@"Building_00A" andID:@"Box149"];
+    building0NodeA.geometry.materials = @[[self getMaterialByColor:[UIColor greenColor]]];
     [_myscene.scene.rootNode addChildNode: building0NodeA];
     
     building0NodeB = [self getTheNodebyFileName:@"Building_00B" andID:@"Box151"];
+    building0NodeB.geometry.materials = @[[self getMaterialByColor:[UIColor greenColor]]];
     
     building1NodeA = [self getTheNodebyFileName:@"Building_01A" andID:@"Box148"];
+    building1NodeA.geometry.materials = @[[self getMaterialByColor:[UIColor redColor]]];
     [_myscene.scene.rootNode addChildNode:building1NodeA];
     
     building1NodeB = [self getTheNodebyFileName:@"Building_01B" andID:@"Box152"];
-    
+    building1NodeB.geometry.materials = @[[self getMaterialByColor:[UIColor redColor]]];;
+    /*
+     * Array contains 2 buildings shapes
+     */
     arr_building0Nodes = @[building0NodeA, building0NodeB];
     arr_building1Nodes = @[building1NodeA, building1NodeB];
     
+    [self createCameraOrbitAndNode];
+    
+    [self createLightGroup];
+}
+
+- (void) createCameraOrbitAndNode {
     cameraNode = [SCNNode node];
     cameraNode.camera = [SCNCamera camera];
     cameraNode.position = SCNVector3Make(initCamX, initCamY, initCamZ);
     cameraNode.rotation = SCNVector4Make(initCamR_x, initCamR_y, initCamR_z, -atan(initCamR));
     cameraNode.camera.zFar = 200000;
     cameraNode.camera.zNear = 100;
-    
+    //    cameraNode.constraints = @[[SCNLookAtConstraint lookAtConstraintWithTarget:blockNode]];
     /*
      * Add camera orbit to rotate camera node
      */
     cameraOrbit = [SCNNode node];
+    cameraOrbit.position = SCNVector3Make(cameraOrbit.position.x, cameraOrbit.position.y, cameraOrbit.position.z + 5000);
     [cameraOrbit addChildNode: cameraNode];
     [_myscene.scene.rootNode addChildNode: cameraOrbit];
-    
+}
+
+
+- (void)createLightGroup {
     SCNLight *light = [SCNLight light];
-    light.type = SCNLightTypeDirectional;
+    light.type = SCNLightTypeOmni;
+    light.attenuationStartDistance = 10000;
+    light.attenuationEndDistance = 280000;
     light.color = [UIColor whiteColor];
     SCNNode *lightNode = [SCNNode node];
+    lightNode.position = SCNVector3Make(-2000, 20000, 1000);
     lightNode.light = light;
-    [cameraNode addChildNode: lightNode];
+    [_myscene.scene.rootNode addChildNode: lightNode];
+    
+    SCNLight *light2 = [SCNLight light];
+    light2.type = SCNLightTypeOmni;
+    light2.attenuationStartDistance = 10000;
+    light2.attenuationEndDistance = 30000;
+    light2.color = [UIColor whiteColor];
+    SCNNode *lightNode2 = [SCNNode node];
+    lightNode2.position = SCNVector3Make(500, 1000, 20000);
+    lightNode2.light = light2;
+    [_myscene.scene.rootNode addChildNode: lightNode2];
+    
+    SCNLight *light3 = [SCNLight light];
+    light3.type = SCNLightTypeOmni;
+    light3.attenuationStartDistance = 10000;
+    light3.attenuationEndDistance = 30000;
+    light3.color = [UIColor whiteColor];
+    SCNNode *lightNode3 = [SCNNode node];
+    lightNode3.position = SCNVector3Make(10000, 1000, -15000);
+    lightNode3.light = light3;
+    [_myscene.scene.rootNode addChildNode: lightNode3];
+    
+    SCNLight *light4 = [SCNLight light];
+    light4.type = SCNLightTypeOmni;
+    light4.attenuationStartDistance = 10000;
+    light4.attenuationEndDistance = 30000;
+    light4.color = [UIColor whiteColor];
+    SCNNode *lightNode4 = [SCNNode node];
+    lightNode4.position = SCNVector3Make(-20000, 500, 1000);
+    lightNode4.light = light4;
+    [_myscene.scene.rootNode addChildNode: lightNode4];
     
 //    SCNLight *ambientLight = [SCNLight light];
 //    ambientLight.type = SCNLightTypeAmbient;
@@ -143,7 +207,8 @@ static float initCamR_z = 0.15;
 //    ambientLight.shadowMode = SCNShadowModeModulated;
 //    SCNNode *ambienLightNode = [SCNNode node];
 //    ambienLightNode.light = ambientLight;
-//    [_myscene.scene.rootNode addChildNode: ambienLightNode];
+//    [floorNode addChildNode: ambienLightNode];
+
 }
 
 #pragma mark - UIButtons action
