@@ -145,6 +145,7 @@ static float initCamR_z = 0.28;
 - (void) createCameraOrbitAndNode {
     cameraNode = [SCNNode node];
     cameraNode.camera = [SCNCamera camera];
+//    cameraNode.camera.usesOrthographicProjection = YES;
     cameraNode.position = SCNVector3Make(initCamX, initCamY, initCamZ);
     cameraNode.rotation = SCNVector4Make(initCamR_x, initCamR_y, initCamR_z, -atan(initCamR));
     cameraNode.camera.zFar = 200000;
