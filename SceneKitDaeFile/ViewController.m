@@ -273,6 +273,8 @@ static float initCamR_z = 0.28;
 
 - (IBAction)tapCam1Button:(id)sender {
     
+    NSLog(@"last roation is %f", cameraOrbit.rotation.w);
+    
     // Change index to load different angles
     cameraRotationIndex++;
     if (cameraRotationIndex == arr_cameraRotation.count) {
@@ -281,7 +283,9 @@ static float initCamR_z = 0.28;
     
     NSNumber *value = arr_cameraRotation[cameraRotationIndex];
     CGFloat rotation = [value floatValue];
-    
+//    if (lastRotation > 0) {
+//        rotation = rotation * -1;
+//    }
     [SCNTransaction begin]; {
         
         CABasicAnimation *moveCamera =
@@ -443,6 +447,8 @@ static float initCamR_z = 0.28;
     if (lastRotation > 6.28) {
         lastRotation = 0;
     }
+    
+    NSLog(@"last rotation is %f",lastRotation);
 }
 
 @end
