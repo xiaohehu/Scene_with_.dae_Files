@@ -47,9 +47,47 @@
                                     <action selector="tapCam1Button:" destination="BYZ-38-t0r" eventType="touchUpInside" id="h2E-x3-OyB"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Eps-gn-fxM">
+                                <rect key="frame" x="16" y="20" width="87" height="30"/>
+                                <state key="normal" title="Free Cam">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="freeCam:" destination="BYZ-38-t0r" eventType="touchUpInside" id="uap-B8-Mec"/>
+                                </connections>
+                            </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0oo-Z4-6gj" userLabel="Control panel">
+                                <rect key="frame" x="0.0" y="525" width="226" height="75"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WyL-d6-axR">
+                                        <rect key="frame" x="8" y="23" width="46" height="30"/>
+                                        <state key="normal" title="Done">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="tapDoneButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="YTl-jb-gat"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Unp-js-Qyh">
+                                        <rect key="frame" x="142" y="23" width="46" height="30"/>
+                                        <state key="normal" title="Delete">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="tapDeleteButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Axg-fp-UYo"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="226" id="DUH-WJ-rdC"/>
+                                    <constraint firstAttribute="height" constant="75" id="VIY-pk-T7v"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="0oo-Z4-6gj" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="BhO-mh-dJj"/>
                             <constraint firstItem="p4l-Qs-iUf" firstAttribute="top" secondItem="Qhv-j3-BqS" secondAttribute="bottom" constant="-50" id="BvZ-Xg-BMX"/>
                             <constraint firstItem="p4l-Qs-iUf" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="E72-k8-K9p"/>
                             <constraint firstAttribute="bottom" secondItem="p4l-Qs-iUf" secondAttribute="bottom" id="EOw-Ec-2vd"/>
@@ -59,6 +97,7 @@
                             <constraint firstItem="p4l-Qs-iUf" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Nmm-vf-SaE"/>
                             <constraint firstItem="Qhv-j3-BqS" firstAttribute="leading" secondItem="Ryo-FT-fDA" secondAttribute="trailing" constant="30" id="Pgb-K2-bJj"/>
                             <constraint firstItem="p4l-Qs-iUf" firstAttribute="top" secondItem="qb7-RQ-ESL" secondAttribute="bottom" constant="-50" id="jme-1N-bWt"/>
+                            <constraint firstAttribute="bottom" secondItem="0oo-Z4-6gj" secondAttribute="bottom" id="kDa-GG-U8R"/>
                             <constraint firstAttribute="trailing" secondItem="p4l-Qs-iUf" secondAttribute="trailing" id="wjL-M9-N4h"/>
                         </constraints>
                     </view>
@@ -67,6 +106,7 @@
                         <outlet property="uib_cam1" destination="qb7-RQ-ESL" id="DOx-qu-ozE"/>
                         <outlet property="uib_cam2" destination="Ryo-FT-fDA" id="My5-ns-w8h"/>
                         <outlet property="uib_reset" destination="Qhv-j3-BqS" id="rqN-aO-8Pr"/>
+                        <outlet property="uiv_controlPanel" destination="0oo-Z4-6gj" id="Btg-TU-3Uf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

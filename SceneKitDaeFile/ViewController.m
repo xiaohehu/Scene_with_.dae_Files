@@ -24,18 +24,22 @@ static float initCamR_z = 0.28;
     int         index_building0;
     int         index_building1;
     
+    BOOL        editMode;
+    
     SCNNode     *floorNode;
     SCNNode     *blockNode;
     SCNNode     *building0NodeA;
     SCNNode     *building0NodeB;
     SCNNode     *building1NodeA;
     SCNNode     *building1NodeB;
+    SCNNode     *selectedNode;
     SCNNode     *cameraOrbit;
     SCNNode     *cameraNode;
     NSArray     *arr_building0Nodes;
     NSArray     *arr_building1Nodes;
     //  Position record parameter
-    CGFloat     lastRotation;
+    CGFloat     lastXRotation;
+    CGFloat     lastYRotation;
     CGPoint     touchPoint;
     
     NSArray     *arr_cameraRotation;
@@ -47,6 +51,7 @@ static float initCamR_z = 0.28;
 @property (weak, nonatomic) IBOutlet UIButton *uib_cam1;
 @property (weak, nonatomic) IBOutlet UIButton *uib_cam2;
 
+@property (weak, nonatomic) IBOutlet UIView *uiv_controlPanel;
 @end
 
 @implementation ViewController
@@ -62,7 +67,11 @@ static float initCamR_z = 0.28;
     
     [self addTapGestureToBuildings];
     
+    [self addLongPressToBuildings];
+    
     [self createCameraPositionArray];
+    
+    _uiv_controlPanel.transform = CGAffineTransformMakeTranslation(0, _uiv_controlPanel.frame.size.height);
 //    _myscene.autoenablesDefaultLighting = YES;
 //    self.myscene.allowsCameraControl = YES;
 }
@@ -70,6 +79,11 @@ static float initCamR_z = 0.28;
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+- (IBAction)freeCam:(id)sender {
+    UIButton *tapBtn = sender;
+    tapBtn.selected = !tapBtn.selected;
+    self.myscene.allowsCameraControl = tapBtn.selected;
 }
 
 #pragma mark - Init all Scene Nodes and add to scene view
@@ -265,7 +279,7 @@ static float initCamR_z = 0.28;
             cameraOrbit.rotation = SCNVector4Make(0.0, 1.0, 0.0, 0.0);
             [cameraNode removeAllAnimations];
             [cameraOrbit removeAllAnimations];
-            lastRotation = 0;
+            lastYRotation = 0;
         }];
         
     } [SCNTransaction commit];
@@ -307,7 +321,7 @@ static float initCamR_z = 0.28;
              */
             cameraOrbit.rotation = SCNVector4Make(0.0, 1.0, 0.0, rotation);
             [cameraOrbit removeAllAnimations];
-            lastRotation = rotation;
+            lastYRotation = rotation;
         }];
         
     } [SCNTransaction commit];
@@ -319,7 +333,7 @@ static float initCamR_z = 0.28;
          * Check the current rotation of cameraOrbit
          * If the cameraObit is changed, make it go back to original place
          */
-        if (lastRotation != 0) {
+        if (lastYRotation != 0) {
             CABasicAnimation *moveCamera =
             [CABasicAnimation animationWithKeyPath:@"rotation"];
             moveCamera.toValue = [NSValue valueWithSCNVector4:SCNVector4Make(0.0, 1.0, 0.0, 0)];
@@ -370,7 +384,7 @@ static float initCamR_z = 0.28;
             cameraOrbit.rotation = SCNVector4Make(0.0, 1.0, 0.0, 0.0);
             [cameraNode removeAllAnimations];
             [cameraOrbit removeAllAnimations];
-            lastRotation = 0;
+            lastYRotation = 0;
         }];
         
     } [SCNTransaction commit];
@@ -418,6 +432,65 @@ static float initCamR_z = 0.28;
     }
 }
 
+- (void)addLongPressToBuildings {
+    UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressOnTarget:)];
+    longPress.minimumPressDuration = 0.3;
+    [self.myscene addGestureRecognizer:longPress];
+}
+
+- (void)longPressOnTarget:(UIGestureRecognizer *)gesture {
+    
+    CGPoint point = [gesture locationInView: _myscene];
+    NSArray *hits = [_myscene hitTest:point
+                              options:nil];
+    
+    for (SCNHitTestResult *hit in hits) {
+        if ([hit.node isEqual: building1NodeA] || [hit.node isEqual: building1NodeB]) {
+            
+            hit.node.opacity = 0.6;
+            selectedNode = hit.node;
+            selectedNode.pivot = SCNMatrix4MakeTranslation(0.0, 0.0, 0.0);
+            editMode = YES;
+            break;
+            
+        } else if ([hit.node isEqual: building0NodeA] || [hit.node isEqual: building0NodeB]) {
+            
+            hit.node.opacity = 0.6;
+            selectedNode = hit.node;
+            selectedNode.pivot = SCNMatrix4MakeTranslation(0.0, 0.0, 0.0);
+            editMode = YES;
+            break;
+            
+        } else {
+            continue;
+        }
+    }
+    [UIView animateWithDuration:0.33 animations:^(void){
+        _uiv_controlPanel.transform = CGAffineTransformIdentity;
+    }];
+}
+- (IBAction)tapDoneButton:(id)sender {
+    editMode = NO;
+    [UIView animateWithDuration:0.33 animations:^(void){
+        selectedNode.opacity = 1.0;
+        _uiv_controlPanel.transform = CGAffineTransformMakeTranslation(0, _uiv_controlPanel.frame.size.height);
+    } completion:^(BOOL finished){
+        selectedNode = nil;
+    }];
+}
+
+
+- (IBAction)tapDeleteButton:(id)sender {
+    [selectedNode removeFromParentNode];
+    selectedNode = nil;
+    editMode = NO;
+    [UIView animateWithDuration:0.33 animations:^(void){
+        _uiv_controlPanel.transform = CGAffineTransformMakeTranslation(0, _uiv_controlPanel.frame.size.height);
+    }];
+}
+
+#pragma mark - Edit menu
+
 #pragma mark - Touch Delegate Methods
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -430,25 +503,42 @@ static float initCamR_z = 0.28;
     // Get the location of the click
     CGPoint point = [touch locationInView: _myscene];
     // Get movement distance based on first touch point
-    CGFloat moveDistance = (point.x - touchPoint.x);
-    if (touches.count == 2) {
-        cameraOrbit.eulerAngles = SCNVector3Make(0.0, lastRotation-2.0 * M_PI * (moveDistance/_myscene.frame.size.width),0.0);
+    CGFloat moveXDistance = (point.x - touchPoint.x);
+    CGFloat moveYDistance = (point.y - touchPoint.y);
+    if (touches.count == 1 && !editMode) {
+        
+        float x_rotation = lastXRotation-M_PI_2 * (moveYDistance/_myscene.frame.size.height);
+        if (x_rotation >= M_PI_4*0.8) {
+            x_rotation = M_PI_4*0.8;
+        }
+        if (x_rotation < -M_PI_2*0.8) {
+            x_rotation = -M_PI_2*0.8;
+        }
+        
+        float y_rotation = lastYRotation-2.0 * M_PI * (moveXDistance/_myscene.frame.size.width);
+        
+        cameraOrbit.eulerAngles = SCNVector3Make(x_rotation, y_rotation,0.0);
+    } else if (touches.count == 1 && editMode) {
+//        SCNVector3 location_3d = [_myscene unprojectPoint:selectedNode.position];
+//        NSLog(@"\n\n %f, %f, %f", location_3d.x, location_3d.y, location_3d.z);
+//        selectedNode.rotation = SCNVector4Make(0, -1, 0, 2.0 * M_PI * (moveDistance/_myscene.frame.size.width));
     }
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     
-    if (cameraOrbit.rotation.y < 0) {
-        lastRotation =  -cameraOrbit.rotation.w ;
+    if (cameraOrbit.eulerAngles.y < 0) {
+        lastYRotation =  -cameraOrbit.eulerAngles.y ;
     }
     else {
-        lastRotation = cameraOrbit.rotation.w;
+        lastYRotation = cameraOrbit.eulerAngles.y ;
     }
-    if (lastRotation > 6.28) {
-        lastRotation = 0;
+    if (lastYRotation > 6.28) {
+        lastYRotation = 0;
     }
+    lastXRotation = cameraOrbit.eulerAngles.x;
     
-    NSLog(@"last rotation is %f",lastRotation);
+    NSLog(@"last rotation is %f",lastYRotation);
 }
 
 @end
