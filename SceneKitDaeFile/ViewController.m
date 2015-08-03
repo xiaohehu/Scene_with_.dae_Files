@@ -52,6 +52,7 @@ static float initCamR_z = 0.28;
 @property (weak, nonatomic) IBOutlet UIButton *uib_cam2;
 
 @property (weak, nonatomic) IBOutlet UIView *uiv_controlPanel;
+@property (weak, nonatomic) IBOutlet UIView *uiv_sideMenu;
 @end
 
 @implementation ViewController
@@ -72,6 +73,7 @@ static float initCamR_z = 0.28;
     [self createCameraPositionArray];
     
     _uiv_controlPanel.transform = CGAffineTransformMakeTranslation(0, _uiv_controlPanel.frame.size.height);
+    _uiv_sideMenu.transform = CGAffineTransformMakeTranslation(_uiv_sideMenu.frame.size.width, 0);
 //    _myscene.autoenablesDefaultLighting = YES;
 //    self.myscene.allowsCameraControl = YES;
 }
@@ -80,6 +82,13 @@ static float initCamR_z = 0.28;
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+- (void)viewDidAppear:(BOOL)animated {
+    [UIView animateWithDuration:0.33 animations:^(void){
+        _uiv_sideMenu.transform = CGAffineTransformIdentity;
+    }];
+}
+
 - (IBAction)freeCam:(id)sender {
     UIButton *tapBtn = sender;
     tapBtn.selected = !tapBtn.selected;
@@ -280,6 +289,7 @@ static float initCamR_z = 0.28;
             [cameraNode removeAllAnimations];
             [cameraOrbit removeAllAnimations];
             lastYRotation = 0;
+            lastXRotation = 0;
         }];
         
     } [SCNTransaction commit];
@@ -451,6 +461,9 @@ static float initCamR_z = 0.28;
             selectedNode = hit.node;
             selectedNode.pivot = SCNMatrix4MakeTranslation(0.0, 0.0, 0.0);
             editMode = YES;
+            [UIView animateWithDuration:0.33 animations:^(void){
+                _uiv_controlPanel.transform = CGAffineTransformIdentity;
+            }];
             break;
             
         } else if ([hit.node isEqual: building0NodeA] || [hit.node isEqual: building0NodeB]) {
@@ -459,15 +472,15 @@ static float initCamR_z = 0.28;
             selectedNode = hit.node;
             selectedNode.pivot = SCNMatrix4MakeTranslation(0.0, 0.0, 0.0);
             editMode = YES;
+            [UIView animateWithDuration:0.33 animations:^(void){
+                _uiv_controlPanel.transform = CGAffineTransformIdentity;
+            }];
             break;
             
         } else {
             continue;
         }
     }
-    [UIView animateWithDuration:0.33 animations:^(void){
-        _uiv_controlPanel.transform = CGAffineTransformIdentity;
-    }];
 }
 - (IBAction)tapDoneButton:(id)sender {
     editMode = NO;
@@ -507,6 +520,9 @@ static float initCamR_z = 0.28;
     CGFloat moveYDistance = (point.y - touchPoint.y);
     if (touches.count == 1 && !editMode) {
         
+        NSLog(@"\n %f", moveXDistance);
+        NSLog(@"\n %f\n\n", moveYDistance);
+        
         float x_rotation = lastXRotation-M_PI_2 * (moveYDistance/_myscene.frame.size.height);
         if (x_rotation >= M_PI_4*0.8) {
             x_rotation = M_PI_4*0.8;
@@ -517,7 +533,13 @@ static float initCamR_z = 0.28;
         
         float y_rotation = lastYRotation-2.0 * M_PI * (moveXDistance/_myscene.frame.size.width);
         
-        cameraOrbit.eulerAngles = SCNVector3Make(x_rotation, y_rotation,0.0);
+        if (ABS(moveYDistance) - ABS(moveXDistance) > 5) {
+            cameraOrbit.eulerAngles = SCNVector3Make(x_rotation, lastYRotation, 0.0);
+        } else if ((ABS(moveYDistance) - ABS(moveXDistance) < -5)) {
+            cameraOrbit.eulerAngles = SCNVector3Make(lastXRotation, y_rotation, 0.0);
+        }
+        
+        
     } else if (touches.count == 1 && editMode) {
 //        SCNVector3 location_3d = [_myscene unprojectPoint:selectedNode.position];
 //        NSLog(@"\n\n %f, %f, %f", location_3d.x, location_3d.y, location_3d.z);

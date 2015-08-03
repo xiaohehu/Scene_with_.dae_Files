@@ -84,9 +84,18 @@
                                     <constraint firstAttribute="height" constant="75" id="VIY-pk-T7v"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y0Y-lF-YTW">
+                                <rect key="frame" x="485" y="161" width="115" height="300"/>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="115" id="IRA-TX-7Hl"/>
+                                    <constraint firstAttribute="height" constant="300" id="mYn-lS-7Ea"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="Y0Y-lF-YTW" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="161" id="3d1-7m-mBJ"/>
                             <constraint firstItem="0oo-Z4-6gj" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="BhO-mh-dJj"/>
                             <constraint firstItem="p4l-Qs-iUf" firstAttribute="top" secondItem="Qhv-j3-BqS" secondAttribute="bottom" constant="-50" id="BvZ-Xg-BMX"/>
                             <constraint firstItem="p4l-Qs-iUf" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="E72-k8-K9p"/>
@@ -96,6 +105,7 @@
                             <constraint firstItem="Ryo-FT-fDA" firstAttribute="leading" secondItem="qb7-RQ-ESL" secondAttribute="trailing" constant="30" id="J8o-W6-P3h"/>
                             <constraint firstItem="p4l-Qs-iUf" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Nmm-vf-SaE"/>
                             <constraint firstItem="Qhv-j3-BqS" firstAttribute="leading" secondItem="Ryo-FT-fDA" secondAttribute="trailing" constant="30" id="Pgb-K2-bJj"/>
+                            <constraint firstAttribute="trailing" secondItem="Y0Y-lF-YTW" secondAttribute="trailing" id="hWB-Od-M6p"/>
                             <constraint firstItem="p4l-Qs-iUf" firstAttribute="top" secondItem="qb7-RQ-ESL" secondAttribute="bottom" constant="-50" id="jme-1N-bWt"/>
                             <constraint firstAttribute="bottom" secondItem="0oo-Z4-6gj" secondAttribute="bottom" id="kDa-GG-U8R"/>
                             <constraint firstAttribute="trailing" secondItem="p4l-Qs-iUf" secondAttribute="trailing" id="wjL-M9-N4h"/>
@@ -107,6 +117,7 @@
                         <outlet property="uib_cam2" destination="Ryo-FT-fDA" id="My5-ns-w8h"/>
                         <outlet property="uib_reset" destination="Qhv-j3-BqS" id="rqN-aO-8Pr"/>
                         <outlet property="uiv_controlPanel" destination="0oo-Z4-6gj" id="Btg-TU-3Uf"/>
+                        <outlet property="uiv_sideMenu" destination="Y0Y-lF-YTW" id="S1v-DE-SED"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
