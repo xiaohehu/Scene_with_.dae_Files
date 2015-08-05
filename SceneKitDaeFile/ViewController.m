@@ -70,6 +70,8 @@ static float initCamR_z = 0.28;
     
     [self addLongPressToBuildings];
     
+    [self addPinchGesture];
+    
     [self createCameraPositionArray];
     
     _uiv_controlPanel.transform = CGAffineTransformMakeTranslation(0, _uiv_controlPanel.frame.size.height);
@@ -482,6 +484,24 @@ static float initCamR_z = 0.28;
         }
     }
 }
+
+- (void)addPinchGesture {
+    UIPinchGestureRecognizer *pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handlePinch:)];
+    [_myscene addGestureRecognizer:pinchGesture];
+}
+
+- (void)handlePinch:(UIPinchGestureRecognizer *)gesture {
+    
+    if (gesture.state == UIGestureRecognizerStateChanged) {
+        float scale = gesture.scale;
+        cameraNode.position = SCNVector3Make(camera2X, camera2Y*(1/scale), camera2Z*(1/scale));
+    }
+    if (gesture.state == UIGestureRecognizerStateEnded) {
+        camera2Y = cameraNode.position.y;
+        camera2Z = cameraNode.position.z;
+    }
+}
+
 - (IBAction)tapDoneButton:(id)sender {
     editMode = NO;
     [UIView animateWithDuration:0.33 animations:^(void){
@@ -533,9 +553,9 @@ static float initCamR_z = 0.28;
         
         float y_rotation = lastYRotation-2.0 * M_PI * (moveXDistance/_myscene.frame.size.width);
         
-        if (ABS(moveYDistance) - ABS(moveXDistance) > 5) {
+        if (ABS(moveYDistance) - ABS(moveXDistance) > 15) {
             cameraOrbit.eulerAngles = SCNVector3Make(x_rotation, lastYRotation, 0.0);
-        } else if ((ABS(moveYDistance) - ABS(moveXDistance) < -5)) {
+        } else if ((ABS(moveYDistance) - ABS(moveXDistance) < -15)) {
             cameraOrbit.eulerAngles = SCNVector3Make(lastXRotation, y_rotation, 0.0);
         }
         
