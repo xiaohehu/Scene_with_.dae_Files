@@ -288,6 +288,8 @@ static float initCamR_z = 0.28;
             cameraNode.position = SCNVector3Make(initCamX, initCamY, initCamZ);
             cameraNode.rotation = SCNVector4Make(initCamR_x, initCamR_y, initCamR_z, -atan(initCamR));
             cameraOrbit.rotation = SCNVector4Make(0.0, 1.0, 0.0, 0.0);
+            cameraNode.camera.zNear = 4000;
+            cameraNode.camera.zFar = 20000;
             [cameraNode removeAllAnimations];
             [cameraOrbit removeAllAnimations];
             lastYRotation = 0;
@@ -494,11 +496,15 @@ static float initCamR_z = 0.28;
     
     if (gesture.state == UIGestureRecognizerStateChanged) {
         float scale = gesture.scale;
-        cameraNode.position = SCNVector3Make(camera2X, camera2Y*(1/scale), camera2Z*(1/scale));
+        SCNVector3 currentCamera = cameraNode.position;
+        if (currentCamera.z*(1/scale) < 2000 || currentCamera.z*(1/scale) > 50000) {
+            return;
+        }
+        cameraNode.position = SCNVector3Make(currentCamera.x, currentCamera.y*(1/scale), currentCamera.z*(1/scale));
+        NSLog(@"the scale is %f", currentCamera.z*(1/scale));
     }
     if (gesture.state == UIGestureRecognizerStateEnded) {
-        camera2Y = cameraNode.position.y;
-        camera2Z = cameraNode.position.z;
+
     }
 }
 
@@ -540,8 +546,8 @@ static float initCamR_z = 0.28;
     CGFloat moveYDistance = (point.y - touchPoint.y);
     if (touches.count == 1 && !editMode) {
         
-        NSLog(@"\n %f", moveXDistance);
-        NSLog(@"\n %f\n\n", moveYDistance);
+//        NSLog(@"\n %f", moveXDistance);
+//        NSLog(@"\n %f\n\n", moveYDistance);
         
         float x_rotation = lastXRotation-M_PI_2 * (moveYDistance/_myscene.frame.size.height);
         if (x_rotation >= M_PI_4*0.8) {
