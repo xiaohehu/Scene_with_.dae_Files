@@ -503,9 +503,6 @@ static float initCamR_z = 0.28;
         cameraNode.position = SCNVector3Make(currentCamera.x, currentCamera.y*(1/scale), currentCamera.z*(1/scale));
         NSLog(@"the scale is %f", currentCamera.z*(1/scale));
     }
-    if (gesture.state == UIGestureRecognizerStateEnded) {
-
-    }
 }
 
 - (IBAction)tapDoneButton:(id)sender {
@@ -570,6 +567,25 @@ static float initCamR_z = 0.28;
 //        SCNVector3 location_3d = [_myscene unprojectPoint:selectedNode.position];
 //        NSLog(@"\n\n %f, %f, %f", location_3d.x, location_3d.y, location_3d.z);
 //        selectedNode.rotation = SCNVector4Make(0, -1, 0, 2.0 * M_PI * (moveDistance/_myscene.frame.size.width));
+        // Get the hit on the cube
+        NSArray *hits = [_myscene hitTest:point options:@{SCNHitTestRootNodeKey: selectedNode,
+                                                          SCNHitTestIgnoreChildNodesKey: @YES}];
+        SCNHitTestResult *hit = [hits firstObject];
+        SCNVector3 hitPosition = hit.worldCoordinates;
+        CGFloat hitPositionZ = [_myscene projectPoint: hitPosition].z;
+        
+        CGPoint location = [touch locationInView:_myscene];
+        CGPoint prevLocation = [touch previousLocationInView:_myscene];
+        SCNVector3 location_3d = [_myscene unprojectPoint:SCNVector3Make(location.x, location.y, hitPositionZ)];
+        SCNVector3 prevLocation_3d = [_myscene unprojectPoint:SCNVector3Make(prevLocation.x, prevLocation.y, hitPositionZ)];
+        
+        CGFloat x_varible = location_3d.x - prevLocation_3d.x;
+        CGFloat z_varible = location_3d.z - prevLocation_3d.z;
+        
+        selectedNode.position = SCNVector3Make(selectedNode.position.x + x_varible, selectedNode.position.y, selectedNode.position.z + z_varible);
+        
+    } else if (touches.count == 2 && editMode) {
+        
     }
 }
 
