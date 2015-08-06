@@ -464,6 +464,9 @@ static float extra_z = 100;
                 break;
         }
         editMode = NO;
+        [UIView animateWithDuration:0.33 animations:^(void){
+            _uiv_controlPanel.transform = CGAffineTransformMakeTranslation(0, _uiv_controlPanel.frame.size.height);
+        }];
         return;
     } else {
         
@@ -670,6 +673,7 @@ static float extra_z = 100;
 
 - (IBAction)tapDeleteButton:(id)sender {
     [selectedNode removeFromParentNode];
+    selectedNode.opacity = 1.0;
     selectedNode = nil;
     editMode = NO;
     [UIView animateWithDuration:0.33 animations:^(void){
