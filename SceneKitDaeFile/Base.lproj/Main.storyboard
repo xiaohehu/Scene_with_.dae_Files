@@ -84,14 +84,134 @@
                                     <constraint firstAttribute="height" constant="75" id="VIY-pk-T7v"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y0Y-lF-YTW">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y0Y-lF-YTW" userLabel="Side_menu">
                                 <rect key="frame" x="485" y="161" width="115" height="300"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PfV-Lo-2VR">
+                                        <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <state key="normal" title="Building0_a">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <variation key="heightClass=regular-widthClass=regular" fixedFrame="YES">
+                                            <rect key="frame" x="8" y="8" width="99" height="30"/>
+                                        </variation>
+                                        <connections>
+                                            <action selector="tapSideMenuIndividual:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Pm8-aI-efJ"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AQS-20-meb">
+                                        <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <state key="normal" title="Building0_b">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <variation key="heightClass=regular-widthClass=regular" fixedFrame="YES">
+                                            <rect key="frame" x="8" y="46" width="99" height="30"/>
+                                        </variation>
+                                        <connections>
+                                            <action selector="tapSideMenuIndividual:" destination="BYZ-38-t0r" eventType="touchUpInside" id="XLi-k6-Is8"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cfJ-ly-1sU">
+                                        <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <state key="normal" title="Building1_a">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <variation key="heightClass=regular-widthClass=regular" fixedFrame="YES">
+                                            <rect key="frame" x="8" y="84" width="99" height="30"/>
+                                        </variation>
+                                        <connections>
+                                            <action selector="tapSideMenuIndividual:" destination="BYZ-38-t0r" eventType="touchUpInside" id="PfN-zN-Vsv"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SPD-o6-rMU">
+                                        <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <state key="normal" title="Building1_b">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <variation key="heightClass=regular-widthClass=regular" fixedFrame="YES">
+                                            <rect key="frame" x="8" y="122" width="99" height="30"/>
+                                        </variation>
+                                        <connections>
+                                            <action selector="tapSideMenuIndividual:" destination="BYZ-38-t0r" eventType="touchUpInside" id="rrn-8J-I7d"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hiJ-fl-Wjm">
+                                        <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <state key="normal" title="Group 1">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <variation key="heightClass=regular-widthClass=regular" fixedFrame="YES">
+                                            <rect key="frame" x="8" y="160" width="99" height="30"/>
+                                        </variation>
+                                        <connections>
+                                            <action selector="tapGroupButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="zOt-7l-10B"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="geW-3s-Duz">
+                                        <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <state key="normal" title="Group 2">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <variation key="heightClass=regular-widthClass=regular" fixedFrame="YES">
+                                            <rect key="frame" x="8" y="198" width="99" height="34"/>
+                                        </variation>
+                                        <connections>
+                                            <action selector="tapGroupButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="QSV-mv-yLa"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="115" id="IRA-TX-7Hl"/>
                                     <constraint firstAttribute="height" constant="300" id="mYn-lS-7Ea"/>
                                 </constraints>
+                                <variation key="default">
+                                    <mask key="subviews">
+                                        <exclude reference="PfV-Lo-2VR"/>
+                                        <exclude reference="AQS-20-meb"/>
+                                        <exclude reference="cfJ-ly-1sU"/>
+                                        <exclude reference="SPD-o6-rMU"/>
+                                        <exclude reference="hiJ-fl-Wjm"/>
+                                        <exclude reference="geW-3s-Duz"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=regular">
+                                    <mask key="subviews">
+                                        <include reference="PfV-Lo-2VR"/>
+                                        <include reference="AQS-20-meb"/>
+                                        <include reference="cfJ-ly-1sU"/>
+                                        <include reference="SPD-o6-rMU"/>
+                                        <include reference="hiJ-fl-Wjm"/>
+                                        <include reference="geW-3s-Duz"/>
+                                    </mask>
+                                </variation>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vrc-5d-Mc2">
+                                <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Start">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="heightClass=regular-widthClass=regular" fixedFrame="YES">
+                                    <rect key="frame" x="291" y="361" width="219" height="77"/>
+                                </variation>
+                                <connections>
+                                    <action selector="tapStartButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="wUm-LJ-uXM"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
@@ -110,18 +230,34 @@
                             <constraint firstAttribute="bottom" secondItem="0oo-Z4-6gj" secondAttribute="bottom" id="kDa-GG-U8R"/>
                             <constraint firstAttribute="trailing" secondItem="p4l-Qs-iUf" secondAttribute="trailing" id="wjL-M9-N4h"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="Vrc-5d-Mc2"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=regular-widthClass=regular">
+                            <mask key="subviews">
+                                <include reference="Vrc-5d-Mc2"/>
+                            </mask>
+                        </variation>
                     </view>
                     <connections>
                         <outlet property="myscene" destination="p4l-Qs-iUf" id="1D6-g9-Is6"/>
+                        <outlet property="uib_building0A" destination="PfV-Lo-2VR" id="3yI-lR-xU5"/>
+                        <outlet property="uib_building0B" destination="AQS-20-meb" id="hVz-rn-GTQ"/>
+                        <outlet property="uib_building1A" destination="cfJ-ly-1sU" id="d12-PX-jiK"/>
+                        <outlet property="uib_building1B" destination="SPD-o6-rMU" id="eL3-QY-mNk"/>
                         <outlet property="uib_cam1" destination="qb7-RQ-ESL" id="DOx-qu-ozE"/>
                         <outlet property="uib_cam2" destination="Ryo-FT-fDA" id="My5-ns-w8h"/>
                         <outlet property="uib_reset" destination="Qhv-j3-BqS" id="rqN-aO-8Pr"/>
+                        <outlet property="uib_start" destination="Vrc-5d-Mc2" id="Hhj-zm-s84"/>
                         <outlet property="uiv_controlPanel" destination="0oo-Z4-6gj" id="Btg-TU-3Uf"/>
                         <outlet property="uiv_sideMenu" destination="Y0Y-lF-YTW" id="S1v-DE-SED"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="430.5" y="238.5"/>
         </scene>
     </scenes>
 </document>

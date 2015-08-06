@@ -18,6 +18,9 @@ static float initCamR = 40.0/50.0;
 static float initCamR_x = 1.0;
 static float initCamR_y = 1.0;
 static float initCamR_z = 0.28;
+static float extra_x = 100;
+static float extra_y = 100;
+static float extra_z = 100;
 
 @interface ViewController () {
 
@@ -53,6 +56,12 @@ static float initCamR_z = 0.28;
 
 @property (weak, nonatomic) IBOutlet UIView *uiv_controlPanel;
 @property (weak, nonatomic) IBOutlet UIView *uiv_sideMenu;
+@property (weak, nonatomic) IBOutlet UIButton *uib_building0A;
+@property (weak, nonatomic) IBOutlet UIButton *uib_building0B;
+@property (weak, nonatomic) IBOutlet UIButton *uib_building1A;
+@property (weak, nonatomic) IBOutlet UIButton *uib_building1B;
+@property (weak, nonatomic) IBOutlet UIButton *uib_start;
+
 @end
 
 @implementation ViewController
@@ -86,9 +95,9 @@ static float initCamR_z = 0.28;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-    [UIView animateWithDuration:0.33 animations:^(void){
-        _uiv_sideMenu.transform = CGAffineTransformIdentity;
-    }];
+//    [UIView animateWithDuration:0.33 animations:^(void){
+//        _uiv_sideMenu.transform = CGAffineTransformIdentity;
+//    }];
 }
 
 - (IBAction)freeCam:(id)sender {
@@ -145,17 +154,21 @@ static float initCamR_z = 0.28;
     
     building0NodeA = [self getTheNodebyFileName:@"Building_00A" andID:@"Box149"];
     building0NodeA.geometry.materials = @[[self getMaterialByColor:[UIColor greenColor]]];
-    [_myscene.scene.rootNode addChildNode: building0NodeA];
+//    NSLog(@"\n\n %f, %f, %f\n\n", building0NodeA.position.x, building0NodeA.position.y, building0NodeA.position.z);
+//    [_myscene.scene.rootNode addChildNode: building0NodeA];
     
     building0NodeB = [self getTheNodebyFileName:@"Building_00B" andID:@"Box151"];
     building0NodeB.geometry.materials = @[[self getMaterialByColor:[UIColor greenColor]]];
+//    NSLog(@"\n\n %f, %f, %f\n\n", building0NodeB.position.x, building0NodeB.position.y, building0NodeB.position.z);
     
     building1NodeA = [self getTheNodebyFileName:@"Building_01A" andID:@"Box148"];
     building1NodeA.geometry.materials = @[[self getMaterialByColor:[UIColor redColor]]];
-    [_myscene.scene.rootNode addChildNode:building1NodeA];
+//    NSLog(@"\n\n %f, %f, %f\n\n", building1NodeA.position.x, building1NodeA.position.y, building1NodeA.position.z);
+//    [_myscene.scene.rootNode addChildNode:building1NodeA];
     
     building1NodeB = [self getTheNodebyFileName:@"Building_01B" andID:@"Box152"];
-    building1NodeB.geometry.materials = @[[self getMaterialByColor:[UIColor redColor]]];;
+    building1NodeB.geometry.materials = @[[self getMaterialByColor:[UIColor redColor]]];
+//    NSLog(@"\n\n %f, %f, %f\n\n", building1NodeB.position.x, building1NodeB.position.y, building1NodeB.position.z);
     /*
      * Array contains 2 buildings shapes
      */
@@ -238,6 +251,18 @@ static float initCamR_z = 0.28;
 }
 
 #pragma mark - UIButtons action
+#pragma mark Start Button
+- (IBAction)tapStartButton:(id)sender {
+    [_myscene.scene.rootNode addChildNode: building0NodeA];
+    [_myscene.scene.rootNode addChildNode:building1NodeA];
+    _uib_start.hidden = YES;
+    [UIView animateWithDuration:0.33 animations:^(void){
+        _uiv_sideMenu.transform = CGAffineTransformIdentity;
+    }];
+}
+
+
+#pragma mark Camera Button
 - (IBAction)tapResetButton:(id)sender {
     [SCNTransaction begin]; {
         
@@ -289,7 +314,7 @@ static float initCamR_z = 0.28;
             cameraNode.rotation = SCNVector4Make(initCamR_x, initCamR_y, initCamR_z, -atan(initCamR));
             cameraOrbit.rotation = SCNVector4Make(0.0, 1.0, 0.0, 0.0);
             cameraNode.camera.zNear = 4000;
-            cameraNode.camera.zFar = 20000;
+            cameraNode.camera.zFar = 50000;
             [cameraNode removeAllAnimations];
             [cameraOrbit removeAllAnimations];
             lastYRotation = 0;
@@ -405,6 +430,123 @@ static float initCamR_z = 0.28;
 
 }
 
+#pragma mark Side menu buttons
+#pragma mark Individual Buildings
+- (IBAction)tapSideMenuIndividual:(id)sender {
+    UIButton *tappedButton = sender;
+    if (editMode) {
+        [selectedNode removeFromParentNode];
+        selectedNode.opacity = 1.0;
+        SCNVector3 currentPosition = selectedNode.position;
+        selectedNode = nil;
+        switch (tappedButton.tag) {
+            case 0: {
+                building0NodeA.position = currentPosition;
+                [_myscene.scene.rootNode addChildNode: building0NodeA];
+                break;
+            }
+            case 1: {
+                building0NodeB.position = currentPosition;
+                [_myscene.scene.rootNode addChildNode: building0NodeB];
+                break;
+            }
+            case 2: {
+                building1NodeA.position = currentPosition;
+                [_myscene.scene.rootNode addChildNode: building1NodeA];
+                break;
+            }
+            case 3: {
+                building1NodeB.position = currentPosition;
+                [_myscene.scene.rootNode addChildNode: building1NodeB];
+                break;
+            }
+            default:
+                break;
+        }
+        editMode = NO;
+        return;
+    } else {
+        
+        if (_myscene.scene.rootNode.childNodes.count >= 9){
+            UIAlertView *message = [[UIAlertView alloc] initWithTitle:nil
+                                                              message:@"Already Max Number of Buildings"
+                                                             delegate:nil
+                                                    cancelButtonTitle:@"OK"
+                                                    otherButtonTitles:nil];
+            [message show];
+            return;
+        }
+        switch (tappedButton.tag) {
+            case 0: {
+                if ([_myscene.scene.rootNode.childNodes containsObject:building0NodeA]) {
+                    return;
+                } else {
+                    [_myscene.scene.rootNode addChildNode: building0NodeA];
+                }
+                
+                break;
+            }
+            case 1: {
+                if ([_myscene.scene.rootNode.childNodes containsObject:building0NodeB]) {
+                    return;
+                } else {
+                    [_myscene.scene.rootNode addChildNode: building0NodeB];
+                }
+                
+                break;
+            }
+            case 2: {
+                if ([_myscene.scene.rootNode.childNodes containsObject:building1NodeA]) {
+                    return;
+                } else {
+                    [_myscene.scene.rootNode addChildNode: building1NodeA];
+                }
+                
+                break;
+            }
+            case 3: {
+                if ([_myscene.scene.rootNode.childNodes containsObject:building1NodeB]) {
+                    return;
+                } else {
+                    [_myscene.scene.rootNode addChildNode: building1NodeB];
+                }
+                
+                break;
+            }
+            default:
+                break;
+        }
+    }
+}
+
+#pragma mark Group Building Setting
+
+- (IBAction)tapGroupButton:(id)sender {
+    for (SCNNode *node in arr_building0Nodes) {
+        [node removeFromParentNode];
+    }
+    for (SCNNode *node in arr_building1Nodes) {
+        [node removeFromParentNode];
+    }
+    UIButton *tappedButton = sender;
+    switch (tappedButton.tag) {
+        case 4: {
+            [_myscene.scene.rootNode addChildNode: building1NodeA];
+            [_myscene.scene.rootNode addChildNode: building0NodeB];
+            break;
+        }
+        case 5:{
+            [_myscene.scene.rootNode addChildNode: building1NodeB];
+            [_myscene.scene.rootNode addChildNode: building0NodeA];
+            break;
+        }
+        default:
+            break;
+    }
+    
+}
+
+
 # pragma mark - Added gesture to building 0 & 1
 - (void)addTapGestureToBuildings {
     UITapGestureRecognizer *tapOnBuilding = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapOnBuilding:)];
@@ -457,12 +599,18 @@ static float initCamR_z = 0.28;
     CGPoint point = [gesture locationInView: _myscene];
     NSArray *hits = [_myscene hitTest:point
                               options:nil];
-    
+    if (editMode) {
+        return;
+    }
     for (SCNHitTestResult *hit in hits) {
         if ([hit.node isEqual: building1NodeA] || [hit.node isEqual: building1NodeB]) {
             
             hit.node.opacity = 0.6;
             selectedNode = hit.node;
+            
+//            SCNVector3 location = [_myscene unprojectPoint:selectedNode.position];
+//            NSLog(@"\n\n %f, %f, %f \n\n", location.x, location.y, location.z);
+            
             selectedNode.pivot = SCNMatrix4MakeTranslation(0.0, 0.0, 0.0);
             editMode = YES;
             [UIView animateWithDuration:0.33 animations:^(void){
@@ -474,6 +622,10 @@ static float initCamR_z = 0.28;
             
             hit.node.opacity = 0.6;
             selectedNode = hit.node;
+            
+//            SCNVector3 location = [_myscene unprojectPoint:selectedNode.position];
+//            NSLog(@"\n\n %f, %f, %f \n\n", location.x, location.y, location.z);
+            
             selectedNode.pivot = SCNMatrix4MakeTranslation(0.0, 0.0, 0.0);
             editMode = YES;
             [UIView animateWithDuration:0.33 animations:^(void){
@@ -497,7 +649,7 @@ static float initCamR_z = 0.28;
     if (gesture.state == UIGestureRecognizerStateChanged) {
         float scale = gesture.scale;
         SCNVector3 currentCamera = cameraNode.position;
-        if (currentCamera.z*(1/scale) < 2000 || currentCamera.z*(1/scale) > 50000) {
+        if (currentCamera.z*(1/scale) < 2000 || currentCamera.z*(1/scale) > 20000) {
             return;
         }
         cameraNode.position = SCNVector3Make(currentCamera.x, currentCamera.y*(1/scale), currentCamera.z*(1/scale));
@@ -556,9 +708,9 @@ static float initCamR_z = 0.28;
         
         float y_rotation = lastYRotation-2.0 * M_PI * (moveXDistance/_myscene.frame.size.width);
         
-        if (ABS(moveYDistance) - ABS(moveXDistance) > 15) {
-            cameraOrbit.eulerAngles = SCNVector3Make(x_rotation, lastYRotation, 0.0);
-        } else if ((ABS(moveYDistance) - ABS(moveXDistance) < -15)) {
+        if (ABS(moveYDistance) - ABS(moveXDistance) > 30) {
+            cameraOrbit.eulerAngles = SCNVector3Make(x_rotation*0.7, lastYRotation, 0.0);
+        } else if ((ABS(moveYDistance) - ABS(moveXDistance) < -30)) {
             cameraOrbit.eulerAngles = SCNVector3Make(lastXRotation, y_rotation, 0.0);
         }
         
