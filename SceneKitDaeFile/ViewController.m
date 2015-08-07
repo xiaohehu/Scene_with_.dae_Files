@@ -121,7 +121,7 @@ static float initCamR_z = 0.28;
  * Returns a SCNNode varible
  */
 - (SCNNode *)getTheNodebyFileName:(NSString *)fileName andID:(NSString *)nodeID {
-    NSURL *sceneURL = [[NSBundle mainBundle] URLForResource:fileName withExtension:@"dae"];
+    NSURL *sceneURL = [[NSBundle mainBundle] URLForResource:[NSString stringWithFormat:@"scenes.scnassets/%@", fileName] withExtension:@"dae"];
     SCNSceneSource *sceneSource = [SCNSceneSource sceneSourceWithURL:sceneURL options:nil];
     return [sceneSource entryWithIdentifier:nodeID withClass:[SCNNode class]];
 }
@@ -154,12 +154,22 @@ static float initCamR_z = 0.28;
     
     building0NodeA = [self getTheNodebyFileName:@"Building_00A" andID:@"Box149"];
     building0NodeA.geometry.materials = @[[self getMaterialByColor:[UIColor greenColor]]];
+//    SCNVector3 minVec = SCNVector3Zero;
+//    SCNVector3 maxVec = SCNVector3Zero;
+//    if ([building0NodeA getBoundingBoxMin:&minVec max:&maxVec]) {
+//        SCNVector3 bound = SCNVector3Make(maxVec.x - minVec.x, maxVec.y - minVec.y, maxVec.z - minVec.z);
+//        building0NodeA.pivot = SCNMatrix4MakeTranslation(bound.x , bound.y , bound.z );
+//    }
+//    building0NodeA.position = SCNVector3Make(building0NodeA.position.x, building0NodeA.position.y+600, building0NodeA.position.z);
+    NSLog(@"\n\n %f, %f, %f", building0NodeA.position.x, building0NodeA.position.y, building0NodeA.position.z);
     
     building0NodeB = [self getTheNodebyFileName:@"Building_00B" andID:@"Box151"];
     building0NodeB.geometry.materials = @[[self getMaterialByColor:[UIColor greenColor]]];
     
     building1NodeA = [self getTheNodebyFileName:@"Building_01A" andID:@"Box148"];
     building1NodeA.geometry.materials = @[[self getMaterialByColor:[UIColor redColor]]];
+    SCNVector3 location1 = [_myscene unprojectPoint:building1NodeA.position];
+    NSLog(@"\n\n %f, %f, %f", location1.x, location1.y, location1.z);
     
     building1NodeB = [self getTheNodebyFileName:@"Building_01B" andID:@"Box152"];
     building1NodeB.geometry.materials = @[[self getMaterialByColor:[UIColor redColor]]];
@@ -619,7 +629,6 @@ static float initCamR_z = 0.28;
 //            SCNVector3 location = [_myscene unprojectPoint:selectedNode.position];
 //            NSLog(@"\n\n %f, %f, %f \n\n", location.x, location.y, location.z);
             
-            selectedNode.pivot = SCNMatrix4MakeTranslation(0.0, 0.0, 0.0);
             editMode = YES;
             [UIView animateWithDuration:0.33 animations:^(void){
                 _uiv_controlPanel.transform = CGAffineTransformIdentity;
@@ -634,7 +643,6 @@ static float initCamR_z = 0.28;
 //            SCNVector3 location = [_myscene unprojectPoint:selectedNode.position];
 //            NSLog(@"\n\n %f, %f, %f \n\n", location.x, location.y, location.z);
             
-            selectedNode.pivot = SCNMatrix4MakeTranslation(0.0, 0.0, 0.0);
             editMode = YES;
             [UIView animateWithDuration:0.33 animations:^(void){
                 _uiv_controlPanel.transform = CGAffineTransformIdentity;
@@ -688,7 +696,7 @@ static float initCamR_z = 0.28;
 
 - (IBAction)degreeSliderChangeValue:(id)sender {
 //    NSLog(@"Current degree is %f", _uisld_degreeSlider.value);
-   selectedNode.rotation = SCNVector4Make(0, 0, -1, DEGREES_TO_RADIANS(_uisld_degreeSlider.value));
+   selectedNode.rotation = SCNVector4Make(0, 1, 0, DEGREES_TO_RADIANS(_uisld_degreeSlider.value));
 }
 #pragma mark - Edit menu
 
@@ -722,7 +730,7 @@ static float initCamR_z = 0.28;
         float y_rotation = lastYRotation-2.0 * M_PI * (moveXDistance/_myscene.frame.size.width);
         
         if (ABS(moveYDistance) - ABS(moveXDistance) > 30) {
-            cameraOrbit.eulerAngles = SCNVector3Make(x_rotation*0.7, lastYRotation, 0.0);
+            cameraOrbit.eulerAngles = SCNVector3Make(x_rotation, lastYRotation, 0.0);
         } else if ((ABS(moveYDistance) - ABS(moveXDistance) < -30)) {
             cameraOrbit.eulerAngles = SCNVector3Make(lastXRotation, y_rotation, 0.0);
         }
@@ -762,12 +770,12 @@ static float initCamR_z = 0.28;
     else {
         lastYRotation = cameraOrbit.eulerAngles.y ;
     }
-    if (lastYRotation > 6.28) {
-        lastYRotation = 0;
-    }
+//    if (lastYRotation > 6.28) {
+//        lastYRotation = 0;
+//    }
     lastXRotation = cameraOrbit.eulerAngles.x;
     
-//    NSLog(@"last rotation is %f",lastYRotation);
+    NSLog(@"last rotation is %f",lastYRotation);
 }
 
 @end

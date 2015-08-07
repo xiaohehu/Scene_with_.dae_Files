@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1">
+ <asset>
+  <contributor>
+   <authoring_tool>SceneKit Collada Exporter v1.0</authoring_tool>
+  </contributor>
+  <created>2015-07-14T20:34:05Z</created>
+  <modified>2015-07-14T20:34:05Z</modified>
+  <unit meter="0.025400"/>
+  <up_axis>Y_UP</up_axis>
+ </asset>
+ <library_materials>
+  <material id="material1">
+   <instance_effect url="#effect_material1"/>
+  </material>
+ </library_materials>
+ <library_effects>
+  <effect id="effect_material1">
+   <profile_COMMON>
+    <technique sid="common">
+     <blinn>
+      <shininess>
+       <float>0.022516</float>
+      </shininess>
+      <transparency>
+       <float>1</float>
+      </transparency>
+      <index_of_refraction>
+       <float>1</float>
+      </index_of_refraction>
+     </blinn>
+    </technique>
+   </profile_COMMON>
+   <extra>
+    <technique profile="SceneKit">
+     <litPerPixel>1</litPerPixel>
+     <ambient_diffuse_lock>1</ambient_diffuse_lock>
+    </technique>
+   </extra>
+  </effect>
+ </library_effects>
+ <library_geometries>
+  <geometry id="Plane001-lib" name="Plane001Mesh">
+   <mesh>
+    <source id="Plane001-POSITION">
+     <float_array id="ID2-array" count="63">-4509.48 12527.8 0.001526 -17789 12527.8 0.001526 -17789 -17510.8 0.001526 -17789 -17520.2 0.001526 -17789 -17534.7 0.001526 -17737.4 -17534.7 0.001526 -17789 -17510.8 0.001526 -17789 -17520.2 0.001526 -17737.4 -17534.7 0.001526 -4509.48 12527.8 0.001526 -17789 -17510.8 0.001526 -17737.4 -17534.7 0.001526 -17737.4 -17534.7 0.001526 18077.7 -17534.7 0.001526 18077.7 10722 0.001526 -4509.48 12527.8 0.001526 -17737.4 -17534.7 0.001526 18077.7 10722 0.001526 -4509.48 12527.8 0.001526 18077.7 10722 0.001526 18077.7 12527.8 0.001526 </float_array>
+     <technique_common>
+      <accessor source="#ID2-array" count="21" stride="3">
+       <param name="X" type="float"/>
+       <param name="Y" type="float"/>
+       <param name="Z" type="float"/>
+      </accessor>
+     </technique_common>
+    </source>
+    <source id="Plane001-Normal0">
+     <float_array id="ID3-array" count="63">0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 </float_array>
+     <technique_common>
+      <accessor source="#ID3-array" count="21" stride="3">
+       <param name="X" type="float"/>
+       <param name="Y" type="float"/>
+       <param name="Z" type="float"/>
+      </accessor>
+     </technique_common>
+    </source>
+    <source id="Plane001-UV0">
+     <float_array id="ID4-array" count="42">0.48544 0.626251 0.431769 0.64775 0.40718 0.407644 0.407172 0.407569 0.40716 0.407453 0.407369 0.407369 0.40718 0.407644 0.407172 0.407569 0.407369 0.407369 0.48544 0.626251 0.40718 0.407644 0.407369 0.407369 0.407369 0.407369 0.552119 0.349386 0.575249 0.575249 0.48544 0.626251 0.407369 0.407369 0.575249 0.575249 0.48544 0.626251 0.575249 0.575249 0.576727 0.589683 </float_array>
+     <technique_common>
+      <accessor source="#ID4-array" count="21" stride="2">
+       <param name="S" type="float"/>
+       <param name="T" type="float"/>
+      </accessor>
+     </technique_common>
+    </source>
+    <source id="Plane001-UV1">
+     <float_array id="ID5-array" count="42">1.28244 5.02457 1.0519 5.02457 1.0519 3.99317 1.0519 3.99284 1.0519 3.99234 1.05279 3.99234 1.0519 3.99317 1.0519 3.99284 1.05279 3.99234 1.28244 5.02457 1.0519 3.99317 1.05279 3.99234 1.05279 3.99234 1.67458 3.99234 1.67458 4.96256 1.28244 5.02457 1.05279 3.99234 1.67458 4.96256 1.28244 5.02457 1.67458 4.96256 1.67458 5.02457 </float_array>
+     <technique_common>
+      <accessor source="#ID5-array" count="21" stride="2">
+       <param name="S" type="float"/>
+       <param name="T" type="float"/>
+      </accessor>
+     </technique_common>
+    </source>
+    <vertices id="Plane001-POSITION-vertices">
+     <input semantic="POSITION" source="#Plane001-POSITION"/>
+    </vertices>
+    <triangles count="7" material="geometryElement6">
+     <input semantic="VERTEX" offset="0" source="#Plane001-POSITION-vertices"/>
+     <input semantic="NORMAL" offset="0" source="#Plane001-Normal0"/>
+     <input semantic="TEXCOORD" offset="0" source="#Plane001-UV0" set="1"/>
+     <input semantic="TEXCOORD" offset="0" source="#Plane001-UV1" set="2"/>
+     <p>0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 </p>
+    </triangles>
+   </mesh>
+  </geometry>
+ </library_geometries>
+ <library_visual_scenes>
+  <visual_scene id="scene7">
+   <node id="Plane001" name="Plane001">
+    <matrix>1 0 0 0 0 0 1 0 0 -1 0 0 0 0 0 1 </matrix>
+    <instance_geometry url="#Plane001-lib">
+     <bind_material>
+      <technique_common>
+       <instance_material symbol="geometryElement6" target="#material1"/>
+      </technique_common>
+     </bind_material>
+    </instance_geometry>
+   </node>
+  </visual_scene>
+ </library_visual_scenes>
+ <scene>
+  <instance_visual_scene url="#scene7"/>
+ </scene>
+</COLLADA>

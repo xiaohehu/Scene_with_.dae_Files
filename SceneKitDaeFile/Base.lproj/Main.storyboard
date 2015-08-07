@@ -253,12 +253,25 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vrc-5d-Mc2">
                                 <rect key="frame" x="-23" y="-15" width="46" height="30"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="77" id="bNF-dk-gdN"/>
+                                    <constraint firstAttribute="width" constant="219" id="sxH-t0-k4E"/>
+                                </constraints>
                                 <state key="normal" title="Start">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <variation key="heightClass=regular-widthClass=regular" fixedFrame="YES">
-                                    <rect key="frame" x="291" y="361" width="219" height="77"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="bNF-dk-gdN"/>
+                                        <exclude reference="sxH-t0-k4E"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=regular">
+                                    <mask key="constraints">
+                                        <include reference="bNF-dk-gdN"/>
+                                        <include reference="sxH-t0-k4E"/>
+                                    </mask>
                                 </variation>
                                 <connections>
                                     <action selector="tapStartButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="wUm-LJ-uXM"/>
@@ -276,20 +289,30 @@
                             <constraint firstItem="p4l-Qs-iUf" firstAttribute="top" secondItem="Ryo-FT-fDA" secondAttribute="bottom" constant="-50" id="Il4-l6-SuY"/>
                             <constraint firstItem="Ryo-FT-fDA" firstAttribute="leading" secondItem="qb7-RQ-ESL" secondAttribute="trailing" constant="30" id="J8o-W6-P3h"/>
                             <constraint firstItem="p4l-Qs-iUf" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Nmm-vf-SaE"/>
+                            <constraint firstItem="Vrc-5d-Mc2" firstAttribute="centerX" secondItem="p4l-Qs-iUf" secondAttribute="centerX" constant="0.5" id="O9F-7a-iTN"/>
                             <constraint firstItem="Qhv-j3-BqS" firstAttribute="leading" secondItem="Ryo-FT-fDA" secondAttribute="trailing" constant="30" id="Pgb-K2-bJj"/>
                             <constraint firstAttribute="trailing" secondItem="Y0Y-lF-YTW" secondAttribute="trailing" id="hWB-Od-M6p"/>
                             <constraint firstItem="p4l-Qs-iUf" firstAttribute="top" secondItem="qb7-RQ-ESL" secondAttribute="bottom" constant="-50" id="jme-1N-bWt"/>
                             <constraint firstAttribute="bottom" secondItem="0oo-Z4-6gj" secondAttribute="bottom" id="kDa-GG-U8R"/>
+                            <constraint firstItem="Vrc-5d-Mc2" firstAttribute="centerY" secondItem="p4l-Qs-iUf" secondAttribute="centerY" constant="-0.5" id="urb-fG-dAw"/>
                             <constraint firstAttribute="trailing" secondItem="p4l-Qs-iUf" secondAttribute="trailing" id="wjL-M9-N4h"/>
                         </constraints>
                         <variation key="default">
                             <mask key="subviews">
                                 <exclude reference="Vrc-5d-Mc2"/>
                             </mask>
+                            <mask key="constraints">
+                                <exclude reference="O9F-7a-iTN"/>
+                                <exclude reference="urb-fG-dAw"/>
+                            </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=regular">
                             <mask key="subviews">
                                 <include reference="Vrc-5d-Mc2"/>
+                            </mask>
+                            <mask key="constraints">
+                                <include reference="O9F-7a-iTN"/>
+                                <include reference="urb-fG-dAw"/>
                             </mask>
                         </variation>
                     </view>
