@@ -56,7 +56,7 @@
                                     <action selector="freeCam:" destination="BYZ-38-t0r" eventType="touchUpInside" id="uap-B8-Mec"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0oo-Z4-6gj" userLabel="Control panel">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0oo-Z4-6gj" userLabel="Control panel">
                                 <rect key="frame" x="0.0" y="525" width="226" height="75"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WyL-d6-axR">
@@ -80,7 +80,7 @@
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Drag the selected building to change position" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M7O-TE-YV6">
                                         <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                         <variation key="heightClass=regular-widthClass=regular" fixedFrame="YES">
                                             <rect key="frame" x="196" y="27" width="304" height="21"/>
@@ -89,28 +89,50 @@
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Edit Mode" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UpY-Sa-gUW">
                                         <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                         <variation key="heightClass=regular-widthClass=regular" fixedFrame="YES">
                                             <rect key="frame" x="306" y="8" width="85" height="21"/>
+                                        </variation>
+                                    </label>
+                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="360" translatesAutoresizingMaskIntoConstraints="NO" id="VJG-pb-A8U">
+                                        <rect key="frame" x="0.0" y="-15" width="118" height="31"/>
+                                        <variation key="heightClass=regular-widthClass=regular" fixedFrame="YES">
+                                            <rect key="frame" x="33" y="112" width="435" height="31"/>
+                                        </variation>
+                                        <connections>
+                                            <action selector="degreeSliderChangeValue:" destination="BYZ-38-t0r" eventType="valueChanged" id="ktz-rK-vDy"/>
+                                        </connections>
+                                    </slider>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Drag to rotate selected building" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JWz-Ly-XcZ">
+                                        <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                        <variation key="heightClass=regular-widthClass=regular" fixedFrame="YES">
+                                            <rect key="frame" x="126" y="83" width="249" height="21"/>
                                         </variation>
                                     </label>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="500" id="DUH-WJ-rdC"/>
-                                    <constraint firstAttribute="height" constant="75" id="VIY-pk-T7v"/>
+                                    <constraint firstAttribute="height" constant="150" id="VIY-pk-T7v"/>
                                 </constraints>
                                 <variation key="default">
                                     <mask key="subviews">
                                         <exclude reference="M7O-TE-YV6"/>
                                         <exclude reference="UpY-Sa-gUW"/>
+                                        <exclude reference="VJG-pb-A8U"/>
+                                        <exclude reference="JWz-Ly-XcZ"/>
                                     </mask>
                                 </variation>
                                 <variation key="heightClass=regular-widthClass=regular">
                                     <mask key="subviews">
                                         <include reference="M7O-TE-YV6"/>
                                         <include reference="UpY-Sa-gUW"/>
+                                        <include reference="VJG-pb-A8U"/>
+                                        <include reference="JWz-Ly-XcZ"/>
                                     </mask>
                                 </variation>
                             </view>
@@ -281,7 +303,8 @@
                         <outlet property="uib_cam2" destination="Ryo-FT-fDA" id="My5-ns-w8h"/>
                         <outlet property="uib_reset" destination="Qhv-j3-BqS" id="rqN-aO-8Pr"/>
                         <outlet property="uib_start" destination="Vrc-5d-Mc2" id="Hhj-zm-s84"/>
-                        <outlet property="uiv_controlPanel" destination="0oo-Z4-6gj" id="Btg-TU-3Uf"/>
+                        <outlet property="uisld_degreeSlider" destination="VJG-pb-A8U" id="f9L-ZE-x0i"/>
+                        <outlet property="uiv_controlPanel" destination="0oo-Z4-6gj" id="SDU-uk-o1I"/>
                         <outlet property="uiv_sideMenu" destination="Y0Y-lF-YTW" id="S1v-DE-SED"/>
                     </connections>
                 </viewController>

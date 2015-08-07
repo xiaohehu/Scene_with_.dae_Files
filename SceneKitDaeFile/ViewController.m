@@ -7,7 +7,7 @@
 //
 
 #import "ViewController.h"
-
+#define DEGREES_TO_RADIANS(angle) ((angle) / 180.0 * M_PI)
 static float initCamX = -10000.0;
 static float initCamY = 15000.0;
 static float initCamZ = 20000.0;
@@ -18,9 +18,6 @@ static float initCamR = 40.0/50.0;
 static float initCamR_x = 1.0;
 static float initCamR_y = 1.0;
 static float initCamR_z = 0.28;
-static float extra_x = 100;
-static float extra_y = 100;
-static float extra_z = 100;
 
 @interface ViewController () {
 
@@ -54,7 +51,11 @@ static float extra_z = 100;
 @property (weak, nonatomic) IBOutlet UIButton *uib_cam1;
 @property (weak, nonatomic) IBOutlet UIButton *uib_cam2;
 
+// Bottom control panel
 @property (weak, nonatomic) IBOutlet UIView *uiv_controlPanel;
+@property (weak, nonatomic) IBOutlet UISlider *uisld_degreeSlider;
+
+// Side Panel
 @property (weak, nonatomic) IBOutlet UIView *uiv_sideMenu;
 @property (weak, nonatomic) IBOutlet UIButton *uib_building0A;
 @property (weak, nonatomic) IBOutlet UIButton *uib_building0B;
@@ -82,11 +83,14 @@ static float extra_z = 100;
     [self addPinchGesture];
     
     [self createCameraPositionArray];
-    
-    _uiv_controlPanel.transform = CGAffineTransformMakeTranslation(0, _uiv_controlPanel.frame.size.height);
-    _uiv_sideMenu.transform = CGAffineTransformMakeTranslation(_uiv_sideMenu.frame.size.width, 0);
+
 //    _myscene.autoenablesDefaultLighting = YES;
 //    self.myscene.allowsCameraControl = YES;
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    _uiv_controlPanel.transform = CGAffineTransformMakeTranslation(0, 150);
+    _uiv_sideMenu.transform = CGAffineTransformMakeTranslation(_uiv_sideMenu.frame.size.width, 0);
 }
 
 - (void)didReceiveMemoryWarning {
@@ -94,12 +98,7 @@ static float extra_z = 100;
     // Dispose of any resources that can be recreated.
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-//    [UIView animateWithDuration:0.33 animations:^(void){
-//        _uiv_sideMenu.transform = CGAffineTransformIdentity;
-//    }];
-}
-
+// Turn on/off free camera control
 - (IBAction)freeCam:(id)sender {
     UIButton *tapBtn = sender;
     tapBtn.selected = !tapBtn.selected;
@@ -145,6 +144,7 @@ static float extra_z = 100;
     floorNode.geometry.firstMaterial.diffuse.contents = [UIImage imageNamed:@"GoogleEarth.jpg"];
     [_myscene.scene.rootNode addChildNode: floorNode];
     
+    // Read 3d modle from .dae files
     SCNScene *blockScene = [SCNScene sceneNamed:@"Building_02.dae"];
     blockNode = [SCNNode new];
     for (SCNNode *node in [blockScene.rootNode childNodes]) {
@@ -154,21 +154,16 @@ static float extra_z = 100;
     
     building0NodeA = [self getTheNodebyFileName:@"Building_00A" andID:@"Box149"];
     building0NodeA.geometry.materials = @[[self getMaterialByColor:[UIColor greenColor]]];
-//    NSLog(@"\n\n %f, %f, %f\n\n", building0NodeA.position.x, building0NodeA.position.y, building0NodeA.position.z);
-//    [_myscene.scene.rootNode addChildNode: building0NodeA];
     
     building0NodeB = [self getTheNodebyFileName:@"Building_00B" andID:@"Box151"];
     building0NodeB.geometry.materials = @[[self getMaterialByColor:[UIColor greenColor]]];
-//    NSLog(@"\n\n %f, %f, %f\n\n", building0NodeB.position.x, building0NodeB.position.y, building0NodeB.position.z);
     
     building1NodeA = [self getTheNodebyFileName:@"Building_01A" andID:@"Box148"];
     building1NodeA.geometry.materials = @[[self getMaterialByColor:[UIColor redColor]]];
-//    NSLog(@"\n\n %f, %f, %f\n\n", building1NodeA.position.x, building1NodeA.position.y, building1NodeA.position.z);
-//    [_myscene.scene.rootNode addChildNode:building1NodeA];
     
     building1NodeB = [self getTheNodebyFileName:@"Building_01B" andID:@"Box152"];
     building1NodeB.geometry.materials = @[[self getMaterialByColor:[UIColor redColor]]];
-//    NSLog(@"\n\n %f, %f, %f\n\n", building1NodeB.position.x, building1NodeB.position.y, building1NodeB.position.z);
+
     /*
      * Array contains 2 buildings shapes
      */
@@ -260,7 +255,6 @@ static float extra_z = 100;
         _uiv_sideMenu.transform = CGAffineTransformIdentity;
     }];
 }
-
 
 #pragma mark Camera Button
 - (IBAction)tapResetButton:(id)sender {
@@ -442,31 +436,42 @@ static float extra_z = 100;
         switch (tappedButton.tag) {
             case 0: {
                 building0NodeA.position = currentPosition;
+                selectedNode = building0NodeA;
+                selectedNode.opacity = 0.6;
                 [_myscene.scene.rootNode addChildNode: building0NodeA];
                 break;
             }
             case 1: {
                 building0NodeB.position = currentPosition;
+                selectedNode = building0NodeB;
+                selectedNode.opacity = 0.6;
                 [_myscene.scene.rootNode addChildNode: building0NodeB];
                 break;
             }
             case 2: {
                 building1NodeA.position = currentPosition;
+                selectedNode = building1NodeA;
+                selectedNode.opacity = 0.6;
                 [_myscene.scene.rootNode addChildNode: building1NodeA];
                 break;
             }
             case 3: {
                 building1NodeB.position = currentPosition;
+                selectedNode = building1NodeB;
+                selectedNode.opacity = 0.6;
                 [_myscene.scene.rootNode addChildNode: building1NodeB];
                 break;
             }
             default:
                 break;
         }
-        editMode = NO;
-        [UIView animateWithDuration:0.33 animations:^(void){
-            _uiv_controlPanel.transform = CGAffineTransformMakeTranslation(0, _uiv_controlPanel.frame.size.height);
-        }];
+        
+        // Comment out if want to turn off edit mode
+        
+//        editMode = NO;
+//        [UIView animateWithDuration:0.33 animations:^(void){
+//            _uiv_controlPanel.transform = CGAffineTransformMakeTranslation(0, _uiv_controlPanel.frame.size.height);
+//        }];
         return;
     } else {
         
@@ -681,6 +686,10 @@ static float extra_z = 100;
     }];
 }
 
+- (IBAction)degreeSliderChangeValue:(id)sender {
+//    NSLog(@"Current degree is %f", _uisld_degreeSlider.value);
+   selectedNode.rotation = SCNVector4Make(0, 0, -1, DEGREES_TO_RADIANS(_uisld_degreeSlider.value));
+}
 #pragma mark - Edit menu
 
 #pragma mark - Touch Delegate Methods
@@ -758,7 +767,7 @@ static float extra_z = 100;
     }
     lastXRotation = cameraOrbit.eulerAngles.x;
     
-    NSLog(@"last rotation is %f",lastYRotation);
+//    NSLog(@"last rotation is %f",lastYRotation);
 }
 
 @end
