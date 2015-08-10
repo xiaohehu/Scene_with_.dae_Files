@@ -19,6 +19,8 @@
 		825126F91B7544B300E81511 /* GoogleEarth.dae in Resources */ = {isa = PBXBuildFile; fileRef = 825126F31B7544B300E81511 /* GoogleEarth.dae */; };
 		825126FF1B7549C900E81511 /* scenes.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 825126FE1B7549C900E81511 /* scenes.scnassets */; };
 		825127011B754DC400E81511 /* Building_02.dae in Resources */ = {isa = PBXBuildFile; fileRef = 825127001B754DC400E81511 /* Building_02.dae */; };
+		8251FE591B7934F70021C1BA /* singleBuilding.m in Sources */ = {isa = PBXBuildFile; fileRef = 8251FE581B7934F70021C1BA /* singleBuilding.m */; };
+		8251FE5C1B793B8D0021C1BA /* groupBuildings.m in Sources */ = {isa = PBXBuildFile; fileRef = 8251FE5B1B793B8D0021C1BA /* groupBuildings.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +52,10 @@
 		825126F31B7544B300E81511 /* GoogleEarth.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = GoogleEarth.dae; sourceTree = "<group>"; };
 		825126FE1B7549C900E81511 /* scenes.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = scenes.scnassets; sourceTree = "<group>"; };
 		825127001B754DC400E81511 /* Building_02.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = Building_02.dae; sourceTree = "<group>"; };
+		8251FE571B7934F70021C1BA /* singleBuilding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = singleBuilding.h; sourceTree = "<group>"; };
+		8251FE581B7934F70021C1BA /* singleBuilding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = singleBuilding.m; sourceTree = "<group>"; };
+		8251FE5A1B793B8D0021C1BA /* groupBuildings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = groupBuildings.h; sourceTree = "<group>"; };
+		8251FE5B1B793B8D0021C1BA /* groupBuildings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = groupBuildings.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +104,10 @@
 				824B9B951B557F5A006C58DF /* ViewController.h */,
 				824B9B961B557F5A006C58DF /* ViewController.m */,
 				824B9B981B557F5A006C58DF /* Main.storyboard */,
+				8251FE571B7934F70021C1BA /* singleBuilding.h */,
+				8251FE581B7934F70021C1BA /* singleBuilding.m */,
+				8251FE5A1B793B8D0021C1BA /* groupBuildings.h */,
+				8251FE5B1B793B8D0021C1BA /* groupBuildings.m */,
 				825126F31B7544B300E81511 /* GoogleEarth.dae */,
 				825127001B754DC400E81511 /* Building_02.dae */,
 				824B9BC41B559306006C58DF /* GoogleEarth.jpg */,
@@ -243,6 +253,8 @@
 				824B9B971B557F5A006C58DF /* ViewController.m in Sources */,
 				824B9B941B557F5A006C58DF /* AppDelegate.m in Sources */,
 				824B9B911B557F5A006C58DF /* main.m in Sources */,
+				8251FE5C1B793B8D0021C1BA /* groupBuildings.m in Sources */,
+				8251FE591B7934F70021C1BA /* singleBuilding.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
