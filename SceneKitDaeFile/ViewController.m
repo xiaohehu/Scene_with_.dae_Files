@@ -802,10 +802,10 @@ static float initCamR_z = 0.0;
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     
     if (cameraOrbit.eulerAngles.y < 0) {
-        lastYRotation =  -cameraOrbit.eulerAngles.y ;
+        lastYRotation =  -cameraOrbit.eulerAngles.z ;
     }
     else {
-        lastYRotation = cameraOrbit.eulerAngles.y ;
+        lastYRotation = cameraOrbit.eulerAngles.z ;
     }
 //    if (lastYRotation > 6.28) {
 //        lastYRotation = 0;
