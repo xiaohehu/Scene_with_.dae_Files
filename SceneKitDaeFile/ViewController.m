@@ -652,12 +652,17 @@ static float initCamR_z = 0.0;
     CGPoint point = [gesture locationInView: _myscene];
     NSArray *hits = [_myscene hitTest:point
                               options:nil];
-    if (editMode) {
-        return;
-    }
+//    if (editMode) {
+//        return;
+//    }
+    
+    [_uisld_degreeSlider setValue:0.0 animated:NO];
+    
     for (SCNHitTestResult *hit in hits) {
         if ([hit.node isEqual: building1NodeA] || [hit.node isEqual: building1NodeB]) {
-            
+            if (selectedNode != nil) {
+                selectedNode.opacity = 1.0;
+            }
             hit.node.opacity = 0.6;
             selectedNode = hit.node;
             
@@ -671,7 +676,9 @@ static float initCamR_z = 0.0;
             break;
             
         } else if ([hit.node isEqual: building0NodeA] || [hit.node isEqual: building0NodeB]) {
-            
+            if (selectedNode != nil) {
+                selectedNode.opacity = 1.0;
+            }
             hit.node.opacity = 0.6;
             selectedNode = hit.node;
             
@@ -790,9 +797,9 @@ static float initCamR_z = 0.0;
         SCNVector3 prevLocation_3d = [_myscene unprojectPoint:SCNVector3Make(prevLocation.x, prevLocation.y, hitPositionZ)];
         
         CGFloat x_varible = location_3d.x - prevLocation_3d.x;
-        CGFloat z_varible = location_3d.z - prevLocation_3d.z;
+        CGFloat y_varible = location_3d.y - prevLocation_3d.y;
         
-        selectedNode.position = SCNVector3Make(selectedNode.position.x + x_varible, selectedNode.position.y, selectedNode.position.z + z_varible);
+        selectedNode.position = SCNVector3Make(selectedNode.position.x + x_varible, selectedNode.position.y + y_varible , selectedNode.position.z);
         
     } else if (touches.count == 2 && editMode) {
         
