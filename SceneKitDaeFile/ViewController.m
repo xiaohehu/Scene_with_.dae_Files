@@ -757,11 +757,11 @@ static float initCamR_z = 0.0;
 //        NSLog(@"\n %f\n\n", moveYDistance);
         
         float x_rotation = lastXRotation-M_PI_2 * (moveYDistance/_myscene.frame.size.height);
-        if (x_rotation >= M_PI_4*0.8) {
-            x_rotation = M_PI_4*0.8;
+        if (x_rotation >= M_PI_4) {
+            x_rotation = M_PI_4;
         }
-        if (x_rotation < -M_PI_2*0.8) {
-            x_rotation = -M_PI_2*0.8;
+        if (x_rotation < -M_PI_2*0.6) {
+            x_rotation = -M_PI_2*0.6;
         }
         
         float y_rotation = lastYRotation-2.0 * M_PI * (moveXDistance/_myscene.frame.size.width);
