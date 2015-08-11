@@ -13,7 +13,5 @@
 
 @property (nonatomic, retain)   NSArray     *arr_names;
 @property (nonatomic, retain)   NSArray     *arr_positions;
-//@property (nonatomic, retain)   NSArray     *arr_nodes;
-
 
 @end

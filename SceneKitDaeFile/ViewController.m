@@ -8,16 +8,16 @@
 
 #import "ViewController.h"
 #define DEGREES_TO_RADIANS(angle) ((angle) / 180.0 * M_PI)
-static float initCamX = -10000.0;
-static float initCamY = 15000.0;
-static float initCamZ = 20000.0;
-static float camera2X = 5000;
-static float camera2Y = 300;
-static float camera2Z = 20000;
-static float initCamR = 40.0/50.0;
+static float initCamX = -9000.0;
+static float initCamY = -30000.0;
+static float initCamZ = 30000.0;
+static float camera2X = -6000;
+static float camera2Y = -10000;
+static float camera2Z = 0;
+static float initCamR = 0.8;
 static float initCamR_x = 1.0;
-static float initCamR_y = 1.0;
-static float initCamR_z = 0.28;
+static float initCamR_y = 0.0;
+static float initCamR_z = 0.0;
 
 @interface ViewController () {
 
@@ -143,9 +143,13 @@ static float initCamR_z = 0.28;
     /*
      * Create floor node and added image
      */
-    floorNode = [self getTheNodebyFileName:@"GoogleEarth" andID:@"Plane001"];
+    floorNode = [self getTheNodebyFileName:@"Floor_00" andID:@"__GE01"];
     floorNode.geometry.firstMaterial.diffuse.contents = [UIImage imageNamed:@"GoogleEarth.jpg"];
     [_myscene.scene.rootNode addChildNode: floorNode];
+    SCNVector3 position = floorNode.position;
+    position.z = -112.45;
+    floorNode.position = position;
+    NSLog(@"\n\n %f, %f, %f", floorNode.position.x, floorNode.position.y, floorNode.position.z);
     
     // Read 3d modle from .dae files
     SCNScene *blockScene = [SCNScene sceneNamed:@"Building_02.dae"];
@@ -153,9 +157,10 @@ static float initCamR_z = 0.28;
     for (SCNNode *node in [blockScene.rootNode childNodes]) {
         [blockNode addChildNode: node];
     }
-    [_myscene.scene.rootNode addChildNode: blockNode];
+//    [_myscene.scene.rootNode addChildNode: blockNode];
     
-    building0NodeA = [self getTheNodebyFileName:@"Building_00A" andID:@"Box149"];
+//    building0NodeA = [self getTheNodebyFileName:@"Building_00A" andID:@"Box149"];
+    building0NodeA = [self getTheNodebyFileName:@"Here_Is_Good_01" andID:@"bldgs09"];
     building0NodeA.geometry.materials = @[[self getMaterialByColor:[UIColor greenColor]]];
 //    SCNVector3 minVec = SCNVector3Zero;
 //    SCNVector3 maxVec = SCNVector3Zero;
@@ -169,7 +174,8 @@ static float initCamR_z = 0.28;
     building0NodeB = [self getTheNodebyFileName:@"Building_00B" andID:@"Box151"];
     building0NodeB.geometry.materials = @[[self getMaterialByColor:[UIColor greenColor]]];
     
-    building1NodeA = [self getTheNodebyFileName:@"Building_01A" andID:@"Box148"];
+//    building1NodeA = [self getTheNodebyFileName:@"Building_01A" andID:@"Box148"];
+    building1NodeA = [self getTheNodebyFileName:@"Here_Is_Good_01" andID:@"bldgs010"];
     building1NodeA.geometry.materials = @[[self getMaterialByColor:[UIColor redColor]]];
     SCNVector3 location1 = [_myscene unprojectPoint:building1NodeA.position];
     NSLog(@"\n\n %f, %f, %f", location1.x, location1.y, location1.z);
@@ -205,14 +211,8 @@ static float initCamR_z = 0.28;
                                                  shape:[SCNPhysicsShape shapeWithGeometry:box options:nil]];
     boxNode.physicsBody.restitution = 0.0;
     boxNode.physicsBody.angularDamping = 1.0;
-    boxNode.position = SCNVector3Make(-1000.0, 10, 15000.0);
+    boxNode.position = SCNVector3Make(-1000.0, -1700, 10.0);
     [floorNode addChildNode: boxNode];
-    
-    
-    NSLog(@"%@", _myscene.scene.rootNode.childNodes);
-    
-    
-    
 }
 
 - (void) createCameraOrbitAndNode {
@@ -220,7 +220,7 @@ static float initCamR_z = 0.28;
     cameraNode.camera = [SCNCamera camera];
 //    cameraNode.camera.usesOrthographicProjection = YES;
     cameraNode.position = SCNVector3Make(initCamX, initCamY, initCamZ);
-    cameraNode.rotation = SCNVector4Make(initCamR_x, initCamR_y, initCamR_z, -atan(initCamR));
+    cameraNode.rotation = SCNVector4Make(initCamR_x, initCamR_y, initCamR_z, atan(initCamR));
     cameraNode.camera.zFar = 200000;
     cameraNode.camera.zNear = 100;
     //    cameraNode.constraints = @[[SCNLookAtConstraint lookAtConstraintWithTarget:blockNode]];
@@ -228,7 +228,7 @@ static float initCamR_z = 0.28;
      * Add camera orbit to rotate camera node
      */
     cameraOrbit = [SCNNode node];
-    cameraOrbit.position = SCNVector3Make(cameraOrbit.position.x, cameraOrbit.position.y, cameraOrbit.position.z + 5000);
+//    cameraOrbit.position = SCNVector3Make(cameraOrbit.position.x, cameraOrbit.position.y, cameraOrbit.position.z + 5000);
     [cameraOrbit addChildNode: cameraNode];
     [_myscene.scene.rootNode addChildNode: cameraOrbit];
 }
@@ -237,41 +237,41 @@ static float initCamR_z = 0.28;
 - (void)createLightGroup {
     SCNLight *light = [SCNLight light];
     light.type = SCNLightTypeOmni;
-    light.attenuationStartDistance = 10000;
-    light.attenuationEndDistance = 280000;
+    light.attenuationStartDistance = 3000000;
+    light.attenuationEndDistance = 30000000;
     light.color = [UIColor whiteColor];
     SCNNode *lightNode = [SCNNode node];
-    lightNode.position = SCNVector3Make(-2000, 20000, 1000);
+    lightNode.position = SCNVector3Make(-10000, -10000, 1000);
     lightNode.light = light;
     [_myscene.scene.rootNode addChildNode: lightNode];
     
     SCNLight *light2 = [SCNLight light];
     light2.type = SCNLightTypeOmni;
-    light2.attenuationStartDistance = 10000;
-    light2.attenuationEndDistance = 30000;
+    light2.attenuationStartDistance = 3000000;
+    light2.attenuationEndDistance = 3000000;
     light2.color = [UIColor whiteColor];
     SCNNode *lightNode2 = [SCNNode node];
-    lightNode2.position = SCNVector3Make(500, 1000, 20000);
+    lightNode2.position = SCNVector3Make(-500, -1000, 20000);
     lightNode2.light = light2;
     [_myscene.scene.rootNode addChildNode: lightNode2];
     
     SCNLight *light3 = [SCNLight light];
     light3.type = SCNLightTypeOmni;
-    light3.attenuationStartDistance = 10000;
-    light3.attenuationEndDistance = 30000;
+    light3.attenuationStartDistance = 3000000;
+    light3.attenuationEndDistance = 3000000;
     light3.color = [UIColor whiteColor];
     SCNNode *lightNode3 = [SCNNode node];
-    lightNode3.position = SCNVector3Make(10000, 1000, -15000);
+    lightNode3.position = SCNVector3Make(-10000, -1000, 15000);
     lightNode3.light = light3;
     [_myscene.scene.rootNode addChildNode: lightNode3];
     
     SCNLight *light4 = [SCNLight light];
     light4.type = SCNLightTypeOmni;
-    light4.attenuationStartDistance = 10000;
-    light4.attenuationEndDistance = 30000;
+    light4.attenuationStartDistance = 3000000;
+    light4.attenuationEndDistance = 3000000;
     light4.color = [UIColor whiteColor];
     SCNNode *lightNode4 = [SCNNode node];
-    lightNode4.position = SCNVector3Make(-20000, 500, 1000);
+    lightNode4.position = SCNVector3Make(-20000, -500, 1000);
     lightNode4.light = light4;
     [_myscene.scene.rootNode addChildNode: lightNode4];
     
@@ -306,7 +306,7 @@ static float initCamR_z = 0.28;
         
         CABasicAnimation *moveCameraOrbit =
         [CABasicAnimation animationWithKeyPath:@"rotation"];
-        moveCameraOrbit.toValue = [NSValue valueWithSCNVector4:SCNVector4Make(0.0, 1.0, 0.0, 0)];
+        moveCameraOrbit.toValue = [NSValue valueWithSCNVector4:SCNVector4Make(0.0, 0.0, 0.0, 0)];
         moveCameraOrbit.duration  = 1.0;
         moveCameraOrbit.fillMode  = kCAFillModeForwards;
         moveCameraOrbit.timingFunction =
@@ -332,7 +332,7 @@ static float initCamR_z = 0.28;
          */
         CABasicAnimation *rotateCamera =
         [CABasicAnimation animationWithKeyPath:@"rotation"];
-        rotateCamera.toValue = [NSValue valueWithSCNVector4:SCNVector4Make(initCamR_x, initCamR_y, initCamR_z, -atan(initCamR))];
+        rotateCamera.toValue = [NSValue valueWithSCNVector4:SCNVector4Make(initCamR_x, initCamR_y, initCamR_z, atan(initCamR))];
         rotateCamera.duration  = 1.0;
         rotateCamera.fillMode  = kCAFillModeForwards;
         rotateCamera.timingFunction =
@@ -349,10 +349,10 @@ static float initCamR_z = 0.28;
              * Set cameraOrbit's rotation record to 0
              */
             cameraNode.position = SCNVector3Make(initCamX, initCamY, initCamZ);
-            cameraNode.rotation = SCNVector4Make(initCamR_x, initCamR_y, initCamR_z, -atan(initCamR));
-            cameraOrbit.rotation = SCNVector4Make(0.0, 1.0, 0.0, 0.0);
-            cameraNode.camera.zNear = 4000;
-            cameraNode.camera.zFar = 50000;
+            cameraNode.rotation = SCNVector4Make(initCamR_x, initCamR_y, initCamR_z, atan(initCamR));
+            cameraOrbit.rotation = SCNVector4Make(0.0, 0.0, 0.0, 0.0);
+            cameraNode.camera.zNear = 100;
+            cameraNode.camera.zFar = 200000;
             [cameraNode removeAllAnimations];
             [cameraOrbit removeAllAnimations];
             lastYRotation = 0;
@@ -381,7 +381,7 @@ static float initCamR_z = 0.28;
         
         CABasicAnimation *moveCamera =
         [CABasicAnimation animationWithKeyPath:@"rotation"];
-        moveCamera.toValue = [NSValue valueWithSCNVector4:SCNVector4Make(0.0, 1.0, 0.0, rotation)];
+        moveCamera.toValue = [NSValue valueWithSCNVector4:SCNVector4Make(0.0, 0.0, 1.0, rotation)];
         moveCamera.duration  = 1.0;
         moveCamera.fillMode  = kCAFillModeForwards;
         moveCamera.timingFunction =
@@ -396,7 +396,7 @@ static float initCamR_z = 0.28;
              * Set cameraOrbit's rotation by code and remove animation to make enable interactive
              * Record current rotation of the cameraOrbit
              */
-            cameraOrbit.rotation = SCNVector4Make(0.0, 1.0, 0.0, rotation);
+            cameraOrbit.rotation = SCNVector4Make(0.0, 0.0, 1.0, rotation);
             [cameraOrbit removeAllAnimations];
             lastYRotation = rotation;
         }];
@@ -413,7 +413,7 @@ static float initCamR_z = 0.28;
         if (lastYRotation != 0) {
             CABasicAnimation *moveCamera =
             [CABasicAnimation animationWithKeyPath:@"rotation"];
-            moveCamera.toValue = [NSValue valueWithSCNVector4:SCNVector4Make(0.0, 1.0, 0.0, 0)];
+            moveCamera.toValue = [NSValue valueWithSCNVector4:SCNVector4Make(0.0, 0.0, 1.0, 0)];
             moveCamera.duration  = 1.0;
             moveCamera.fillMode  = kCAFillModeForwards;
             moveCamera.timingFunction =
@@ -440,7 +440,7 @@ static float initCamR_z = 0.28;
          */
         CABasicAnimation *rotateCamera =
         [CABasicAnimation animationWithKeyPath:@"rotation"];
-        rotateCamera.toValue = [NSValue valueWithSCNVector4:SCNVector4Make(initCamR_x, initCamR_y, -initCamR_z, atan(initCamR))];
+        rotateCamera.toValue = [NSValue valueWithSCNVector4:SCNVector4Make(1, 0, 0, M_PI_2)];
         rotateCamera.duration  = 1.0;
         rotateCamera.fillMode  = kCAFillModeForwards;
         rotateCamera.timingFunction =
@@ -457,8 +457,8 @@ static float initCamR_z = 0.28;
              * Set cameraOrbit's rotation record to 0
              */
             cameraNode.position = SCNVector3Make(camera2X, camera2Y, camera2Z);
-            cameraNode.rotation = SCNVector4Make(initCamR_x, initCamR_y, -initCamR_z, atan(initCamR));
-            cameraOrbit.rotation = SCNVector4Make(0.0, 1.0, 0.0, 0.0);
+            cameraNode.rotation = SCNVector4Make(1, 0, 0, M_PI_2);
+            cameraOrbit.rotation = SCNVector4Make(0.0, 0.0, 1.0, 0.0);
             [cameraNode removeAllAnimations];
             [cameraOrbit removeAllAnimations];
             lastYRotation = 0;
@@ -730,9 +730,9 @@ static float initCamR_z = 0.28;
 
 - (IBAction)degreeSliderChangeValue:(id)sender {
 //    NSLog(@"Current degree is %f", _uisld_degreeSlider.value);
-   selectedNode.rotation = SCNVector4Make(0, 1, 0, DEGREES_TO_RADIANS(_uisld_degreeSlider.value));
+   selectedNode.rotation = SCNVector4Make(0, 0, 1, DEGREES_TO_RADIANS(_uisld_degreeSlider.value));
     
-    boxNode.rotation = SCNVector4Make(0, 0, 1, DEGREES_TO_RADIANS(_uisld_degreeSlider.value));
+    boxNode.rotation = SCNVector4Make(1, 0, 0, DEGREES_TO_RADIANS(_uisld_degreeSlider.value));
 }
 #pragma mark - Edit menu
 
@@ -766,9 +766,9 @@ static float initCamR_z = 0.28;
         float y_rotation = lastYRotation-2.0 * M_PI * (moveXDistance/_myscene.frame.size.width);
         
         if (ABS(moveYDistance) - ABS(moveXDistance) > 30) {
-            cameraOrbit.eulerAngles = SCNVector3Make(x_rotation, lastYRotation, 0.0);
+            cameraOrbit.eulerAngles = SCNVector3Make(x_rotation, 0.0, lastYRotation);
         } else if ((ABS(moveYDistance) - ABS(moveXDistance) < -30)) {
-            cameraOrbit.eulerAngles = SCNVector3Make(lastXRotation, y_rotation, 0.0);
+            cameraOrbit.eulerAngles = SCNVector3Make(lastXRotation, 0.0, y_rotation);
         }
         
         

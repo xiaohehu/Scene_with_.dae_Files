@@ -14,6 +14,7 @@
 @property (nonatomic, readwrite)    BOOL        isDefault;
 @property (nonatomic, readwrite)    BOOL        isSelected;
 @property (nonatomic, copy)         NSString    *fileName;
+@property (nonatomic, copy)         NSString    *fileID;
 @property (nonatomic, readwrite)    SCNVector3  position;
 @property (nonatomic, retain)       SCNNode     *buildingNode;
 

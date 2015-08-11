@@ -1,5 +1,5 @@
 {
   "interleaveGeometrySources" : true,
-  "forceYUp" : true,
+  "forceYUp" : false,
   "usePVRTCIfAvailable" : true
 }
