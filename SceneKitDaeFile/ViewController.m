@@ -21,7 +21,7 @@ static float initCamR_z = 0.0;
 
 @interface ViewController () {
 
-    SCNNode *boxNode;
+//    SCNNode *boxNode;
     
     
     int         index_building0;
@@ -150,7 +150,7 @@ static float initCamR_z = 0.0;
     position.z = -112.45;
     floorNode.position = position;
     position = [_myscene unprojectPoint:floorNode.position];
-    NSLog(@"\n\n %f, %f, %f", position.x, position.y, position.z);
+    NSLog(@"\n\n %f, %f, %f", floorNode.position.x, floorNode.position.y, floorNode.position.z);
     
     // Read 3d modle from .dae files
     SCNScene *blockScene = [SCNScene sceneNamed:@"Building_02.dae"];
@@ -179,7 +179,7 @@ static float initCamR_z = 0.0;
     building1NodeA = [self getTheNodebyFileName:@"Here_Is_Good_01" andID:@"bldgs010"];
     building1NodeA.geometry.materials = @[[self getMaterialByColor:[UIColor redColor]]];
     SCNVector3 location1 = [_myscene unprojectPoint:building1NodeA.position];
-    NSLog(@"\n\n %f, %f, %f", location1.x, location1.y, location1.z);
+    NSLog(@"\n\n %f, %f, %f", building1NodeA.position.x, building1NodeA.position.y, building1NodeA.position.z);
     
     building1NodeB = [self getTheNodebyFileName:@"Building_01B" andID:@"Box152"];
     building1NodeB.geometry.materials = @[[self getMaterialByColor:[UIColor redColor]]];
@@ -197,23 +197,23 @@ static float initCamR_z = 0.0;
     
     
     
-    // Test by adding a cube
-    /*
-     *  Create box and it's node, added to myScnView
-     */
-    CGFloat boxSize = 1000.0;
-    SCNBox *box = [SCNBox boxWithWidth:boxSize
-                        height:boxSize
-                        length:boxSize
-                 chamferRadius:1.0];
-    box.firstMaterial.diffuse.contents = [UIColor blueColor];
-    boxNode = [SCNNode nodeWithGeometry:box];
-    boxNode.physicsBody = [SCNPhysicsBody bodyWithType:SCNPhysicsBodyTypeStatic
-                                                 shape:[SCNPhysicsShape shapeWithGeometry:box options:nil]];
-    boxNode.physicsBody.restitution = 0.0;
-    boxNode.physicsBody.angularDamping = 1.0;
-    boxNode.position = SCNVector3Make(-1000.0, -1700, 10.0);
-    [floorNode addChildNode: boxNode];
+//    // Test by adding a cube
+//    /*
+//     *  Create box and it's node, added to myScnView
+//     */
+//    CGFloat boxSize = 1000.0;
+//    SCNBox *box = [SCNBox boxWithWidth:boxSize
+//                        height:boxSize
+//                        length:boxSize
+//                 chamferRadius:1.0];
+//    box.firstMaterial.diffuse.contents = [UIColor blueColor];
+//    boxNode = [SCNNode nodeWithGeometry:box];
+//    boxNode.physicsBody = [SCNPhysicsBody bodyWithType:SCNPhysicsBodyTypeStatic
+//                                                 shape:[SCNPhysicsShape shapeWithGeometry:box options:nil]];
+//    boxNode.physicsBody.restitution = 0.0;
+//    boxNode.physicsBody.angularDamping = 1.0;
+//    boxNode.position = SCNVector3Make(-1000.0, -1700, 10.0);
+//    [floorNode addChildNode: boxNode];
 }
 
 - (void) createCameraOrbitAndNode {
@@ -740,7 +740,7 @@ static float initCamR_z = 0.0;
 //    NSLog(@"Current degree is %f", _uisld_degreeSlider.value);
    selectedNode.rotation = SCNVector4Make(0, 0, 1, DEGREES_TO_RADIANS(_uisld_degreeSlider.value));
     
-    boxNode.rotation = SCNVector4Make(1, 0, 0, DEGREES_TO_RADIANS(_uisld_degreeSlider.value));
+//    boxNode.rotation = SCNVector4Make(1, 0, 0, DEGREES_TO_RADIANS(_uisld_degreeSlider.value));
 }
 #pragma mark - Edit menu
 

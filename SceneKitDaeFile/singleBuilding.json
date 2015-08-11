@@ -1,0 +1,30 @@
+[
+	{
+		"fileName" : "Here_Is_Good_01";
+		"ID" : "bldgs09";
+		"poistion" : "0, 0, 0";
+		"isDefault" : "YES";
+		"isSelected" : "NO";
+	},
+	{
+		"fileName" : "Here_Is_Good_01";
+		"ID" : "Box151";
+		"poistion" : "0, 0, 0";
+		"isDefault" : "NO";
+		"isSelected" : "NO";
+	},
+	{
+		"fileName" : "Building_01A";
+		"ID" : "bldgs010";
+		"poistion" : "0, 0, 0";
+		"isDefault" : "YES";
+		"isSelected" : "NO";
+	},
+	{
+		"fileName" : "Building_01B";
+		"ID" : "Box148";
+		"poistion" : "0, 0, 0";
+		"isDefault" : "YES";
+		"isSelected" : "NO";
+	}
+]
