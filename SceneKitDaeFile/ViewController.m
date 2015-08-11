@@ -147,7 +147,7 @@ static float initCamR_z = 0.0;
     floorNode.geometry.firstMaterial.diffuse.contents = [UIImage imageNamed:@"GoogleEarth.jpg"];
     [_myscene.scene.rootNode addChildNode: floorNode];
     SCNVector3 position = floorNode.position;
-    position.z = -112.45;
+//    position.z = -112.45;
     floorNode.position = position;
     position = [_myscene unprojectPoint:floorNode.position];
     NSLog(@"\n\n %f, %f, %f", floorNode.position.x, floorNode.position.y, floorNode.position.z);
@@ -170,7 +170,7 @@ static float initCamR_z = 0.0;
 //        building0NodeA.pivot = SCNMatrix4MakeTranslation(bound.x , bound.y , bound.z );
 //    }
 //    building0NodeA.position = SCNVector3Make(building0NodeA.position.x, building0NodeA.position.y+600, building0NodeA.position.z);
-    NSLog(@"\n\n %f, %f, %f", building0NodeA.position.x, building0NodeA.position.y, building0NodeA.position.z);
+//    NSLog(@"\n\n %f, %f, %f", building0NodeA.position.x, building0NodeA.position.y, building0NodeA.position.z);
     
     building0NodeB = [self getTheNodebyFileName:@"Building_00B" andID:@"Box151"];
     building0NodeB.geometry.materials = @[[self getMaterialByColor:[UIColor greenColor]]];
@@ -178,8 +178,8 @@ static float initCamR_z = 0.0;
 //    building1NodeA = [self getTheNodebyFileName:@"Building_01A" andID:@"Box148"];
     building1NodeA = [self getTheNodebyFileName:@"Here_Is_Good_01" andID:@"bldgs010"];
     building1NodeA.geometry.materials = @[[self getMaterialByColor:[UIColor redColor]]];
-    SCNVector3 location1 = [_myscene unprojectPoint:building1NodeA.position];
-    NSLog(@"\n\n %f, %f, %f", building1NodeA.position.x, building1NodeA.position.y, building1NodeA.position.z);
+//    SCNVector3 location1 = [_myscene unprojectPoint:building1NodeA.position];
+//    NSLog(@"\n\n %f, %f, %f", building1NodeA.position.x, building1NodeA.position.y, building1NodeA.position.z);
     
     building1NodeB = [self getTheNodebyFileName:@"Building_01B" andID:@"Box152"];
     building1NodeB.geometry.materials = @[[self getMaterialByColor:[UIColor redColor]]];
@@ -234,7 +234,7 @@ static float initCamR_z = 0.0;
     [_myscene.scene.rootNode addChildNode: cameraOrbit];
 }
 
-
+/**/
 - (void)createLightGroup {
     SCNLight *light = [SCNLight light];
     light.type = SCNLightTypeOmni;
@@ -291,9 +291,6 @@ static float initCamR_z = 0.0;
 - (IBAction)tapStartButton:(id)sender {
     [_myscene.scene.rootNode addChildNode: building0NodeA];
     [_myscene.scene.rootNode addChildNode:building1NodeA];
-
-//    [floorNode addChildNode: building0NodeA];
-//    [floorNode addChildNode:building1NodeA];
     
     _uib_start.hidden = YES;
     [UIView animateWithDuration:0.33 animations:^(void){
@@ -665,10 +662,6 @@ static float initCamR_z = 0.0;
             }
             hit.node.opacity = 0.6;
             selectedNode = hit.node;
-            
-//            SCNVector3 location = [_myscene unprojectPoint:selectedNode.position];
-//            NSLog(@"\n\n %f, %f, %f \n\n", location.x, location.y, location.z);
-            
             editMode = YES;
             [UIView animateWithDuration:0.33 animations:^(void){
                 _uiv_controlPanel.transform = CGAffineTransformIdentity;
@@ -681,10 +674,6 @@ static float initCamR_z = 0.0;
             }
             hit.node.opacity = 0.6;
             selectedNode = hit.node;
-            
-//            SCNVector3 location = [_myscene unprojectPoint:selectedNode.position];
-//            NSLog(@"\n\n %f, %f, %f \n\n", location.x, location.y, location.z);
-            
             editMode = YES;
             [UIView animateWithDuration:0.33 animations:^(void){
                 _uiv_controlPanel.transform = CGAffineTransformIdentity;
@@ -711,7 +700,7 @@ static float initCamR_z = 0.0;
             return;
         }
         cameraNode.position = SCNVector3Make(currentCamera.x, currentCamera.y*(1/scale), currentCamera.z*(1/scale));
-        NSLog(@"the scale is %f", currentCamera.z*(1/scale));
+//        NSLog(@"the scale is %f", currentCamera.z*(1/scale));
     }
 }
 
