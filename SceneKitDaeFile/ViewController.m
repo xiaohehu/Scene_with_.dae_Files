@@ -149,7 +149,8 @@ static float initCamR_z = 0.0;
     SCNVector3 position = floorNode.position;
     position.z = -112.45;
     floorNode.position = position;
-    NSLog(@"\n\n %f, %f, %f", floorNode.position.x, floorNode.position.y, floorNode.position.z);
+    position = [_myscene unprojectPoint:floorNode.position];
+    NSLog(@"\n\n %f, %f, %f", position.x, position.y, position.z);
     
     // Read 3d modle from .dae files
     SCNScene *blockScene = [SCNScene sceneNamed:@"Building_02.dae"];
