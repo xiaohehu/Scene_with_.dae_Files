@@ -16,9 +16,7 @@
 		824B9BAB1B557F5A006C58DF /* SceneKitDaeFileTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 824B9BAA1B557F5A006C58DF /* SceneKitDaeFileTests.m */; };
 		824B9BB51B5580FE006C58DF /* SceneKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824B9BB41B5580FE006C58DF /* SceneKit.framework */; };
 		824B9BC51B559306006C58DF /* GoogleEarth.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 824B9BC41B559306006C58DF /* GoogleEarth.jpg */; };
-		825126F91B7544B300E81511 /* GoogleEarth.dae in Resources */ = {isa = PBXBuildFile; fileRef = 825126F31B7544B300E81511 /* GoogleEarth.dae */; };
 		825126FF1B7549C900E81511 /* scenes.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 825126FE1B7549C900E81511 /* scenes.scnassets */; };
-		825127011B754DC400E81511 /* Building_02.dae in Resources */ = {isa = PBXBuildFile; fileRef = 825127001B754DC400E81511 /* Building_02.dae */; };
 		8251FE591B7934F70021C1BA /* singleBuilding.m in Sources */ = {isa = PBXBuildFile; fileRef = 8251FE581B7934F70021C1BA /* singleBuilding.m */; };
 		8251FE5C1B793B8D0021C1BA /* groupBuildings.m in Sources */ = {isa = PBXBuildFile; fileRef = 8251FE5B1B793B8D0021C1BA /* groupBuildings.m */; };
 		8251FE5E1B7A951C0021C1BA /* singleBuilding.json in Resources */ = {isa = PBXBuildFile; fileRef = 8251FE5D1B7A951C0021C1BA /* singleBuilding.json */; };
@@ -50,9 +48,7 @@
 		824B9BAA1B557F5A006C58DF /* SceneKitDaeFileTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SceneKitDaeFileTests.m; sourceTree = "<group>"; };
 		824B9BB41B5580FE006C58DF /* SceneKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SceneKit.framework; path = System/Library/Frameworks/SceneKit.framework; sourceTree = SDKROOT; };
 		824B9BC41B559306006C58DF /* GoogleEarth.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = GoogleEarth.jpg; sourceTree = "<group>"; };
-		825126F31B7544B300E81511 /* GoogleEarth.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = GoogleEarth.dae; sourceTree = "<group>"; };
 		825126FE1B7549C900E81511 /* scenes.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = scenes.scnassets; sourceTree = "<group>"; };
-		825127001B754DC400E81511 /* Building_02.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = Building_02.dae; sourceTree = "<group>"; };
 		8251FE571B7934F70021C1BA /* singleBuilding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = singleBuilding.h; sourceTree = "<group>"; };
 		8251FE581B7934F70021C1BA /* singleBuilding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = singleBuilding.m; sourceTree = "<group>"; };
 		8251FE5A1B793B8D0021C1BA /* groupBuildings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = groupBuildings.h; sourceTree = "<group>"; };
@@ -111,8 +107,6 @@
 				8251FE5D1B7A951C0021C1BA /* singleBuilding.json */,
 				8251FE5A1B793B8D0021C1BA /* groupBuildings.h */,
 				8251FE5B1B793B8D0021C1BA /* groupBuildings.m */,
-				825126F31B7544B300E81511 /* GoogleEarth.dae */,
-				825127001B754DC400E81511 /* Building_02.dae */,
 				824B9BC41B559306006C58DF /* GoogleEarth.jpg */,
 				825126FE1B7549C900E81511 /* scenes.scnassets */,
 				824B9B9B1B557F5A006C58DF /* Images.xcassets */,
@@ -229,14 +223,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				825127011B754DC400E81511 /* Building_02.dae in Resources */,
 				825126FF1B7549C900E81511 /* scenes.scnassets in Resources */,
 				824B9B9A1B557F5A006C58DF /* Main.storyboard in Resources */,
 				8251FE5E1B7A951C0021C1BA /* singleBuilding.json in Resources */,
 				824B9BC51B559306006C58DF /* GoogleEarth.jpg in Resources */,
 				824B9B9F1B557F5A006C58DF /* LaunchScreen.xib in Resources */,
 				824B9B9C1B557F5A006C58DF /* Images.xcassets in Resources */,
-				825126F91B7544B300E81511 /* GoogleEarth.dae in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

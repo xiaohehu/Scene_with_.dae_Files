@@ -18,4 +18,6 @@
 @property (nonatomic, readwrite)    SCNVector3  position;
 @property (nonatomic, retain)       SCNNode     *buildingNode;
 
+- (id)initWithFileName:(NSString *)name ID:(NSString *)ID;
+
 @end

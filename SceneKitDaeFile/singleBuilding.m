@@ -9,24 +9,30 @@
 #import "singleBuilding.h"
 
 @implementation singleBuilding
+@synthesize fileID;
+@synthesize fileName;
+@synthesize position;
+@synthesize isDefault;
+@synthesize isSelected;
+@synthesize buildingNode;
 
-- (id)initWithFileName:(NSString *)name ID:(NSString *)fileID position:(SCNVector3)position isDefault:(BOOL)defaultOne isSelected:(BOOL)selected {
+- (id)initWithFileName:(NSString *)name ID:(NSString *)ID {
     self = [super init];
     if (self) {
-        _fileName = name;
-        _fileID = fileID;
-        _position = position;
-        _isDefault = defaultOne;
-        _isSelected = selected;
+        fileName = name;
+        fileID = ID;
+//        _position = position;
+//        _isDefault = defaultOne;
+//        _isSelected = selected;
         [self createScnNode];
     }
     return self;
 }
 
 - (void)createScnNode {
-    NSURL *sceneURL = [[NSBundle mainBundle] URLForResource:_fileName withExtension:@"dae"];
+    NSURL *sceneURL = [[NSBundle mainBundle] URLForResource:[NSString stringWithFormat:@"scenes.scnassets/%@", fileName] withExtension:@"dae"];
     SCNSceneSource *sceneSource = [SCNSceneSource sceneSourceWithURL:sceneURL options:nil];
-    _buildingNode = [sceneSource entryWithIdentifier:_fileID withClass:[SCNNode class]];
+    buildingNode = [sceneSource entryWithIdentifier:fileID withClass:[SCNNode class]];
 }
 
 @end

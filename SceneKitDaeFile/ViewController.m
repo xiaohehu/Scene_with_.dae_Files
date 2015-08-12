@@ -7,6 +7,8 @@
 //
 
 #import "ViewController.h"
+#import "singleBuilding.h"
+
 #define DEGREES_TO_RADIANS(angle) ((angle) / 180.0 * M_PI)
 static float initCamX = -9000.0;
 static float initCamY = -30000.0;
@@ -20,9 +22,6 @@ static float initCamR_y = 0.0;
 static float initCamR_z = 0.0;
 
 @interface ViewController () {
-
-//    SCNNode *boxNode;
-    
     
     int         index_building0;
     int         index_building1;
@@ -143,80 +142,40 @@ static float initCamR_z = 0.0;
     /*
      * Create floor node and added image
      */
-    floorNode = [self getTheNodebyFileName:@"Floor_00" andID:@"__GE01"];
+    floorNode = [self getTheNodebyFileName:@"Google_Earth_00" andID:@"__GE01"];
     floorNode.geometry.firstMaterial.diffuse.contents = [UIImage imageNamed:@"GoogleEarth.jpg"];
     [_myscene.scene.rootNode addChildNode: floorNode];
-    SCNVector3 position = floorNode.position;
-    position.z = -112.45;
-    floorNode.position = position;
-    position = [_myscene unprojectPoint:floorNode.position];
-    NSLog(@"\n\n %f, %f, %f", floorNode.position.x, floorNode.position.y, floorNode.position.z);
+//    /*
+//     * Array contains 2 buildings shapes
+//     */
+//    arr_building0Nodes = @[building0NodeA, building0NodeB];
+//    arr_building1Nodes = @[building1NodeA, building1NodeB];
     
-    // Read 3d modle from .dae files
-    SCNScene *blockScene = [SCNScene sceneNamed:@"Building_02.dae"];
-    blockNode = [SCNNode new];
-    for (SCNNode *node in [blockScene.rootNode childNodes]) {
-        [blockNode addChildNode: node];
-    }
-//    [_myscene.scene.rootNode addChildNode: blockNode];
-    
-//    building0NodeA = [self getTheNodebyFileName:@"Building_00A" andID:@"Box149"];
-    building0NodeA = [self getTheNodebyFileName:@"Here_Is_Good_01" andID:@"bldgs09"];
-    building0NodeA.geometry.materials = @[[self getMaterialByColor:[UIColor greenColor]]];
-    SCNVector3 position1 = building0NodeA.position;
-    position1.y -= 10000;
-    building0NodeA.position = position1;
-//    SCNVector3 minVec = SCNVector3Zero;
-//    SCNVector3 maxVec = SCNVector3Zero;
-//    if ([building0NodeA getBoundingBoxMin:&minVec max:&maxVec]) {
-//        SCNVector3 bound = SCNVector3Make(maxVec.x - minVec.x, maxVec.y - minVec.y, maxVec.z - minVec.z);
-//        building0NodeA.pivot = SCNMatrix4MakeTranslation(bound.x , bound.y , bound.z );
-//    }
-//    building0NodeA.position = SCNVector3Make(building0NodeA.position.x, building0NodeA.position.y+600, building0NodeA.position.z);
-//    NSLog(@"\n\n %f, %f, %f", building0NodeA.position.x, building0NodeA.position.y, building0NodeA.position.z);
-    
-    building0NodeB = [self getTheNodebyFileName:@"Building_00B" andID:@"Box151"];
-    building0NodeB.geometry.materials = @[[self getMaterialByColor:[UIColor greenColor]]];
-    
-//    building1NodeA = [self getTheNodebyFileName:@"Building_01A" andID:@"Box148"];
-    building1NodeA = [self getTheNodebyFileName:@"Here_Is_Good_01" andID:@"bldgs010"];
-    building1NodeA.geometry.materials = @[[self getMaterialByColor:[UIColor redColor]]];
-//    SCNVector3 location1 = [_myscene unprojectPoint:building1NodeA.position];
-//    NSLog(@"\n\n %f, %f, %f", building1NodeA.position.x, building1NodeA.position.y, building1NodeA.position.z);
-    
-    building1NodeB = [self getTheNodebyFileName:@"Building_01B" andID:@"Box152"];
-    building1NodeB.geometry.materials = @[[self getMaterialByColor:[UIColor redColor]]];
-
-    /*
-     * Array contains 2 buildings shapes
-     */
-    arr_building0Nodes = @[building0NodeA, building0NodeB];
-    arr_building1Nodes = @[building1NodeA, building1NodeB];
+    [self createNodeFromJsonData];
     
     [self createCameraOrbitAndNode];
     
     [self createLightGroup];
+}
+
+- (void)createNodeFromJsonData {
+    NSData *allData = [[NSData alloc] initWithContentsOfURL:
+                              [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"singleBuilding" ofType:@"json"]]];
+    NSError *error;
+    NSArray *rawData = [NSJSONSerialization
+                        JSONObjectWithData:allData
+                        options:NSJSONReadingMutableContainers
+                        error:&error];
     
-    
-    
-    
-//    // Test by adding a cube
-//    /*
-//     *  Create box and it's node, added to myScnView
-//     */
-//    CGFloat boxSize = 1000.0;
-//    SCNBox *box = [SCNBox boxWithWidth:boxSize
-//                        height:boxSize
-//                        length:boxSize
-//                 chamferRadius:1.0];
-//    box.firstMaterial.diffuse.contents = [UIColor blueColor];
-//    boxNode = [SCNNode nodeWithGeometry:box];
-//    boxNode.physicsBody = [SCNPhysicsBody bodyWithType:SCNPhysicsBodyTypeStatic
-//                                                 shape:[SCNPhysicsShape shapeWithGeometry:box options:nil]];
-//    boxNode.physicsBody.restitution = 0.0;
-//    boxNode.physicsBody.angularDamping = 1.0;
-//    boxNode.position = SCNVector3Make(-1000.0, -1700, 10.0);
-//    [floorNode addChildNode: boxNode];
+    for (int i = 0 ; i < rawData.count; i++) {
+        NSDictionary *buildingData = rawData[i];
+        NSString *building_id = [buildingData objectForKey:@"ID"];
+        NSString *fileName = [buildingData objectForKey:@"fileName"];
+        singleBuilding *building = [[singleBuilding alloc] initWithFileName:fileName ID:building_id];
+        NSLog(@"\n\n%@\n\n",building.buildingNode);
+        
+        [_myscene.scene.rootNode addChildNode: building.buildingNode];
+    }
 }
 
 - (void) createCameraOrbitAndNode {
@@ -472,6 +431,10 @@ static float initCamR_z = 0.0;
 #pragma mark Side menu buttons
 #pragma mark Individual Buildings
 - (IBAction)tapSideMenuIndividual:(id)sender {
+    
+    NSLog(@"%@",_myscene.scene.rootNode.childNodes);
+    
+    
     UIButton *tappedButton = sender;
     if (editMode) {
         [selectedNode removeFromParentNode];
