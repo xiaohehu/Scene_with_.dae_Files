@@ -147,7 +147,7 @@ static float initCamR_z = 0.0;
     floorNode.geometry.firstMaterial.diffuse.contents = [UIImage imageNamed:@"GoogleEarth.jpg"];
     [_myscene.scene.rootNode addChildNode: floorNode];
     SCNVector3 position = floorNode.position;
-//    position.z = -112.45;
+    position.z = -112.45;
     floorNode.position = position;
     position = [_myscene unprojectPoint:floorNode.position];
     NSLog(@"\n\n %f, %f, %f", floorNode.position.x, floorNode.position.y, floorNode.position.z);
@@ -163,6 +163,9 @@ static float initCamR_z = 0.0;
 //    building0NodeA = [self getTheNodebyFileName:@"Building_00A" andID:@"Box149"];
     building0NodeA = [self getTheNodebyFileName:@"Here_Is_Good_01" andID:@"bldgs09"];
     building0NodeA.geometry.materials = @[[self getMaterialByColor:[UIColor greenColor]]];
+    SCNVector3 position1 = building0NodeA.position;
+    position1.y -= 10000;
+    building0NodeA.position = position1;
 //    SCNVector3 minVec = SCNVector3Zero;
 //    SCNVector3 maxVec = SCNVector3Zero;
 //    if ([building0NodeA getBoundingBoxMin:&minVec max:&maxVec]) {
@@ -663,6 +666,8 @@ static float initCamR_z = 0.0;
             hit.node.opacity = 0.6;
             selectedNode = hit.node;
             editMode = YES;
+            float degree = selectedNode.rotation.w/M_PI * 180;
+            [_uisld_degreeSlider setValue:degree animated:YES];
             [UIView animateWithDuration:0.33 animations:^(void){
                 _uiv_controlPanel.transform = CGAffineTransformIdentity;
             }];
@@ -675,6 +680,8 @@ static float initCamR_z = 0.0;
             hit.node.opacity = 0.6;
             selectedNode = hit.node;
             editMode = YES;
+            float degree = selectedNode.rotation.w/M_PI * 180;
+            [_uisld_degreeSlider setValue:degree animated:YES];
             [UIView animateWithDuration:0.33 animations:^(void){
                 _uiv_controlPanel.transform = CGAffineTransformIdentity;
             }];
