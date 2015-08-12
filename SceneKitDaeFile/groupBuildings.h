@@ -12,6 +12,7 @@
 @interface groupBuildings : NSObject
 
 @property (nonatomic, retain)   NSArray     *arr_names;
+@property (nonatomic, retain)   NSArray     *arr_IDs;
 @property (nonatomic, retain)   NSArray     *arr_positions;
 
 @end

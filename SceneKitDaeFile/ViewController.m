@@ -149,8 +149,8 @@ static float initCamR_z = 0.0;
 //    /*
 //     * Array contains 2 buildings shapes
 //     */
-    arr_building0Nodes = [[NSMutableArray alloc] initWithObjects:building0NodeA, building0NodeB, nil];
-    arr_building1Nodes = [[NSMutableArray alloc] initWithObjects:building1NodeA, building1NodeB, nil];
+//    arr_building0Nodes = [[NSMutableArray alloc] initWithObjects:building0NodeA, building0NodeB, nil];
+//    arr_building1Nodes = [[NSMutableArray alloc] initWithObjects:building1NodeA, building1NodeB, nil];
     
     [self createNodeFromJsonData];
     
@@ -682,7 +682,9 @@ static float initCamR_z = 0.0;
     
     for (SCNHitTestResult *hit in hits) {
         
-        if ([arr_building1Nodes containsObject:hit.node] || [arr_building0Nodes containsObject: hit.node]) {
+        if (    [arr_building1Nodes containsObject:hit.node]
+            ||  [arr_building0Nodes containsObject: hit.node]
+            ||  [arr_duplicateNodes containsObject: hit.node]) {
             [self activeEditNode:hit.node];
             break;
         }
