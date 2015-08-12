@@ -1,23 +1,45 @@
-[
 	{
-		"fileName" : "BLDG_Group_00",
-		"ID" : "Box154",
-		"poistion" : "0, 0, 0",
-		"isDefault" : "YES",
-		"isSelected" : "NO"
-	},
-	{
-		"fileName" : "Separated_BLDG_A_00",
-		"ID" : "Object001",
-		"poistion" : "0, 0, 0",
-		"isDefault" : "YES",
-		"isSelected" : "NO"
-	},
-	{
-		"fileName" : "Separated_BLDG_B_00",
-		"ID" : "Object002",
-		"poistion" : "0, 0, 0",
-		"isDefault" : "YES",
-		"isSelected" : "NO"
+		"building0": 	[
+								{
+									"fileName" : "Separated_BLDG_A_00",
+									"ID" : "Object001",
+									"poistion" : "0, 0, 0",
+									"isDefault" : "YES",
+									"isSelected" : "NO"
+								},
+								{
+									"fileName" : "Separated_BLDG_A2_00",
+									"ID" : "Box151",
+									"poistion" : "0, 0, 0",
+									"isDefault" : "NO",
+									"isSelected" : "NO"
+								}		
+						],
+						
+		"building1": 	[
+								{
+									"fileName" : "Separated_BLDG_B_00",
+									"ID" : "Object002",
+									"poistion" : "0, 0, 0",
+									"isDefault" : "YES",
+									"isSelected" : "NO"
+								},
+								{
+									"fileName" : "Separated_BLDG_B2_00",
+									"ID" : "Box152",
+									"poistion" : "0, 0, 0",
+									"isDefault" : "YES",
+									"isSelected" : "NO"
+								}		
+						],
+						
+		"buildingBolock": 	[
+								{
+									"fileName" : "BLDG_Group_00",
+									"ID" : "Box154",
+									"poistion" : "0, 0, 0",
+									"isDefault" : "YES",
+									"isSelected" : "NO"
+								}		
+						]
 	}
-]
