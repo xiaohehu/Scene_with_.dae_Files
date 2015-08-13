@@ -14,16 +14,17 @@ static float initCamX = -9000.0;
 static float initCamY = -30000.0;
 static float initCamZ = 30000.0;
 static float camera2X = -6000;
-static float camera2Y = -10000;
-static float camera2Z = 0;
+static float camera2Y = -15000;
+static float camera2Z = 1000;
 static float initCamR = 0.8;
 static float initCamR_x = 1.0;
 static float initCamR_y = 0.0;
 static float initCamR_z = 0.0;
 
-@interface ViewController () {
+@interface ViewController () <UIAlertViewDelegate>{
     
     BOOL        editMode;
+    int         groupButtonIndex;
     
     SCNNode     *floorNode;
     SCNNode     *blockNode;
@@ -67,7 +68,9 @@ static float initCamR_z = 0.0;
 
 @implementation ViewController
 
-
+- (BOOL)prefersStatusBarHidden {
+    return YES;
+}
 
 
 #pragma mark - View Controller life-cycle
@@ -146,11 +149,6 @@ static float initCamR_z = 0.0;
     SCNVector3 position = [_myscene unprojectPoint: floorNode.position];
     position.z = -300;
     floorNode.position = position;
-//    /*
-//     * Array contains 2 buildings shapes
-//     */
-//    arr_building0Nodes = [[NSMutableArray alloc] initWithObjects:building0NodeA, building0NodeB, nil];
-//    arr_building1Nodes = [[NSMutableArray alloc] initWithObjects:building1NodeA, building1NodeB, nil];
     
     [self createNodeFromJsonData];
     
@@ -168,6 +166,10 @@ static float initCamR_z = 0.0;
                         options:NSJSONReadingMutableContainers
                         error:&error];
     
+    if (arr_building1Nodes != nil) {
+        [arr_building1Nodes removeAllObjects];
+        arr_building1Nodes = nil;
+    }
     arr_building0Nodes = [[NSMutableArray alloc] init];
     NSArray *building0Array = [rawData objectForKey:@"building0"];
     for (int i = 0; i < building0Array.count; i++) {
@@ -178,6 +180,10 @@ static float initCamR_z = 0.0;
         arr_building0Nodes[i] = building.buildingNode;
     }
     
+    if (arr_building1Nodes != nil) {
+        [arr_building1Nodes removeAllObjects];
+        arr_building1Nodes = nil;
+    }
     arr_building1Nodes = [[NSMutableArray alloc] init];
     NSArray *building1Array = [rawData objectForKey:@"building1"];
     for (int i = 0; i < building1Array.count; i++) {
@@ -193,13 +199,13 @@ static float initCamR_z = 0.0;
     NSString *fileName = [building_block objectForKey:@"fileName"];
     NSString *ID = [building_block objectForKey:@"ID"];
     singleBuilding *building = [[singleBuilding alloc] initWithFileName:fileName ID:ID];
+    building.buildingNode.geometry.materials = @[[self getMaterialByColor:[UIColor grayColor]]];
     [_myscene.scene.rootNode addChildNode: building.buildingNode];
 }
 
 - (void) createCameraOrbitAndNode {
     cameraNode = [SCNNode node];
     cameraNode.camera = [SCNCamera camera];
-//    cameraNode.camera.usesOrthographicProjection = YES;
     cameraNode.position = SCNVector3Make(initCamX, initCamY, initCamZ);
     cameraNode.rotation = SCNVector4Make(initCamR_x, initCamR_y, initCamR_z, atan(initCamR));
     cameraNode.camera.zFar = 200000;
@@ -222,7 +228,7 @@ static float initCamR_z = 0.0;
     light.attenuationEndDistance = 30000000;
     light.color = [UIColor whiteColor];
     SCNNode *lightNode = [SCNNode node];
-    lightNode.position = SCNVector3Make(-10000, -10000, 1000);
+    lightNode.position = SCNVector3Make(-100000, -10000, 1000);
     lightNode.light = light;
     [_myscene.scene.rootNode addChildNode: lightNode];
     
@@ -583,44 +589,68 @@ static float initCamR_z = 0.0;
 #pragma mark Group Building Setting
 
 - (IBAction)tapGroupButton:(id)sender {
-    for (SCNNode *node in arr_building0Nodes) {
-        [node removeFromParentNode];
-    }
-    for (SCNNode *node in arr_building1Nodes) {
-        [node removeFromParentNode];
-    }
-    for (SCNNode *node in arr_duplicateNodes) {
-        [node removeFromParentNode];
-    }
-    
-    // Reset Data
-    [self createNodeFromJsonData];
-    
-    SCNNode *node1;
-    SCNNode *node2;
-    
-    UIButton *tappedButton = sender;
-    switch (tappedButton.tag) {
-        case 4: {
-            node1 = arr_building0Nodes[0];
-            node2 = arr_building1Nodes[1];
-            break;
-        }
-        case 5:{
-            node1 = arr_building0Nodes[1];
-            node2 = arr_building1Nodes[0];
-            break;
-        }
-        default:
-            break;
-    }
-    
-    [_myscene.scene.rootNode addChildNode: node1];
-    [_myscene.scene.rootNode addChildNode: node2];
-    
+    groupButtonIndex = [sender tag];
+    UIAlertView *message = [[UIAlertView alloc] initWithTitle:nil
+                                                      message:@"This will reset your Playground"
+                                                     delegate:self
+                                            cancelButtonTitle:nil
+                                            otherButtonTitles:@"Cancle", @"OK", nil];
+    [message show];
+    return;
 }
 
-
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
+    if (buttonIndex == 0) {
+        // Tap Cancle Button
+        return;
+    }else {
+        // Tap OK Button
+        editMode = NO;
+        
+        [UIView animateWithDuration:0.33 animations:^(void){
+            selectedNode.opacity = 1.0;
+            _uiv_controlPanel.transform = CGAffineTransformMakeTranslation(0, _uiv_controlPanel.frame.size.height);
+        } completion:^(BOOL finished){
+            selectedNode = nil;
+        }];
+        
+        for (SCNNode *node in arr_building0Nodes) {
+            [node removeFromParentNode];
+        }
+        for (SCNNode *node in arr_building1Nodes) {
+            [node removeFromParentNode];
+        }
+        for (SCNNode *node in arr_duplicateNodes) {
+            [node removeFromParentNode];
+        }
+        
+        // Reset Data
+        [self createNodeFromJsonData];
+        
+        SCNNode *node1;
+        SCNNode *node2;
+        
+        switch (groupButtonIndex) {
+            case 4: {
+                node1 = arr_building0Nodes[0];
+                node2 = arr_building1Nodes[0];
+                break;
+            }
+            case 5:{
+                node1 = arr_building0Nodes[1];
+                node2 = arr_building1Nodes[1];
+                break;
+            }
+            default:
+                break;
+        }
+        
+        [_myscene.scene.rootNode addChildNode: node1];
+        [_myscene.scene.rootNode addChildNode: node2];
+    }
+    
+}
 # pragma mark - Added gesture to building 0 & 1
 
 #pragma mark Double tap to loop through buidling's shapes
@@ -723,11 +753,16 @@ static float initCamR_z = 0.0;
     
     if (gesture.state == UIGestureRecognizerStateChanged) {
         float scale = gesture.scale;
-        SCNVector3 currentCamera = cameraNode.position;
-        if (currentCamera.z*(1/scale) < 2000 || currentCamera.z*(1/scale) > 20000) {
-            return;
+        if (scale > 1) {
+            scale *= 0.7;
         }
-        cameraNode.position = SCNVector3Make(currentCamera.x, currentCamera.y*(1/scale), currentCamera.z*(1/scale));
+        SCNVector3 currentCamera = cameraNode.position;
+        if (ABS(currentCamera.y*(1/scale)) < 5000 || ABS(currentCamera.y*(1/scale)) > 30000.0) {
+            return;
+        } else {
+            cameraNode.position = SCNVector3Make(currentCamera.x, currentCamera.y*(1/scale), currentCamera.z*(1/scale));
+//            NSLog(@"\n\nthe scale is %f\n\n", 1/scale);
+        }
     }
 }
 
@@ -762,10 +797,18 @@ static float initCamR_z = 0.0;
 #pragma mark - Touch Delegate Methods
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    if (touches.count >= 2) {
+        return;
+    }
     touchPoint = [[touches anyObject] locationInView: _myscene];
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+    
+    if (touches.count >= 2) {
+        return;
+    }
+    
     
     UITouch *touch = [touches anyObject];
     // Get the location of the click
@@ -785,12 +828,13 @@ static float initCamR_z = 0.0;
         
         float y_rotation = lastYRotation-2.0 * M_PI * (moveXDistance/_myscene.frame.size.width);
         
-        if (ABS(moveYDistance) - ABS(moveXDistance) > 30) {
+        if (ABS(moveYDistance) - ABS(moveXDistance) > 50) {
             cameraOrbit.eulerAngles = SCNVector3Make(x_rotation, 0.0, lastYRotation);
-        } else if ((ABS(moveYDistance) - ABS(moveXDistance) < -30)) {
+        } else if ((ABS(moveYDistance) - ABS(moveXDistance) < -50)) {
             cameraOrbit.eulerAngles = SCNVector3Make(lastXRotation, 0.0, y_rotation);
         }
         
+        NSLog(@"\n\n rotation \n\n");
         
     } else if (touches.count == 1 && editMode) {
 //        SCNVector3 location_3d = [_myscene unprojectPoint:selectedNode.position];
@@ -812,9 +856,6 @@ static float initCamR_z = 0.0;
         CGFloat y_varible = location_3d.y - prevLocation_3d.y;
         
         selectedNode.position = SCNVector3Make(selectedNode.position.x + x_varible, selectedNode.position.y + y_varible , selectedNode.position.z);
-        
-    } else if (touches.count == 2 && editMode) {
-        
     }
 }
 
