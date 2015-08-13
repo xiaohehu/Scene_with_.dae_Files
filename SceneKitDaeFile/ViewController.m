@@ -589,6 +589,12 @@ static float initCamR_z = 0.0;
     for (SCNNode *node in arr_building1Nodes) {
         [node removeFromParentNode];
     }
+    for (SCNNode *node in arr_duplicateNodes) {
+        [node removeFromParentNode];
+    }
+    
+    // Reset Data
+    [self createNodeFromJsonData];
     
     SCNNode *node1;
     SCNNode *node2;

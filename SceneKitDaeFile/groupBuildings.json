@@ -1,0 +1,35 @@
+[
+	{
+		"fileNames" : 	[
+							"Separated_BLDG_A_00",
+							"Separated_BLDG_B_00"
+					  	],
+					  
+		"IDs"	:		[
+							"Object001",
+							"Object002"
+						],
+					
+		"position"	:	[
+							"0, 0, 0",
+							"0, 0, 0"
+						],
+	},
+	
+	{
+		"fileNames" : 	[
+							"Separated_BLDG_A2_00",
+							"Separated_BLDG_B2_00"
+					  	],
+					  
+		"IDs"	:		[
+							"Box151",
+							"Box152"
+						],
+					
+		"position"	:	[
+							"0, 0, 0",
+							"0, 0, 0"
+						],
+	},
+]
