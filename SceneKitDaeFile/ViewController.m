@@ -721,6 +721,7 @@ static float initCamR_z = 0.0;
         if (    [arr_building1Nodes containsObject:hit.node]
             ||  [arr_building0Nodes containsObject: hit.node]
             ||  [arr_duplicateNodes containsObject: hit.node]) {
+            editMode = YES;
             [self activeEditNode:hit.node];
             break;
         }
@@ -733,7 +734,7 @@ static float initCamR_z = 0.0;
     }
     node.opacity = 0.6;
     selectedNode = node;
-    editMode = YES;
+    
     float degree = selectedNode.rotation.w/M_PI * 180;
     [_uisld_degreeSlider setValue:degree animated:YES];
     [UIView animateWithDuration:0.33 animations:^(void){
