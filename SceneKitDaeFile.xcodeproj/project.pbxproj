@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		822823F81B8656E3004154E7 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 822823F71B8656E3004154E7 /* MBProgressHUD.m */; };
 		824B9B911B557F5A006C58DF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 824B9B901B557F5A006C58DF /* main.m */; };
 		824B9B941B557F5A006C58DF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 824B9B931B557F5A006C58DF /* AppDelegate.m */; };
 		824B9B971B557F5A006C58DF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 824B9B961B557F5A006C58DF /* ViewController.m */; };
@@ -34,6 +35,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		822823F61B8656E3004154E7 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		822823F71B8656E3004154E7 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		824B9B8B1B557F5A006C58DF /* SceneKitDaeFile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SceneKitDaeFile.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		824B9B8F1B557F5A006C58DF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		824B9B901B557F5A006C58DF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -111,6 +114,8 @@
 				8251FE5B1B793B8D0021C1BA /* groupBuildings.m */,
 				8251FE6D1B7CD5830021C1BA /* groupBuildings.json */,
 				824B9BC41B559306006C58DF /* GoogleEarth.jpg */,
+				822823F61B8656E3004154E7 /* MBProgressHUD.h */,
+				822823F71B8656E3004154E7 /* MBProgressHUD.m */,
 				825126FE1B7549C900E81511 /* scenes.scnassets */,
 				824B9B9B1B557F5A006C58DF /* Images.xcassets */,
 				824B9B9D1B557F5A006C58DF /* LaunchScreen.xib */,
@@ -251,6 +256,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				824B9B971B557F5A006C58DF /* ViewController.m in Sources */,
+				822823F81B8656E3004154E7 /* MBProgressHUD.m in Sources */,
 				824B9B941B557F5A006C58DF /* AppDelegate.m in Sources */,
 				824B9B911B557F5A006C58DF /* main.m in Sources */,
 				8251FE5C1B793B8D0021C1BA /* groupBuildings.m in Sources */,

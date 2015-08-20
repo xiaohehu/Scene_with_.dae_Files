@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import <SceneKit/SceneKit.h>
+#import "MBProgressHUD.h"
 
-@interface ViewController : UIViewController
+@interface ViewController : UIViewController <MBProgressHUDDelegate>
 
 
 @end

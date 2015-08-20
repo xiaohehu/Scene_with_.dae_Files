@@ -77,6 +77,8 @@ static float initCamR_z = 0.0;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
     [self createElements];
     
     [self addTapGestureToBuildings];
@@ -94,6 +96,18 @@ static float initCamR_z = 0.0;
 - (void)viewWillAppear:(BOOL)animated {
     _uiv_controlPanel.transform = CGAffineTransformMakeTranslation(0, 150);
     _uiv_sideMenu.transform = CGAffineTransformMakeTranslation(_uiv_sideMenu.frame.size.width, 0);
+    _myscene.alpha = 0.0;
+    _uib_start.alpha = 0.0;
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [UIView animateWithDuration:0.33 animations:^(void){
+            _myscene.alpha = 1.0;
+            _uib_start.alpha = 1.0;
+        }];
+    });
 }
 
 - (void)didReceiveMemoryWarning {
@@ -513,7 +527,7 @@ static float initCamR_z = 0.0;
         return;
     } else {
         
-        if (_myscene.scene.rootNode.childNodes.count >= 8){
+        if (_myscene.scene.rootNode.childNodes.count >= 9){
             UIAlertView *message = [[UIAlertView alloc] initWithTitle:nil
                                                               message:@"Already Max Number of Buildings"
                                                              delegate:nil
@@ -522,46 +536,28 @@ static float initCamR_z = 0.0;
             [message show];
             return;
         }
+        SCNNode *node;
         switch (tappedButton.tag) {
             case 0: {
-                if ([_myscene.scene.rootNode.childNodes containsObject:building0NodeA]) {
-                    return;
-                } else {
-                    [_myscene.scene.rootNode addChildNode: building0NodeA];
-                }
-                
+                node = arr_building0Nodes[0];
                 break;
             }
             case 1: {
-                if ([_myscene.scene.rootNode.childNodes containsObject:building0NodeB]) {
-                    return;
-                } else {
-                    [_myscene.scene.rootNode addChildNode: building0NodeB];
-                }
-                
+                node = arr_building0Nodes[1];
                 break;
             }
             case 2: {
-                if ([_myscene.scene.rootNode.childNodes containsObject:building1NodeA]) {
-                    return;
-                } else {
-                    [_myscene.scene.rootNode addChildNode: building1NodeA];
-                }
-                
+                node = arr_building1Nodes[0];
                 break;
             }
             case 3: {
-                if ([_myscene.scene.rootNode.childNodes containsObject:building1NodeB]) {
-                    return;
-                } else {
-                    [_myscene.scene.rootNode addChildNode: building1NodeB];
-                }
-                
+                node = arr_building1Nodes[1];
                 break;
             }
             default:
                 break;
         }
+        [_myscene.scene.rootNode addChildNode:node];
     }
 }
 
@@ -835,7 +831,7 @@ static float initCamR_z = 0.0;
             cameraOrbit.eulerAngles = SCNVector3Make(lastXRotation, 0.0, y_rotation);
         }
         
-        NSLog(@"\n\n rotation \n\n");
+//        NSLog(@"\n\n rotation \n\n");
         
     } else if (touches.count == 1 && editMode) {
 //        SCNVector3 location_3d = [_myscene unprojectPoint:selectedNode.position];
@@ -873,7 +869,7 @@ static float initCamR_z = 0.0;
 //    }
     lastXRotation = cameraOrbit.eulerAngles.x;
     
-    NSLog(@"last rotation is %f",lastYRotation);
+//    NSLog(@"last rotation is %f",lastYRotation);
 }
 
 @end
