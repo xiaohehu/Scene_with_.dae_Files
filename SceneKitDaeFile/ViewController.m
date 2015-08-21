@@ -45,6 +45,11 @@ static float initCamR_z = 0.0;
     
     NSArray     *arr_cameraRotation;
     int         cameraRotationIndex;
+    
+    SCNNode     *position1Node;
+    SCNNode     *position2Node;
+    NSArray     *arr_containerNodes;
+    UILongPressGestureRecognizer *longPress;
 }
 
 @property (weak, nonatomic) IBOutlet SCNView *myscene;
@@ -180,6 +185,20 @@ static float initCamR_z = 0.0;
                         options:NSJSONReadingMutableContainers
                         error:&error];
     
+    // Create container node
+    position1Node = [SCNNode node];
+    position1Node.position = SCNVector3Make(-6973.152344, -2661.582764, -0.000244);
+    [self.myscene.scene.rootNode addChildNode: position1Node];
+    
+    position2Node = [SCNNode node];
+    position2Node.position = SCNVector3Make(-6915.738281, -5808.296387, -0.000854);
+    [self.myscene.scene.rootNode addChildNode: position2Node];
+    arr_containerNodes = @[
+                           position1Node,
+                           position2Node
+                           ];
+    
+    
     if (arr_building1Nodes != nil) {
         [arr_building1Nodes removeAllObjects];
         arr_building1Nodes = nil;
@@ -289,9 +308,12 @@ static float initCamR_z = 0.0;
 #pragma mark - UIButtons action
 #pragma mark Start Button
 - (IBAction)tapStartButton:(id)sender {
-    
-    [_myscene.scene.rootNode addChildNode: arr_building0Nodes[0]];
-    [_myscene.scene.rootNode addChildNode: arr_building1Nodes[0]];
+    SCNNode *node1 = arr_building0Nodes[0];
+    node1.position = SCNVector3Make(0, 0, 0);
+    SCNNode *node2 = arr_building1Nodes[0];
+    node2.position = SCNVector3Make(0, 0, 0);
+    [position1Node addChildNode: node1];
+    [position2Node addChildNode: node2];
     
     _uib_start.hidden = YES;
     [UIView animateWithDuration:0.33 animations:^(void){
@@ -476,7 +498,7 @@ static float initCamR_z = 0.0;
     
     UIButton *tappedButton = sender;
     if (editMode) {
-        SCNVector3 currentPosition = selectedNode.position;
+        
         SCNNode *node;
         switch (tappedButton.tag) {
             case 0: {
@@ -498,36 +520,33 @@ static float initCamR_z = 0.0;
             default:
                 break;
         }
+        SCNNode *container = selectedNode.parentNode;
         
         if ([node isEqual:selectedNode]) {
             return;
         }
         
-        if ([_myscene.scene.rootNode.childNodes containsObject: node]) {
+        if ([position1Node.childNodes containsObject:node] || [position2Node.childNodes containsObject:node]) {
             if ([arr_building0Nodes containsObject:node]) {
-                [self createCopyNode:[arr_building0Nodes indexOfObject:node] andArray:arr_building0Nodes andPosition:currentPosition];
+                [self createCopyNode:[arr_building0Nodes indexOfObject:node] andArray:arr_building0Nodes andPosition:SCNVector3Zero andContainer:container];
             }
             if ([arr_building1Nodes containsObject:node]) {
-                [self createCopyNode:[arr_building1Nodes indexOfObject:node] andArray:arr_building1Nodes andPosition:currentPosition];
+                [self createCopyNode:[arr_building1Nodes indexOfObject:node] andArray:arr_building1Nodes andPosition:SCNVector3Zero andContainer: container];
             }
             return;
         }
+        
         [selectedNode removeFromParentNode];
         selectedNode.opacity = 1.0;
-        node.position = currentPosition;
+        node.position = SCNVector3Make(0, 0, 0);
         selectedNode = node;
         selectedNode.opacity = 0.6;
-        [_myscene.scene.rootNode addChildNode: selectedNode];
+        [container addChildNode: selectedNode];
         // Comment out if want to turn off edit mode
-        
-//        editMode = NO;
-//        [UIView animateWithDuration:0.33 animations:^(void){
-//            _uiv_controlPanel.transform = CGAffineTransformMakeTranslation(0, _uiv_controlPanel.frame.size.height);
-//        }];
         return;
     } else {
         
-        if (_myscene.scene.rootNode.childNodes.count >= 9){
+        if (position1Node.childNodes.count > 0 && position2Node.childNodes.count > 0){
             UIAlertView *message = [[UIAlertView alloc] initWithTitle:nil
                                                               message:@"Already Max Number of Buildings"
                                                              delegate:nil
@@ -557,11 +576,19 @@ static float initCamR_z = 0.0;
             default:
                 break;
         }
-        [_myscene.scene.rootNode addChildNode:node];
+        
+        for (SCNNode *container in arr_containerNodes) {
+            if (container.childNodes.count == 0) {
+                node.position = SCNVector3Make(0, 0, 0);
+                [container addChildNode: node];
+                return;
+            }
+        }
     }
 }
 
-- (void) createCopyNode:(int)nodeIndex andArray:(NSArray *)arr_buildings andPosition:(SCNVector3)position {
+
+- (void) createCopyNode:(int)nodeIndex andArray:(NSArray *)arr_buildings andPosition:(SCNVector3)position andContainer:(SCNNode *)container{
     if (arr_duplicateNodes) {
         [arr_duplicateNodes removeAllObjects];
         arr_duplicateNodes = nil;
@@ -579,7 +606,7 @@ static float initCamR_z = 0.0;
     node.position = position;
     selectedNode = node;
     selectedNode.opacity = 0.6;
-    [_myscene.scene.rootNode addChildNode: selectedNode];
+    [container addChildNode: selectedNode];
 }
 
 #pragma mark Group Building Setting
@@ -683,7 +710,7 @@ static float initCamR_z = 0.0;
 - (void)loopBuildingNode:(SCNNode *)node inArray:(NSArray *)arr_building {
     SCNVector3 thePosition = node.position;
     SCNVector4 theRotation = node.rotation;
-    
+    SCNNode *container = node.parentNode;
     [node removeFromParentNode];
     int index_building = [arr_building indexOfObject: node];
     index_building++;
@@ -693,13 +720,16 @@ static float initCamR_z = 0.0;
     SCNNode *theNode = arr_building[index_building];
     theNode.position = thePosition;
     theNode.rotation = theRotation;
-    [self.myscene.scene.rootNode addChildNode:theNode];
+    if (editMode) {
+        theNode.opacity = 0.6;
+    }
+    [container addChildNode:theNode];
 }
 
 #pragma mark Long press to enter edit mode
 
 - (void)addLongPressToBuildings {
-    UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressOnTarget:)];
+    longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressOnTarget:)];
     longPress.minimumPressDuration = 0.3;
     [self.myscene addGestureRecognizer:longPress];
 }
@@ -714,9 +744,8 @@ static float initCamR_z = 0.0;
     
     for (SCNHitTestResult *hit in hits) {
         
-        if (    [arr_building1Nodes containsObject:hit.node]
-            ||  [arr_building0Nodes containsObject: hit.node]
-            ||  [arr_duplicateNodes containsObject: hit.node]) {
+        if (    [position1Node.childNodes containsObject:hit.node]
+            ||  [position2Node.childNodes containsObject: hit.node]) {
             editMode = YES;
             [self activeEditNode:hit.node];
             break;
