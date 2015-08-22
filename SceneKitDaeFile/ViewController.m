@@ -48,8 +48,9 @@ static float initCamR_z = 0.0;
     
     SCNNode     *position1Node;
     SCNNode     *position2Node;
+    CGPoint     startPoint;
     NSArray     *arr_containerNodes;
-    UILongPressGestureRecognizer *longPress;
+    UILongPressGestureRecognizer    *longPress;
 }
 
 @property (weak, nonatomic) IBOutlet SCNView *myscene;
@@ -747,6 +748,7 @@ static float initCamR_z = 0.0;
 - (void)addLongPressToBuildings {
     longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressOnTarget:)];
     longPress.minimumPressDuration = 0.3;
+    longPress.allowableMovement = YES;
     [self.myscene addGestureRecognizer:longPress];
 }
 
@@ -755,7 +757,7 @@ static float initCamR_z = 0.0;
     CGPoint point = [gesture locationInView: _myscene];
     NSArray *hits = [_myscene hitTest:point
                               options:nil];
-
+    
     [_uisld_degreeSlider setValue:0.0 animated:NO];
     
     for (SCNHitTestResult *hit in hits) {
@@ -766,6 +768,26 @@ static float initCamR_z = 0.0;
             [self activeEditNode:hit.node];
             break;
         }
+    }
+    if (gesture.state == UIGestureRecognizerStateBegan) {
+        startPoint = [gesture locationInView: _myscene];
+    }
+    if (gesture.state == UIGestureRecognizerStateChanged) {
+
+        SCNVector3 projectedPlaneCenter = [_myscene projectPoint:_myscene.scene.rootNode.position];
+        float projectedDepth = projectedPlaneCenter.z;
+
+        SCNVector3 location_3d = [_myscene unprojectPoint:SCNVector3Make(point.x, point.y, projectedDepth)];
+        SCNVector3 prevLocation_3d = [_myscene unprojectPoint:SCNVector3Make(startPoint.x, startPoint.y, projectedDepth)];
+        
+        CGFloat x_var = location_3d.x - prevLocation_3d.x;
+        NSLog(@"\n\n %f \n\n", x_var);
+        CGFloat y_var = location_3d.y - prevLocation_3d.y;
+        
+        selectedNode.position = SCNVector3Make(selectedNode.position.x + x_var*0.15, selectedNode.position.y + y_var *0.15, selectedNode.position.z);
+    }
+    if (gesture.state == UIGestureRecognizerStateEnded) {
+        startPoint = CGPointZero;
     }
 }
 
@@ -876,13 +898,13 @@ static float initCamR_z = 0.0;
         }
         
     } else if (touches.count == 1 && editMode) {
-        // Get the hit on the cube
+//        // Get the hit on the cube
         NSArray *hits = [_myscene hitTest:point options:@{SCNHitTestRootNodeKey: selectedNode,
                                                           SCNHitTestIgnoreChildNodesKey: @YES}];
         SCNHitTestResult *hit = [hits firstObject];
         SCNVector3 hitPosition = hit.worldCoordinates;
         CGFloat hitPositionZ = [_myscene projectPoint: hitPosition].z;
-        
+
         CGPoint location = [touch locationInView:_myscene];
         CGPoint prevLocation = [touch previousLocationInView:_myscene];
         SCNVector3 location_3d = [_myscene unprojectPoint:SCNVector3Make(location.x, location.y, hitPositionZ)];
@@ -890,7 +912,7 @@ static float initCamR_z = 0.0;
         
         CGFloat x_varible = location_3d.x - prevLocation_3d.x;
         CGFloat y_varible = location_3d.y - prevLocation_3d.y;
-        
+         NSLog(@"\n\n %f \n\n", x_varible);
         selectedNode.position = SCNVector3Make(selectedNode.position.x + x_varible, selectedNode.position.y + y_varible , selectedNode.position.z);
     }
 }
