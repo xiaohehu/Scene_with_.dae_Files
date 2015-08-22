@@ -499,22 +499,22 @@ static float initCamR_z = 0.0;
     UIButton *tappedButton = sender;
     if (editMode) {
         
-        SCNNode *node;
+        SCNNode *chosenNode;
         switch (tappedButton.tag) {
             case 0: {
-                node = arr_building0Nodes[0];
+                chosenNode = arr_building0Nodes[0];
                 break;
             }
             case 1: {
-                node = arr_building0Nodes[1];
+                chosenNode = arr_building0Nodes[1];
                 break;
             }
             case 2: {
-                node = arr_building1Nodes[0];
+                chosenNode = arr_building1Nodes[0];
                 break;
             }
             case 3: {
-                node = arr_building1Nodes[1];
+                chosenNode = arr_building1Nodes[1];
                 break;
             }
             default:
@@ -522,24 +522,40 @@ static float initCamR_z = 0.0;
         }
         SCNNode *container = selectedNode.parentNode;
         
-        if ([node isEqual:selectedNode]) {
+        if ([chosenNode isEqual:selectedNode]) {
+            return;
+        }
+        // Add a building that already exist in the scene view
+        if ([position1Node.childNodes containsObject:chosenNode] || [position2Node.childNodes containsObject:chosenNode]) {
+            if ([arr_building0Nodes containsObject:chosenNode]) {
+                [self createCopyNode:[arr_building0Nodes indexOfObject:chosenNode] andArray:arr_building0Nodes andPosition:SCNVector3Zero andContainer:container];
+            }
+            if ([arr_building1Nodes containsObject:chosenNode]) {
+                [self createCopyNode:[arr_building1Nodes indexOfObject:chosenNode] andArray:arr_building1Nodes andPosition:SCNVector3Zero andContainer: container];
+            }
             return;
         }
         
-        if ([position1Node.childNodes containsObject:node] || [position2Node.childNodes containsObject:node]) {
-            if ([arr_building0Nodes containsObject:node]) {
-                [self createCopyNode:[arr_building0Nodes indexOfObject:node] andArray:arr_building0Nodes andPosition:SCNVector3Zero andContainer:container];
+        // Add a building that in same catagory as existing building in the scene view
+        for (SCNNode *node in arr_containerNodes) {
+            if (node.childNodes.count > 0) {
+                if ([arr_building0Nodes containsObject:chosenNode] && [arr_building0Nodes containsObject:node.childNodes[0]]) {
+                    [self createCopyNode:[arr_building0Nodes indexOfObject:chosenNode] andArray:arr_building0Nodes andPosition:SCNVector3Zero andContainer:container];
+                    return;
+                }
+                if ([arr_building1Nodes containsObject:chosenNode] && [arr_building1Nodes containsObject:node.childNodes[0]]) {
+                    [self createCopyNode:[arr_building1Nodes indexOfObject:chosenNode] andArray:arr_building1Nodes andPosition:SCNVector3Zero andContainer:container];
+                    return;
+                }
             }
-            if ([arr_building1Nodes containsObject:node]) {
-                [self createCopyNode:[arr_building1Nodes indexOfObject:node] andArray:arr_building1Nodes andPosition:SCNVector3Zero andContainer: container];
-            }
-            return;
         }
+        
+        
         
         [selectedNode removeFromParentNode];
         selectedNode.opacity = 1.0;
-        node.position = SCNVector3Make(0, 0, 0);
-        selectedNode = node;
+        chosenNode.position = SCNVector3Zero;
+        selectedNode = chosenNode;
         selectedNode.opacity = 0.6;
         [container addChildNode: selectedNode];
         // Comment out if want to turn off edit mode
