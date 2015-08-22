@@ -243,12 +243,10 @@ static float initCamR_z = 0.0;
     cameraNode.rotation = SCNVector4Make(initCamR_x, initCamR_y, initCamR_z, atan(initCamR));
     cameraNode.camera.zFar = 200000;
     cameraNode.camera.zNear = 100;
-    //    cameraNode.constraints = @[[SCNLookAtConstraint lookAtConstraintWithTarget:blockNode]];
     /*
      * Add camera orbit to rotate camera node
      */
     cameraOrbit = [SCNNode node];
-//    cameraOrbit.position = SCNVector3Make(cameraOrbit.position.x, cameraOrbit.position.y, cameraOrbit.position.z + 5000);
     [cameraOrbit addChildNode: cameraNode];
     [_myscene.scene.rootNode addChildNode: cameraOrbit];
 }
@@ -536,7 +534,7 @@ static float initCamR_z = 0.0;
             return;
         }
         
-        // Add a building that in same catagory as existing building in the scene view
+        // Add a building that in same category as existing building in the scene view
         for (SCNNode *node in arr_containerNodes) {
             if (node.childNodes.count > 0) {
                 if ([arr_building0Nodes containsObject:chosenNode] && [arr_building0Nodes containsObject:node.childNodes[0]]) {
