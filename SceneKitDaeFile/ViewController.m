@@ -491,13 +491,11 @@ static float initCamR_z = 0.0;
 #pragma mark Individual Buildings
 - (IBAction)tapSideMenuIndividual:(id)sender {
     
-    NSLog(@"%@",_myscene.scene.rootNode.childNodes);
-    
-    
     UIButton *tappedButton = sender;
     if (editMode) {
         
         SCNNode *chosenNode;
+        SCNVector3 currentSelectedPosition = selectedNode.position;
         switch (tappedButton.tag) {
             case 0: {
                 chosenNode = arr_building0Nodes[0];
@@ -526,10 +524,10 @@ static float initCamR_z = 0.0;
         // Add a building that already exist in the scene view
         if ([position1Node.childNodes containsObject:chosenNode] || [position2Node.childNodes containsObject:chosenNode]) {
             if ([arr_building0Nodes containsObject:chosenNode]) {
-                [self createCopyNode:[arr_building0Nodes indexOfObject:chosenNode] andArray:arr_building0Nodes andPosition:SCNVector3Zero andContainer:container];
+                [self createCopyNode:[arr_building0Nodes indexOfObject:chosenNode] andArray:arr_building0Nodes andPosition:currentSelectedPosition andContainer:container];
             }
             if ([arr_building1Nodes containsObject:chosenNode]) {
-                [self createCopyNode:[arr_building1Nodes indexOfObject:chosenNode] andArray:arr_building1Nodes andPosition:SCNVector3Zero andContainer: container];
+                [self createCopyNode:[arr_building1Nodes indexOfObject:chosenNode] andArray:arr_building1Nodes andPosition:currentSelectedPosition andContainer: container];
             }
             return;
         }
@@ -538,11 +536,11 @@ static float initCamR_z = 0.0;
         for (SCNNode *node in arr_containerNodes) {
             if (node.childNodes.count > 0) {
                 if ([arr_building0Nodes containsObject:chosenNode] && [arr_building0Nodes containsObject:node.childNodes[0]]) {
-                    [self createCopyNode:[arr_building0Nodes indexOfObject:chosenNode] andArray:arr_building0Nodes andPosition:SCNVector3Zero andContainer:container];
+                    [self createCopyNode:[arr_building0Nodes indexOfObject:chosenNode] andArray:arr_building0Nodes andPosition:currentSelectedPosition andContainer:container];
                     return;
                 }
                 if ([arr_building1Nodes containsObject:chosenNode] && [arr_building1Nodes containsObject:node.childNodes[0]]) {
-                    [self createCopyNode:[arr_building1Nodes indexOfObject:chosenNode] andArray:arr_building1Nodes andPosition:SCNVector3Zero andContainer:container];
+                    [self createCopyNode:[arr_building1Nodes indexOfObject:chosenNode] andArray:arr_building1Nodes andPosition:currentSelectedPosition andContainer:container];
                     return;
                 }
             }
@@ -552,7 +550,7 @@ static float initCamR_z = 0.0;
         
         [selectedNode removeFromParentNode];
         selectedNode.opacity = 1.0;
-        chosenNode.position = SCNVector3Zero;
+        chosenNode.position = currentSelectedPosition;
         selectedNode = chosenNode;
         selectedNode.opacity = 0.6;
         [container addChildNode: selectedNode];
@@ -620,6 +618,7 @@ static float initCamR_z = 0.0;
     node.position = position;
     selectedNode = node;
     selectedNode.opacity = 0.6;
+    selectedNode.rotation = SCNVector4Make(0.0, 0.0, 1.0,  _uisld_degreeSlider.value);
     [container addChildNode: selectedNode];
 }
 
