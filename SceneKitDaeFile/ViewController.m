@@ -723,6 +723,8 @@ static float initCamR_z = 0.0;
     theNode.rotation = theRotation;
     if (editMode) {
         theNode.opacity = 0.6;
+        selectedNode.opacity = 1.0;
+        selectedNode = theNode;
     }
     [container addChildNode:theNode];
 }
@@ -788,7 +790,6 @@ static float initCamR_z = 0.0;
             return;
         } else {
             cameraNode.position = SCNVector3Make(currentCamera.x, currentCamera.y*(1/scale), currentCamera.z*(1/scale));
-//            NSLog(@"\n\nthe scale is %f\n\n", 1/scale);
         }
     }
 }
@@ -861,12 +862,7 @@ static float initCamR_z = 0.0;
             cameraOrbit.eulerAngles = SCNVector3Make(lastXRotation, 0.0, y_rotation);
         }
         
-//        NSLog(@"\n\n rotation \n\n");
-        
     } else if (touches.count == 1 && editMode) {
-//        SCNVector3 location_3d = [_myscene unprojectPoint:selectedNode.position];
-//        NSLog(@"\n\n %f, %f, %f", location_3d.x, location_3d.y, location_3d.z);
-//        selectedNode.rotation = SCNVector4Make(0, -1, 0, 2.0 * M_PI * (moveDistance/_myscene.frame.size.width));
         // Get the hit on the cube
         NSArray *hits = [_myscene hitTest:point options:@{SCNHitTestRootNodeKey: selectedNode,
                                                           SCNHitTestIgnoreChildNodesKey: @YES}];
@@ -894,12 +890,8 @@ static float initCamR_z = 0.0;
     else {
         lastYRotation = cameraOrbit.eulerAngles.z ;
     }
-//    if (lastYRotation > 6.28) {
-//        lastYRotation = 0;
-//    }
-    lastXRotation = cameraOrbit.eulerAngles.x;
     
-//    NSLog(@"last rotation is %f",lastYRotation);
+    lastXRotation = cameraOrbit.eulerAngles.x;
 }
 
 @end
