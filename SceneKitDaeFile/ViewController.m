@@ -668,9 +668,10 @@ static float initCamR_z = 0.0;
             default:
                 break;
         }
-        
-        [_myscene.scene.rootNode addChildNode: node1];
-        [_myscene.scene.rootNode addChildNode: node2];
+        node1.position = SCNVector3Zero;
+        node2.position = SCNVector3Zero;
+        [position1Node addChildNode: node1];
+        [position2Node addChildNode: node2];
     }
     
 }
