@@ -32,6 +32,23 @@
 									"isSelected" : "NO"
 								}		
 						],
+        
+        "building2": 	[
+                            {
+                                "fileName" : "Separated_BLDG_B_00",
+                                "ID" : "Object002",
+                                "poistion" : "0, 0, 0",
+                                "isDefault" : "YES",
+                                "isSelected" : "NO"
+                            },
+                            {
+                                "fileName" : "Separated_BLDG_B2_00",
+                                "ID" : "Box152",
+                                "poistion" : "0, 0, 0",
+                                "isDefault" : "YES",
+                                "isSelected" : "NO"
+                            }
+                         ],
 						
 		"buildingBolock": 	[
 								{
