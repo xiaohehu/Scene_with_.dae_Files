@@ -36,10 +36,12 @@ static float initCamR_z = 0.0;
     SCNNode     *cameraOrbit;
     SCNNode     *cameraNode;
     NSMutableArray     *arr_building0Nodes;
+    NSMutableArray     *arr_building0Copy;
     NSMutableArray     *arr_building1Nodes;
+    NSMutableArray     *arr_building1Copy;
     NSMutableArray     *arr_building2Nodes;
-    NSMutableArray     *arr_duplicate1Nodes;
-    NSMutableArray     *arr_duplicate2Nodes;
+    NSMutableArray     *arr_building2Copy;
+    NSMutableArray     *arr_duplicateNodes;
     //  Position record parameter
     CGFloat     lastXRotation;
     CGFloat     lastYRotation;
@@ -222,6 +224,7 @@ static float initCamR_z = 0.0;
         building.buildingNode.geometry.materials = @[[self getMaterialByColor:[UIColor redColor]]];
         arr_building0Nodes[i] = building.buildingNode;
     }
+    arr_building0Copy = [arr_building0Nodes copy];
     
     // Buildings of 2nd type
     if (arr_building1Nodes != nil) {
@@ -235,9 +238,9 @@ static float initCamR_z = 0.0;
         NSString *ID = [building1Array[i] objectForKey:@"ID"];
         singleBuilding *building = [[singleBuilding alloc] initWithFileName:fileName ID:ID];
         building.buildingNode.geometry.materials = @[[self getMaterialByColor:[UIColor greenColor]]];
-        [arr_building1Nodes addObject: building];
         arr_building1Nodes[i] = building.buildingNode;
     }
+    arr_building1Copy = [arr_building1Nodes copy];
     
     // Building of 3rd type
     if (arr_building2Nodes != nil) {
@@ -251,10 +254,9 @@ static float initCamR_z = 0.0;
         NSString *ID = [building2Array[i] objectForKey:@"ID"];
         singleBuilding *building = [[singleBuilding alloc] initWithFileName:fileName ID:ID];
         building.buildingNode.geometry.materials = @[[self getMaterialByColor:[UIColor blueColor]]];
-        [arr_building2Nodes addObject: building];
         arr_building2Nodes[i] = building.buildingNode;
     }
-    NSLog(@"\n\n%@\n\n", arr_building2Nodes);
+    arr_building2Copy = [arr_building2Nodes copy];
     
     NSDictionary *building_block = [rawData objectForKey:@"buildingBolock"][0];
     NSString *fileName = [building_block objectForKey:@"fileName"];
@@ -340,9 +342,9 @@ static float initCamR_z = 0.0;
     node2.position = SCNVector3Make(0, 0, 0);
     SCNNode *node3 = arr_building2Nodes[0];
     node3.position = SCNVector3Make(0, 0, 0);
-    [position1Node addChildNode: node1];
-    [position2Node addChildNode: node2];
-    [position3Node addChildNode: node3];
+//    [position1Node addChildNode: node1];
+//    [position2Node addChildNode: node2];
+//    [position3Node addChildNode: node3];
     
     _uib_start.hidden = YES;
     [UIView animateWithDuration:0.33 animations:^(void){
@@ -544,6 +546,14 @@ static float initCamR_z = 0.0;
                 chosenNode = arr_building1Nodes[1];
                 break;
             }
+            case 6: {
+                chosenNode = arr_building2Nodes[0];
+                break;
+            }
+            case 7: {
+                chosenNode = arr_building2Nodes[1];
+                break;
+            }
             default:
                 break;
         }
@@ -553,7 +563,9 @@ static float initCamR_z = 0.0;
             return;
         }
         // Add a building that already exist in the scene view
-        if ([position1Node.childNodes containsObject:chosenNode] || [position2Node.childNodes containsObject:chosenNode]) {
+        if (    [position1Node.childNodes containsObject:chosenNode]
+            ||  [position2Node.childNodes containsObject:chosenNode]
+            ||  [position3Node.childNodes containsObject:chosenNode]) {
             if ([arr_building0Nodes containsObject:chosenNode]) {
                 [self createCopyNode:[arr_building0Nodes indexOfObject:chosenNode] andArray:arr_building0Nodes andPosition:currentSelectedPosition andContainer:container];
             }
@@ -589,7 +601,7 @@ static float initCamR_z = 0.0;
         return;
     } else {
         
-        if (position1Node.childNodes.count > 0 && position2Node.childNodes.count > 0){
+        if (position1Node.childNodes.count > 0 && position2Node.childNodes.count > 0 && position3Node.childNodes.count > 0){
             UIAlertView *message = [[UIAlertView alloc] initWithTitle:nil
                                                               message:@"Already Max Number of Buildings"
                                                              delegate:nil
@@ -616,6 +628,14 @@ static float initCamR_z = 0.0;
                 node = arr_building1Nodes[1];
                 break;
             }
+            case 6: {
+                node = arr_building2Nodes[0];
+                break;
+            }
+            case 7: {
+                node = arr_building2Nodes[1];
+                break;
+            }
             default:
                 break;
         }
@@ -632,20 +652,20 @@ static float initCamR_z = 0.0;
 
 
 - (void) createCopyNode:(int)nodeIndex andArray:(NSArray *)arr_buildings andPosition:(SCNVector3)position andContainer:(SCNNode *)container{
-    if (arr_duplicate1Nodes) {
-        [arr_duplicate1Nodes removeAllObjects];
-        arr_duplicate1Nodes = nil;
+    if (arr_duplicateNodes) {
+        [arr_duplicateNodes removeAllObjects];
+        arr_duplicateNodes = nil;
     }
     
-    arr_duplicate1Nodes = [[NSMutableArray alloc] init];
+    arr_duplicateNodes = [[NSMutableArray alloc] init];
     for (SCNNode *node in arr_buildings) {
         SCNNode *copyNode = [node copy];
-        [arr_duplicate1Nodes addObject: copyNode];
+        [arr_duplicateNodes addObject: copyNode];
     }
     
     [selectedNode removeFromParentNode];
     selectedNode.opacity = 1.0;
-    SCNNode *node = arr_duplicate1Nodes[nodeIndex];
+    SCNNode *node = arr_duplicateNodes[nodeIndex];
     node.position = position;
     selectedNode = node;
     selectedNode.opacity = 0.6;
@@ -688,7 +708,7 @@ static float initCamR_z = 0.0;
         for (SCNNode *node in arr_building1Nodes) {
             [node removeFromParentNode];
         }
-        for (SCNNode *node in arr_duplicate1Nodes) {
+        for (SCNNode *node in arr_duplicateNodes) {
             [node removeFromParentNode];
         }
         
@@ -742,8 +762,11 @@ static float initCamR_z = 0.0;
         } else if ([arr_building0Nodes containsObject:hit.node]){
             [self loopBuildingNode:hit.node inArray:arr_building0Nodes];
             break;
-        } else if ([arr_duplicate1Nodes containsObject:hit.node]) {
-            [self loopBuildingNode:hit.node inArray:arr_duplicate1Nodes];
+        } else if ([arr_duplicateNodes containsObject:hit.node]) {
+            [self loopBuildingNode:hit.node inArray:arr_duplicateNodes];
+            break;
+        } else if ([arr_building2Nodes containsObject:hit.node]) {
+            [self loopBuildingNode:hit.node inArray:arr_building2Nodes];
             break;
         } else {
             continue;
@@ -793,7 +816,8 @@ static float initCamR_z = 0.0;
     for (SCNHitTestResult *hit in hits) {
         
         if (    [position1Node.childNodes containsObject:hit.node]
-            ||  [position2Node.childNodes containsObject: hit.node]) {
+            ||  [position2Node.childNodes containsObject: hit.node]
+            ||  [position3Node.childNodes containsObject: hit.node]) {
             editMode = YES;
             [self activeEditNode:hit.node];
             break;
@@ -902,7 +926,6 @@ static float initCamR_z = 0.0;
         return;
     }
     
-    
     UITouch *touch = [touches anyObject];
     // Get the location of the click
     CGPoint point = [touch locationInView: _myscene];
@@ -928,7 +951,7 @@ static float initCamR_z = 0.0;
         }
         
     } else if (touches.count == 1 && editMode) {
-//        // Get the hit on the cube
+        // Get the hit on the cube
         NSArray *hits = [_myscene hitTest:point options:@{SCNHitTestRootNodeKey: selectedNode,
                                                           SCNHitTestIgnoreChildNodesKey: @YES}];
         SCNHitTestResult *hit = [hits firstObject];
