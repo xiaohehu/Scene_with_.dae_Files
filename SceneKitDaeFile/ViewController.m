@@ -36,11 +36,8 @@ static float initCamR_z = 0.0;
     SCNNode     *cameraOrbit;
     SCNNode     *cameraNode;
     NSMutableArray     *arr_building0Nodes;
-    NSMutableArray     *arr_building0Copy;
     NSMutableArray     *arr_building1Nodes;
-    NSMutableArray     *arr_building1Copy;
     NSMutableArray     *arr_building2Nodes;
-    NSMutableArray     *arr_building2Copy;
     NSMutableArray     *arr_duplicateNodes;
     //  Position record parameter
     CGFloat     lastXRotation;
@@ -220,11 +217,11 @@ static float initCamR_z = 0.0;
     for (int i = 0; i < building0Array.count; i++) {
         NSString *fileName = [building0Array[i] objectForKey:@"fileName"];
         NSString *ID = [building0Array[i] objectForKey:@"ID"];
-        singleBuilding *building = [[singleBuilding alloc] initWithFileName:fileName ID:ID];
+        NSString *tag = [building0Array[i] objectForKey:@"tag"];
+        singleBuilding *building = [[singleBuilding alloc] initWithFileName:fileName ID:ID andTag:tag];
         building.buildingNode.geometry.materials = @[[self getMaterialByColor:[UIColor redColor]]];
-        arr_building0Nodes[i] = building.buildingNode;
+        arr_building0Nodes[i] = building;
     }
-    arr_building0Copy = [arr_building0Nodes copy];
     
     // Buildings of 2nd type
     if (arr_building1Nodes != nil) {
@@ -236,11 +233,11 @@ static float initCamR_z = 0.0;
     for (int i = 0; i < building1Array.count; i++) {
         NSString *fileName = [building1Array[i] objectForKey:@"fileName"];
         NSString *ID = [building1Array[i] objectForKey:@"ID"];
-        singleBuilding *building = [[singleBuilding alloc] initWithFileName:fileName ID:ID];
+        NSString *tag = [building1Array[i] objectForKey:@"tag"];
+        singleBuilding *building = [[singleBuilding alloc] initWithFileName:fileName ID:ID andTag:tag];
         building.buildingNode.geometry.materials = @[[self getMaterialByColor:[UIColor greenColor]]];
-        arr_building1Nodes[i] = building.buildingNode;
+        arr_building1Nodes[i] = building;
     }
-    arr_building1Copy = [arr_building1Nodes copy];
     
     // Building of 3rd type
     if (arr_building2Nodes != nil) {
@@ -252,16 +249,17 @@ static float initCamR_z = 0.0;
     for (int i = 0; i < building2Array.count; i++) {
         NSString *fileName = [building2Array[i] objectForKey:@"fileName"];
         NSString *ID = [building2Array[i] objectForKey:@"ID"];
-        singleBuilding *building = [[singleBuilding alloc] initWithFileName:fileName ID:ID];
+        NSString *tag = [building2Array[i] objectForKey:@"tag"];
+        singleBuilding *building = [[singleBuilding alloc] initWithFileName:fileName ID:ID andTag:tag];
         building.buildingNode.geometry.materials = @[[self getMaterialByColor:[UIColor blueColor]]];
-        arr_building2Nodes[i] = building.buildingNode;
+        arr_building2Nodes[i] = building;
     }
-    arr_building2Copy = [arr_building2Nodes copy];
     
     NSDictionary *building_block = [rawData objectForKey:@"buildingBolock"][0];
     NSString *fileName = [building_block objectForKey:@"fileName"];
     NSString *ID = [building_block objectForKey:@"ID"];
-    singleBuilding *building = [[singleBuilding alloc] initWithFileName:fileName ID:ID];
+    NSString *tag = [building_block objectForKey:@"tag"];
+    singleBuilding *building = [[singleBuilding alloc] initWithFileName:fileName ID:ID andTag:tag];
     building.buildingNode.geometry.materials = @[[self getMaterialByColor:[UIColor grayColor]]];
     [_myscene.scene.rootNode addChildNode: building.buildingNode];
 }
@@ -336,15 +334,25 @@ static float initCamR_z = 0.0;
 #pragma mark - UIButtons action
 #pragma mark Start Button
 - (IBAction)tapStartButton:(id)sender {
-    SCNNode *node1 = arr_building0Nodes[0];
+//    SCNNode *node1 = arr_building0Nodes[0];
+//    node1.position = SCNVector3Make(0, 0, 0);
+//    SCNNode *node2 = arr_building1Nodes[0];
+//    node2.position = SCNVector3Make(0, 0, 0);
+//    SCNNode *node3 = arr_building2Nodes[0];
+//    node3.position = SCNVector3Make(0, 0, 0);
+    
+    singleBuilding *building0 = arr_building0Nodes[0];
+    SCNNode *node1 = [building0.buildingNode copy];
     node1.position = SCNVector3Make(0, 0, 0);
-    SCNNode *node2 = arr_building1Nodes[0];
+    singleBuilding *building1 = arr_building1Nodes[0];
+    SCNNode *node2 = [building1.buildingNode copy];
     node2.position = SCNVector3Make(0, 0, 0);
-    SCNNode *node3 = arr_building2Nodes[0];
+    singleBuilding *building2 = arr_building2Nodes[0];
+    SCNNode *node3 = [building2.buildingNode copy];
     node3.position = SCNVector3Make(0, 0, 0);
-//    [position1Node addChildNode: node1];
-//    [position2Node addChildNode: node2];
-//    [position3Node addChildNode: node3];
+    [position1Node addChildNode: node1];
+    [position2Node addChildNode: node2];
+    [position3Node addChildNode: node3];
     
     _uib_start.hidden = YES;
     [UIView animateWithDuration:0.33 animations:^(void){
@@ -756,23 +764,88 @@ static float initCamR_z = 0.0;
     
     for (SCNHitTestResult *hit in hits) {
         
-        if ([arr_building1Nodes containsObject:hit.node]) {
-            [self loopBuildingNode:hit.node inArray:arr_building1Nodes];
-            break;
-        } else if ([arr_building0Nodes containsObject:hit.node]){
-            [self loopBuildingNode:hit.node inArray:arr_building0Nodes];
-            break;
-        } else if ([arr_duplicateNodes containsObject:hit.node]) {
-            [self loopBuildingNode:hit.node inArray:arr_duplicateNodes];
-            break;
-        } else if ([arr_building2Nodes containsObject:hit.node]) {
-            [self loopBuildingNode:hit.node inArray:arr_building2Nodes];
-            break;
+        if ([position1Node.childNodes containsObject: hit.node]) {
+            NSLog(@"%@", hit.node.name);
+            [self checkBuildingTypeBy:hit.node];
+            return;
+        } else if ([position2Node.childNodes containsObject:hit.node]) {
+            NSLog(@"%@", hit.node.name);
+            [self checkBuildingTypeBy:hit.node];
+            return;
+        } else if ([position3Node.childNodes containsObject:hit.node]) {
+            NSLog(@"%@", hit.node.name);
+            [self checkBuildingTypeBy:hit.node];
+            return;
         } else {
             continue;
         }
         
+        
+//        if ([arr_building1Nodes containsObject:hit.node]) {
+//            [self loopBuildingNode:hit.node inArray:arr_building1Nodes];
+//            break;
+//        } else if ([arr_building0Nodes containsObject:hit.node]){
+//            [self loopBuildingNode:hit.node inArray:arr_building0Nodes];
+//            break;
+//        } else if ([arr_duplicateNodes containsObject:hit.node]) {
+//            [self loopBuildingNode:hit.node inArray:arr_duplicateNodes];
+//            break;
+//        } else if ([arr_building2Nodes containsObject:hit.node]) {
+//            [self loopBuildingNode:hit.node inArray:arr_building2Nodes];
+//            break;
+//        } else {
+//            continue;
+//        }
+        
     }
+}
+
+- (void)checkBuildingTypeBy:(SCNNode *)node {
+    NSString *name = node.name;
+    for (singleBuilding *building in arr_building0Nodes) {
+        if ([building.fileID isEqualToString:name]) {
+            int index = [arr_building0Nodes indexOfObject: building];
+            [self loopBuildingInArray:arr_building0Nodes atIndex:index andCurrentNode:node];
+            return;
+        }
+    }
+    
+    for (singleBuilding *building in arr_building1Nodes) {
+        if ([building.fileID isEqualToString:name]) {
+            int index = [arr_building1Nodes indexOfObject: building];
+            [self loopBuildingInArray:arr_building1Nodes atIndex:index andCurrentNode:node];
+            return;
+        }
+    }
+    
+    for (singleBuilding *building in arr_building2Nodes) {
+        if ([building.fileID isEqualToString:name]) {
+            int index = [arr_building2Nodes indexOfObject: building];
+            [self loopBuildingInArray:arr_building2Nodes atIndex:index andCurrentNode:node];
+            return;
+        }
+    }
+}
+
+- (void)loopBuildingInArray:(NSArray *)arr_building atIndex:(int)index andCurrentNode:(SCNNode *)node {
+    SCNVector3 thePosition = node.position;
+    SCNVector4 theRotation = node.rotation;
+    SCNNode *container = node.parentNode;
+    [node removeFromParentNode];
+    index++;
+    if (index == arr_building.count) {
+        index = 0;
+    }
+    singleBuilding *building = arr_building[index];
+    SCNNode *theNode = [building.buildingNode copy];
+    theNode.position = thePosition;
+    theNode.rotation = theRotation;
+    if (editMode) {
+        theNode.opacity = 0.6;
+        selectedNode.opacity = 1.0;
+        selectedNode = theNode;
+    }
+    [container addChildNode:theNode];
 }
 
 - (void)loopBuildingNode:(SCNNode *)node inArray:(NSArray *)arr_building {

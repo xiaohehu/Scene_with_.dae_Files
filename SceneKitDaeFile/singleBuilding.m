@@ -15,12 +15,14 @@
 @synthesize isDefault;
 @synthesize isSelected;
 @synthesize buildingNode;
+@synthesize tag;
 
-- (id)initWithFileName:(NSString *)name ID:(NSString *)ID {
+- (id)initWithFileName:(NSString *)name ID:(NSString *)ID andTag:(NSString *)tagString {
     self = [super init];
     if (self) {
         fileName = name;
         fileID = ID;
+        tag = [tagString intValue];
 //        _position = position;
 //        _isDefault = defaultOne;
 //        _isSelected = selected;

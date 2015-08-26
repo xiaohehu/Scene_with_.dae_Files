@@ -5,15 +5,17 @@
 									"ID" : "Object001",
 									"poistion" : "0, 0, 0",
 									"isDefault" : "YES",
-									"isSelected" : "NO"
+									"isSelected" : "NO",
+                                    "tag" : "10"
 								},
 								{
 									"fileName" : "Separated_BLDG_A2_00",
 									"ID" : "Box151",
 									"poistion" : "0, 0, 0",
 									"isDefault" : "NO",
-									"isSelected" : "NO"
-								}		
+									"isSelected" : "NO",
+                                    "tag" : "11"
+								}
 						],
 						
 		"building1": 	[
@@ -22,15 +24,17 @@
 									"ID" : "Object002",
 									"poistion" : "0, 0, 0",
 									"isDefault" : "YES",
-									"isSelected" : "NO"
+									"isSelected" : "NO",
+                                    "tag" : "21"
 								},
 								{
 									"fileName" : "Separated_BLDG_B2_00",
 									"ID" : "Box152",
 									"poistion" : "0, 0, 0",
 									"isDefault" : "YES",
-									"isSelected" : "NO"
-								}		
+									"isSelected" : "NO",
+                                    "tag" : "22"
+								}
 						],
         
         "building2": 	[
@@ -39,14 +43,16 @@
                                 "ID" : "Object002",
                                 "poistion" : "0, 0, 0",
                                 "isDefault" : "YES",
-                                "isSelected" : "NO"
+                                "isSelected" : "NO",
+                                "tag" : "31"
                             },
                             {
                                 "fileName" : "Separated_BLDG_B2_00",
                                 "ID" : "Box152",
                                 "poistion" : "0, 0, 0",
                                 "isDefault" : "YES",
-                                "isSelected" : "NO"
+                                "isSelected" : "NO",
+                                "tag" : "32"
                             }
                          ],
 						
@@ -56,7 +62,8 @@
 									"ID" : "Box154",
 									"poistion" : "0, 0, 0",
 									"isDefault" : "YES",
-									"isSelected" : "NO"
+									"isSelected" : "NO",
+                                    "tag" : "0"
 								}		
 						]
 	}

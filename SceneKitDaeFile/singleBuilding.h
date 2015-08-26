@@ -17,7 +17,8 @@
 @property (nonatomic, copy)         NSString    *fileID;
 @property (nonatomic, readwrite)    SCNVector3  position;
 @property (nonatomic, retain)       SCNNode     *buildingNode;
+@property (nonatomic, readwrite)    int         tag;
 
-- (id)initWithFileName:(NSString *)name ID:(NSString *)ID;
+- (id)initWithFileName:(NSString *)name ID:(NSString *)ID andTag:(NSString *)tagString;
 
 @end
