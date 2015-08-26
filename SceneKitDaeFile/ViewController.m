@@ -535,31 +535,32 @@ static float initCamR_z = 0.0;
     UIButton *tappedButton = sender;
     if (editMode) {
         
-        SCNNode *chosenNode;
+//        SCNNode *chosenNode;
+        singleBuilding *building;
         SCNVector3 currentSelectedPosition = selectedNode.position;
         switch (tappedButton.tag) {
             case 0: {
-                chosenNode = arr_building0Nodes[0];
+                building = arr_building0Nodes[0];
                 break;
             }
             case 1: {
-                chosenNode = arr_building0Nodes[1];
+                building = arr_building0Nodes[1];
                 break;
             }
             case 2: {
-                chosenNode = arr_building1Nodes[0];
+                building = arr_building1Nodes[0];
                 break;
             }
             case 3: {
-                chosenNode = arr_building1Nodes[1];
+                building = arr_building1Nodes[1];
                 break;
             }
             case 6: {
-                chosenNode = arr_building2Nodes[0];
+                building = arr_building2Nodes[0];
                 break;
             }
             case 7: {
-                chosenNode = arr_building2Nodes[1];
+                building = arr_building2Nodes[1];
                 break;
             }
             default:
@@ -567,42 +568,13 @@ static float initCamR_z = 0.0;
         }
         SCNNode *container = selectedNode.parentNode;
         
-        if ([chosenNode isEqual:selectedNode]) {
+        if ([selectedNode.name isEqualToString:building.buildingNode.name]) {
             return;
         }
-        // Add a building that already exist in the scene view
-        if (    [position1Node.childNodes containsObject:chosenNode]
-            ||  [position2Node.childNodes containsObject:chosenNode]
-            ||  [position3Node.childNodes containsObject:chosenNode]) {
-            if ([arr_building0Nodes containsObject:chosenNode]) {
-                [self createCopyNode:[arr_building0Nodes indexOfObject:chosenNode] andArray:arr_building0Nodes andPosition:currentSelectedPosition andContainer:container];
-            }
-            if ([arr_building1Nodes containsObject:chosenNode]) {
-                [self createCopyNode:[arr_building1Nodes indexOfObject:chosenNode] andArray:arr_building1Nodes andPosition:currentSelectedPosition andContainer: container];
-            }
-            return;
-        }
-        
-        // Add a building that in same category as existing building in the scene view
-        for (SCNNode *node in arr_containerNodes) {
-            if (node.childNodes.count > 0) {
-                if ([arr_building0Nodes containsObject:chosenNode] && [arr_building0Nodes containsObject:node.childNodes[0]]) {
-                    [self createCopyNode:[arr_building0Nodes indexOfObject:chosenNode] andArray:arr_building0Nodes andPosition:currentSelectedPosition andContainer:container];
-                    return;
-                }
-                if ([arr_building1Nodes containsObject:chosenNode] && [arr_building1Nodes containsObject:node.childNodes[0]]) {
-                    [self createCopyNode:[arr_building1Nodes indexOfObject:chosenNode] andArray:arr_building1Nodes andPosition:currentSelectedPosition andContainer:container];
-                    return;
-                }
-            }
-        }
-        
-        
-        
+        SCNNode *newNode = [building.buildingNode copy];
         [selectedNode removeFromParentNode];
-        selectedNode.opacity = 1.0;
-        chosenNode.position = currentSelectedPosition;
-        selectedNode = chosenNode;
+        newNode.position = currentSelectedPosition;
+        selectedNode = newNode;
         selectedNode.opacity = 0.6;
         [container addChildNode: selectedNode];
         // Comment out if want to turn off edit mode
@@ -618,45 +590,174 @@ static float initCamR_z = 0.0;
             [message show];
             return;
         }
-        SCNNode *node;
+        singleBuilding *building;
         switch (tappedButton.tag) {
             case 0: {
-                node = arr_building0Nodes[0];
+                building = arr_building0Nodes[0];
                 break;
             }
             case 1: {
-                node = arr_building0Nodes[1];
+                building = arr_building0Nodes[1];
                 break;
             }
             case 2: {
-                node = arr_building1Nodes[0];
+                building = arr_building1Nodes[0];
                 break;
             }
             case 3: {
-                node = arr_building1Nodes[1];
+                building = arr_building1Nodes[1];
                 break;
             }
             case 6: {
-                node = arr_building2Nodes[0];
+                building = arr_building2Nodes[0];
                 break;
             }
             case 7: {
-                node = arr_building2Nodes[1];
+                building = arr_building2Nodes[1];
                 break;
             }
             default:
                 break;
         }
-        
+        SCNNode *newNode = [building.buildingNode copy];
         for (SCNNode *container in arr_containerNodes) {
             if (container.childNodes.count == 0) {
-                node.position = SCNVector3Make(0, 0, 0);
-                [container addChildNode: node];
+                newNode.position = SCNVector3Make(0, 0, 0);
+                [container addChildNode: newNode];
                 return;
             }
         }
     }
 }
+
+
+//- (IBAction)tapSideMenuIndividual:(id)sender {
+//    
+//    UIButton *tappedButton = sender;
+//    if (editMode) {
+//        
+//        SCNNode *chosenNode;
+//        SCNVector3 currentSelectedPosition = selectedNode.position;
+//        switch (tappedButton.tag) {
+//            case 0: {
+//                chosenNode = arr_building0Nodes[0];
+//                break;
+//            }
+//            case 1: {
+//                chosenNode = arr_building0Nodes[1];
+//                break;
+//            }
+//            case 2: {
+//                chosenNode = arr_building1Nodes[0];
+//                break;
+//            }
+//            case 3: {
+//                chosenNode = arr_building1Nodes[1];
+//                break;
+//            }
+//            case 6: {
+//                chosenNode = arr_building2Nodes[0];
+//                break;
+//            }
+//            case 7: {
+//                chosenNode = arr_building2Nodes[1];
+//                break;
+//            }
+//            default:
+//                break;
+//        }
+//        SCNNode *container = selectedNode.parentNode;
+//        
+//        if ([chosenNode isEqual:selectedNode]) {
+//            return;
+//        }
+//        // Add a building that already exist in the scene view
+//        if (    [position1Node.childNodes containsObject:chosenNode]
+//            ||  [position2Node.childNodes containsObject:chosenNode]
+//            ||  [position3Node.childNodes containsObject:chosenNode]) {
+//            if ([arr_building0Nodes containsObject:chosenNode]) {
+//                [self createCopyNode:[arr_building0Nodes indexOfObject:chosenNode] andArray:arr_building0Nodes andPosition:currentSelectedPosition andContainer:container];
+//            }
+//            if ([arr_building1Nodes containsObject:chosenNode]) {
+//                [self createCopyNode:[arr_building1Nodes indexOfObject:chosenNode] andArray:arr_building1Nodes andPosition:currentSelectedPosition andContainer: container];
+//            }
+//            return;
+//        }
+//        
+//        // Add a building that in same category as existing building in the scene view
+//        for (SCNNode *node in arr_containerNodes) {
+//            if (node.childNodes.count > 0) {
+//                if ([arr_building0Nodes containsObject:chosenNode] && [arr_building0Nodes containsObject:node.childNodes[0]]) {
+//                    [self createCopyNode:[arr_building0Nodes indexOfObject:chosenNode] andArray:arr_building0Nodes andPosition:currentSelectedPosition andContainer:container];
+//                    return;
+//                }
+//                if ([arr_building1Nodes containsObject:chosenNode] && [arr_building1Nodes containsObject:node.childNodes[0]]) {
+//                    [self createCopyNode:[arr_building1Nodes indexOfObject:chosenNode] andArray:arr_building1Nodes andPosition:currentSelectedPosition andContainer:container];
+//                    return;
+//                }
+//            }
+//        }
+//        
+//        
+//        
+//        [selectedNode removeFromParentNode];
+//        selectedNode.opacity = 1.0;
+//        chosenNode.position = currentSelectedPosition;
+//        selectedNode = chosenNode;
+//        selectedNode.opacity = 0.6;
+//        [container addChildNode: selectedNode];
+//        // Comment out if want to turn off edit mode
+//        return;
+//    } else {
+//        
+//        if (position1Node.childNodes.count > 0 && position2Node.childNodes.count > 0 && position3Node.childNodes.count > 0){
+//            UIAlertView *message = [[UIAlertView alloc] initWithTitle:nil
+//                                                              message:@"Already Max Number of Buildings"
+//                                                             delegate:nil
+//                                                    cancelButtonTitle:@"OK"
+//                                                    otherButtonTitles:nil];
+//            [message show];
+//            return;
+//        }
+//        SCNNode *node;
+//        switch (tappedButton.tag) {
+//            case 0: {
+//                node = arr_building0Nodes[0];
+//                break;
+//            }
+//            case 1: {
+//                node = arr_building0Nodes[1];
+//                break;
+//            }
+//            case 2: {
+//                node = arr_building1Nodes[0];
+//                break;
+//            }
+//            case 3: {
+//                node = arr_building1Nodes[1];
+//                break;
+//            }
+//            case 6: {
+//                node = arr_building2Nodes[0];
+//                break;
+//            }
+//            case 7: {
+//                node = arr_building2Nodes[1];
+//                break;
+//            }
+//            default:
+//                break;
+//        }
+//        
+//        for (SCNNode *container in arr_containerNodes) {
+//            if (container.childNodes.count == 0) {
+//                node.position = SCNVector3Make(0, 0, 0);
+//                [container addChildNode: node];
+//                return;
+//            }
+//        }
+//    }
+//}
 
 
 - (void) createCopyNode:(int)nodeIndex andArray:(NSArray *)arr_buildings andPosition:(SCNVector3)position andContainer:(SCNNode *)container{
@@ -710,31 +811,38 @@ static float initCamR_z = 0.0;
             selectedNode = nil;
         }];
         
-        for (SCNNode *node in arr_building0Nodes) {
+        for (SCNNode *node in position1Node.childNodes) {
             [node removeFromParentNode];
         }
-        for (SCNNode *node in arr_building1Nodes) {
+        for (SCNNode *node in position2Node.childNodes) {
             [node removeFromParentNode];
         }
-        for (SCNNode *node in arr_duplicateNodes) {
+        for (SCNNode *node in position3Node.childNodes) {
             [node removeFromParentNode];
         }
         
-        // Reset Data
-        [self createNodeFromJsonData];
         
         SCNNode *node1;
         SCNNode *node2;
+        SCNNode *node3;
         
         switch (groupButtonIndex) {
             case 4: {
-                node1 = arr_building0Nodes[0];
-                node2 = arr_building1Nodes[0];
+                singleBuilding *building1 = arr_building0Nodes[0];
+                singleBuilding *building2 = arr_building1Nodes[0];
+                singleBuilding *building3 = arr_building2Nodes[0];
+                node1 = [building1.buildingNode copy];
+                node2 = [building2.buildingNode copy];
+                node3 = [building3.buildingNode copy];
                 break;
             }
             case 5:{
-                node1 = arr_building0Nodes[1];
-                node2 = arr_building1Nodes[1];
+                singleBuilding *building1 = arr_building0Nodes[1];
+                singleBuilding *building2 = arr_building1Nodes[1];
+                singleBuilding *building3 = arr_building2Nodes[1];
+                node1 = [building1.buildingNode copy];
+                node2 = [building2.buildingNode copy];
+                node3 = [building3.buildingNode copy];
                 break;
             }
             default:
@@ -742,8 +850,10 @@ static float initCamR_z = 0.0;
         }
         node1.position = SCNVector3Zero;
         node2.position = SCNVector3Zero;
+        node3.position = SCNVector3Zero;
         [position1Node addChildNode: node1];
         [position2Node addChildNode: node2];
+        [position3Node addChildNode: node3];
     }
     
 }
