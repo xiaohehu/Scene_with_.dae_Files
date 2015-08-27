@@ -323,15 +323,6 @@ static float initCamR_z = 0.0;
     lightNode4.position = SCNVector3Make(-20000, -500, 1000);
     lightNode4.light = light4;
     [_myscene.scene.rootNode addChildNode: lightNode4];
-    
-//    SCNLight *ambientLight = [SCNLight light];
-//    ambientLight.type = SCNLightTypeAmbient;
-//    ambientLight.color = [UIColor whiteColor];
-//    ambientLight.shadowMode = SCNShadowModeModulated;
-//    SCNNode *ambienLightNode = [SCNNode node];
-//    ambienLightNode.light = ambientLight;
-//    [floorNode addChildNode: ambienLightNode];
-
 }
 
 #pragma mark - UIButtons action
@@ -427,9 +418,6 @@ static float initCamR_z = 0.0;
 }
 
 - (IBAction)tapCam1Button:(id)sender {
-    
-    NSLog(@"last roation is %f", cameraOrbit.rotation.w);
-    
     // Change index to load different angles
     cameraRotationIndex++;
     if (cameraRotationIndex == arr_cameraRotation.count) {
@@ -748,15 +736,12 @@ static float initCamR_z = 0.0;
     for (SCNHitTestResult *hit in hits) {
         
         if ([position1Node.childNodes containsObject: hit.node]) {
-            NSLog(@"%@", hit.node.name);
             [self checkBuildingTypeBy:hit.node];
             return;
         } else if ([position2Node.childNodes containsObject:hit.node]) {
-            NSLog(@"%@", hit.node.name);
             [self checkBuildingTypeBy:hit.node];
             return;
         } else if ([position3Node.childNodes containsObject:hit.node]) {
-            NSLog(@"%@", hit.node.name);
             [self checkBuildingTypeBy:hit.node];
             return;
         } else {
@@ -848,7 +833,7 @@ static float initCamR_z = 0.0;
     }
 
     if (gesture.state == UIGestureRecognizerStateBegan) {
-        startPoint = [gesture locationInView: _myscene];
+        startPoint = point;
     }
     /*
      * Long press and move to change building's position
@@ -856,14 +841,13 @@ static float initCamR_z = 0.0;
 
     if (gesture.state == UIGestureRecognizerStateChanged) {
         
-        CGPoint movePoint = [gesture locationInView:_myscene];
         SCNVector3 projectedPlaneCenter = [_myscene projectPoint:_myscene.scene.rootNode.position];
         float projectedDepth = projectedPlaneCenter.z;
-        [self moveNodebyPrePoint:startPoint andCurPoint:movePoint andZValue:projectedDepth andNode:selectedNode];
+        [self moveNodebyPrePoint:startPoint andCurPoint:point andZValue:projectedDepth andNode:selectedNode];
         /*
          * Update start point to current position
          */
-        startPoint = movePoint;
+        startPoint = point;
     }
     if (gesture.state == UIGestureRecognizerStateEnded) {
         startPoint = CGPointZero;
@@ -910,9 +894,9 @@ static float initCamR_z = 0.0;
     
     if (gesture.state == UIGestureRecognizerStateChanged) {
         float scale = gesture.scale;
-//        if (scale > 1) {
-//            scale *= 0.7;
-//        }
+        if (scale > 1) {
+            scale *= 0.7;
+        }
         SCNVector3 currentCamera = cameraNode.position;
         if (ABS(currentCamera.y*(1/scale)) < 5000 || ABS(currentCamera.y*(1/scale)) > 30000.0) {
             return;
@@ -971,6 +955,10 @@ static float initCamR_z = 0.0;
     // Get movement distance based on first touch point
     CGFloat moveXDistance = (point.x - touchPoint.x);
     CGFloat moveYDistance = (point.y - touchPoint.y);
+    
+    /*
+     * No in edit mode, touch move to rotate the camera
+     */
     if (touches.count == 1 && !editMode) {
         
         float x_rotation = lastXRotation-M_PI_2 * (moveYDistance/_myscene.frame.size.height);
@@ -982,14 +970,20 @@ static float initCamR_z = 0.0;
         }
         
         float y_rotation = lastYRotation-2.0 * M_PI * (moveXDistance/_myscene.frame.size.width);
-        
+        /*
+         * If the movement is less than 50, ignore it
+         */
         if (ABS(moveYDistance) - ABS(moveXDistance) > 50) {
             cameraOrbit.eulerAngles = SCNVector3Make(x_rotation, 0.0, lastYRotation);
         } else if ((ABS(moveYDistance) - ABS(moveXDistance) < -50)) {
             cameraOrbit.eulerAngles = SCNVector3Make(lastXRotation, 0.0, y_rotation);
         }
         
-    } else if (touches.count == 1 && editMode) {
+    }
+    /*
+     * In edit mode touch move to change position of selected node
+     */
+    else if (touches.count == 1 && editMode) {
         // Get the hit on the cube
         NSArray *hits = [_myscene hitTest:point options:@{SCNHitTestRootNodeKey: selectedNode,
                                                           SCNHitTestIgnoreChildNodesKey: @YES}];
@@ -1005,12 +999,12 @@ static float initCamR_z = 0.0;
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     
-    if (cameraOrbit.eulerAngles.y < 0) {
-        lastYRotation =  -cameraOrbit.eulerAngles.z ;
-    }
-    else {
+//    if (cameraOrbit.eulerAngles.y < 0) {
+//        lastYRotation =  -cameraOrbit.eulerAngles.z ;
+//    }
+//    else {
         lastYRotation = cameraOrbit.eulerAngles.z ;
-    }
+//    }
     
     lastXRotation = cameraOrbit.eulerAngles.x;
 }
