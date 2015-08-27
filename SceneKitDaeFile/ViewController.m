@@ -206,7 +206,9 @@ static float initCamR_z = 0.0;
                            position2Node,
                            position3Node
                            ];
-    
+    /*
+     * All the arries contains "singleBuilding" data
+     */
     // Buildings of 1st type
     if (arr_building1Nodes != nil) {
         [arr_building1Nodes removeAllObjects];
@@ -217,8 +219,7 @@ static float initCamR_z = 0.0;
     for (int i = 0; i < building0Array.count; i++) {
         NSString *fileName = [building0Array[i] objectForKey:@"fileName"];
         NSString *ID = [building0Array[i] objectForKey:@"ID"];
-        NSString *tag = [building0Array[i] objectForKey:@"tag"];
-        singleBuilding *building = [[singleBuilding alloc] initWithFileName:fileName ID:ID andTag:tag];
+        singleBuilding *building = [[singleBuilding alloc] initWithFileName:fileName ID:ID];
         building.buildingNode.geometry.materials = @[[self getMaterialByColor:[UIColor redColor]]];
         arr_building0Nodes[i] = building;
     }
@@ -233,8 +234,7 @@ static float initCamR_z = 0.0;
     for (int i = 0; i < building1Array.count; i++) {
         NSString *fileName = [building1Array[i] objectForKey:@"fileName"];
         NSString *ID = [building1Array[i] objectForKey:@"ID"];
-        NSString *tag = [building1Array[i] objectForKey:@"tag"];
-        singleBuilding *building = [[singleBuilding alloc] initWithFileName:fileName ID:ID andTag:tag];
+        singleBuilding *building = [[singleBuilding alloc] initWithFileName:fileName ID:ID];
         building.buildingNode.geometry.materials = @[[self getMaterialByColor:[UIColor greenColor]]];
         arr_building1Nodes[i] = building;
     }
@@ -249,17 +249,18 @@ static float initCamR_z = 0.0;
     for (int i = 0; i < building2Array.count; i++) {
         NSString *fileName = [building2Array[i] objectForKey:@"fileName"];
         NSString *ID = [building2Array[i] objectForKey:@"ID"];
-        NSString *tag = [building2Array[i] objectForKey:@"tag"];
-        singleBuilding *building = [[singleBuilding alloc] initWithFileName:fileName ID:ID andTag:tag];
+        singleBuilding *building = [[singleBuilding alloc] initWithFileName:fileName ID:ID];
         building.buildingNode.geometry.materials = @[[self getMaterialByColor:[UIColor blueColor]]];
         arr_building2Nodes[i] = building;
     }
     
+    /*
+     * The building block treated as one individual scene node in scene view
+     */
     NSDictionary *building_block = [rawData objectForKey:@"buildingBolock"][0];
     NSString *fileName = [building_block objectForKey:@"fileName"];
     NSString *ID = [building_block objectForKey:@"ID"];
-    NSString *tag = [building_block objectForKey:@"tag"];
-    singleBuilding *building = [[singleBuilding alloc] initWithFileName:fileName ID:ID andTag:tag];
+    singleBuilding *building = [[singleBuilding alloc] initWithFileName:fileName ID:ID];
     building.buildingNode.geometry.materials = @[[self getMaterialByColor:[UIColor grayColor]]];
     [_myscene.scene.rootNode addChildNode: building.buildingNode];
 }
@@ -279,7 +280,9 @@ static float initCamR_z = 0.0;
     [_myscene.scene.rootNode addChildNode: cameraOrbit];
 }
 
-/**/
+/*
+ * Set up all lights for the environment
+ */
 - (void)createLightGroup {
     SCNLight *light = [SCNLight light];
     light.type = SCNLightTypeOmni;
@@ -333,23 +336,21 @@ static float initCamR_z = 0.0;
 
 #pragma mark - UIButtons action
 #pragma mark Start Button
+/*
+ * Start load the resetted building group
+ * All building nodes are added to the containers at position (0,0,0)
+ */
 - (IBAction)tapStartButton:(id)sender {
-//    SCNNode *node1 = arr_building0Nodes[0];
-//    node1.position = SCNVector3Make(0, 0, 0);
-//    SCNNode *node2 = arr_building1Nodes[0];
-//    node2.position = SCNVector3Make(0, 0, 0);
-//    SCNNode *node3 = arr_building2Nodes[0];
-//    node3.position = SCNVector3Make(0, 0, 0);
     
     singleBuilding *building0 = arr_building0Nodes[0];
     SCNNode *node1 = [building0.buildingNode copy];
-    node1.position = SCNVector3Make(0, 0, 0);
+    node1.position = SCNVector3Zero;
     singleBuilding *building1 = arr_building1Nodes[0];
     SCNNode *node2 = [building1.buildingNode copy];
-    node2.position = SCNVector3Make(0, 0, 0);
+    node2.position = SCNVector3Zero;
     singleBuilding *building2 = arr_building2Nodes[0];
     SCNNode *node3 = [building2.buildingNode copy];
-    node3.position = SCNVector3Make(0, 0, 0);
+    node3.position = SCNVector3Zero;
     [position1Node addChildNode: node1];
     [position2Node addChildNode: node2];
     [position3Node addChildNode: node3];
@@ -361,6 +362,9 @@ static float initCamR_z = 0.0;
 }
 
 #pragma mark Camera Button
+/*
+ * Camera animaiton buttons action
+ */
 - (IBAction)tapResetButton:(id)sender {
     [SCNTransaction begin]; {
         
@@ -434,9 +438,6 @@ static float initCamR_z = 0.0;
     
     NSNumber *value = arr_cameraRotation[cameraRotationIndex];
     CGFloat rotation = [value floatValue];
-//    if (lastRotation > 0) {
-//        rotation = rotation * -1;
-//    }
     [SCNTransaction begin]; {
         
         CABasicAnimation *moveCamera =
@@ -533,54 +534,35 @@ static float initCamR_z = 0.0;
 - (IBAction)tapSideMenuIndividual:(id)sender {
     
     UIButton *tappedButton = sender;
+    
+    /*
+     * In edit mode change the highlighted one
+     * If selecte same one as highlighted one do nothing
+     */
     if (editMode) {
         
-//        SCNNode *chosenNode;
-        singleBuilding *building;
+        singleBuilding *building = [self getSingleBuildingByButtonTag:(int)tappedButton.tag];
         SCNVector3 currentSelectedPosition = selectedNode.position;
-        switch (tappedButton.tag) {
-            case 0: {
-                building = arr_building0Nodes[0];
-                break;
-            }
-            case 1: {
-                building = arr_building0Nodes[1];
-                break;
-            }
-            case 2: {
-                building = arr_building1Nodes[0];
-                break;
-            }
-            case 3: {
-                building = arr_building1Nodes[1];
-                break;
-            }
-            case 6: {
-                building = arr_building2Nodes[0];
-                break;
-            }
-            case 7: {
-                building = arr_building2Nodes[1];
-                break;
-            }
-            default:
-                break;
-        }
         SCNNode *container = selectedNode.parentNode;
         
         if ([selectedNode.name isEqualToString:building.buildingNode.name]) {
             return;
         }
+        /*
+         * Updated selectedNode
+         */
         SCNNode *newNode = [building.buildingNode copy];
         [selectedNode removeFromParentNode];
         newNode.position = currentSelectedPosition;
         selectedNode = newNode;
         selectedNode.opacity = 0.6;
         [container addChildNode: selectedNode];
-        // Comment out if want to turn off edit mode
         return;
-    } else {
         
+    } else {
+        /*
+         * Check if all containers have child node
+         */
         if (position1Node.childNodes.count > 0 && position2Node.childNodes.count > 0 && position3Node.childNodes.count > 0){
             UIAlertView *message = [[UIAlertView alloc] initWithTitle:nil
                                                               message:@"Already Max Number of Buildings"
@@ -590,175 +572,55 @@ static float initCamR_z = 0.0;
             [message show];
             return;
         }
-        singleBuilding *building;
-        switch (tappedButton.tag) {
-            case 0: {
-                building = arr_building0Nodes[0];
-                break;
-            }
-            case 1: {
-                building = arr_building0Nodes[1];
-                break;
-            }
-            case 2: {
-                building = arr_building1Nodes[0];
-                break;
-            }
-            case 3: {
-                building = arr_building1Nodes[1];
-                break;
-            }
-            case 6: {
-                building = arr_building2Nodes[0];
-                break;
-            }
-            case 7: {
-                building = arr_building2Nodes[1];
-                break;
-            }
-            default:
-                break;
-        }
+        /*
+         * Loop through all containers, get the first available one to add the selected building
+         */
+        singleBuilding *building = [self getSingleBuildingByButtonTag:(int)tappedButton.tag];
         SCNNode *newNode = [building.buildingNode copy];
         for (SCNNode *container in arr_containerNodes) {
             if (container.childNodes.count == 0) {
-                newNode.position = SCNVector3Make(0, 0, 0);
+                newNode.position = SCNVector3Zero;
                 [container addChildNode: newNode];
                 return;
             }
         }
     }
 }
-
-
-//- (IBAction)tapSideMenuIndividual:(id)sender {
-//    
-//    UIButton *tappedButton = sender;
-//    if (editMode) {
-//        
-//        SCNNode *chosenNode;
-//        SCNVector3 currentSelectedPosition = selectedNode.position;
-//        switch (tappedButton.tag) {
-//            case 0: {
-//                chosenNode = arr_building0Nodes[0];
-//                break;
-//            }
-//            case 1: {
-//                chosenNode = arr_building0Nodes[1];
-//                break;
-//            }
-//            case 2: {
-//                chosenNode = arr_building1Nodes[0];
-//                break;
-//            }
-//            case 3: {
-//                chosenNode = arr_building1Nodes[1];
-//                break;
-//            }
-//            case 6: {
-//                chosenNode = arr_building2Nodes[0];
-//                break;
-//            }
-//            case 7: {
-//                chosenNode = arr_building2Nodes[1];
-//                break;
-//            }
-//            default:
-//                break;
-//        }
-//        SCNNode *container = selectedNode.parentNode;
-//        
-//        if ([chosenNode isEqual:selectedNode]) {
-//            return;
-//        }
-//        // Add a building that already exist in the scene view
-//        if (    [position1Node.childNodes containsObject:chosenNode]
-//            ||  [position2Node.childNodes containsObject:chosenNode]
-//            ||  [position3Node.childNodes containsObject:chosenNode]) {
-//            if ([arr_building0Nodes containsObject:chosenNode]) {
-//                [self createCopyNode:[arr_building0Nodes indexOfObject:chosenNode] andArray:arr_building0Nodes andPosition:currentSelectedPosition andContainer:container];
-//            }
-//            if ([arr_building1Nodes containsObject:chosenNode]) {
-//                [self createCopyNode:[arr_building1Nodes indexOfObject:chosenNode] andArray:arr_building1Nodes andPosition:currentSelectedPosition andContainer: container];
-//            }
-//            return;
-//        }
-//        
-//        // Add a building that in same category as existing building in the scene view
-//        for (SCNNode *node in arr_containerNodes) {
-//            if (node.childNodes.count > 0) {
-//                if ([arr_building0Nodes containsObject:chosenNode] && [arr_building0Nodes containsObject:node.childNodes[0]]) {
-//                    [self createCopyNode:[arr_building0Nodes indexOfObject:chosenNode] andArray:arr_building0Nodes andPosition:currentSelectedPosition andContainer:container];
-//                    return;
-//                }
-//                if ([arr_building1Nodes containsObject:chosenNode] && [arr_building1Nodes containsObject:node.childNodes[0]]) {
-//                    [self createCopyNode:[arr_building1Nodes indexOfObject:chosenNode] andArray:arr_building1Nodes andPosition:currentSelectedPosition andContainer:container];
-//                    return;
-//                }
-//            }
-//        }
-//        
-//        
-//        
-//        [selectedNode removeFromParentNode];
-//        selectedNode.opacity = 1.0;
-//        chosenNode.position = currentSelectedPosition;
-//        selectedNode = chosenNode;
-//        selectedNode.opacity = 0.6;
-//        [container addChildNode: selectedNode];
-//        // Comment out if want to turn off edit mode
-//        return;
-//    } else {
-//        
-//        if (position1Node.childNodes.count > 0 && position2Node.childNodes.count > 0 && position3Node.childNodes.count > 0){
-//            UIAlertView *message = [[UIAlertView alloc] initWithTitle:nil
-//                                                              message:@"Already Max Number of Buildings"
-//                                                             delegate:nil
-//                                                    cancelButtonTitle:@"OK"
-//                                                    otherButtonTitles:nil];
-//            [message show];
-//            return;
-//        }
-//        SCNNode *node;
-//        switch (tappedButton.tag) {
-//            case 0: {
-//                node = arr_building0Nodes[0];
-//                break;
-//            }
-//            case 1: {
-//                node = arr_building0Nodes[1];
-//                break;
-//            }
-//            case 2: {
-//                node = arr_building1Nodes[0];
-//                break;
-//            }
-//            case 3: {
-//                node = arr_building1Nodes[1];
-//                break;
-//            }
-//            case 6: {
-//                node = arr_building2Nodes[0];
-//                break;
-//            }
-//            case 7: {
-//                node = arr_building2Nodes[1];
-//                break;
-//            }
-//            default:
-//                break;
-//        }
-//        
-//        for (SCNNode *container in arr_containerNodes) {
-//            if (container.childNodes.count == 0) {
-//                node.position = SCNVector3Make(0, 0, 0);
-//                [container addChildNode: node];
-//                return;
-//            }
-//        }
-//    }
-//}
-
+/*
+ * Return singleBuilding data by menu button's tag
+ */
+- (singleBuilding *)getSingleBuildingByButtonTag:(int)index {
+    singleBuilding *building;
+    switch (index) {
+        case 0: {
+            building = arr_building0Nodes[0];
+            break;
+        }
+        case 1: {
+            building = arr_building0Nodes[1];
+            break;
+        }
+        case 2: {
+            building = arr_building1Nodes[0];
+            break;
+        }
+        case 3: {
+            building = arr_building1Nodes[1];
+            break;
+        }
+        case 6: {
+            building = arr_building2Nodes[0];
+            break;
+        }
+        case 7: {
+            building = arr_building2Nodes[1];
+            break;
+        }
+        default:
+            break;
+    }
+    return building;
+}
 
 - (void) createCopyNode:(int)nodeIndex andArray:(NSArray *)arr_buildings andPosition:(SCNVector3)position andContainer:(SCNNode *)container{
     if (arr_duplicateNodes) {
@@ -797,11 +659,15 @@ static float initCamR_z = 0.0;
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     
+    // Tap Cancle Button
     if (buttonIndex == 0) {
-        // Tap Cancle Button
         return;
-    }else {
-        // Tap OK Button
+    }
+    // Tap OK Button
+    else {
+        /*
+         * Turn off the edit mode
+         */
         editMode = NO;
         
         [UIView animateWithDuration:0.33 animations:^(void){
@@ -811,6 +677,9 @@ static float initCamR_z = 0.0;
             selectedNode = nil;
         }];
         
+        /*
+         * Remove all current building in scene view
+         */
         for (SCNNode *node in position1Node.childNodes) {
             [node removeFromParentNode];
         }
@@ -821,7 +690,9 @@ static float initCamR_z = 0.0;
             [node removeFromParentNode];
         }
         
-        
+        /*
+         * Load group buildings
+         */
         SCNNode *node1;
         SCNNode *node2;
         SCNNode *node3;
@@ -857,7 +728,7 @@ static float initCamR_z = 0.0;
     }
     
 }
-# pragma mark - Added gesture to building 0 & 1
+# pragma mark - Added gesture to building
 
 #pragma mark Double tap to loop through buidling's shapes
 - (void)addTapGestureToBuildings {
@@ -871,7 +742,9 @@ static float initCamR_z = 0.0;
     CGPoint point = [gesture locationInView: _myscene];
     NSArray *hits = [_myscene hitTest:point
                                options:nil];
-    
+    /*
+     * Checking the tapped building's name
+     */
     for (SCNHitTestResult *hit in hits) {
         
         if ([position1Node.childNodes containsObject: hit.node]) {
@@ -889,27 +762,12 @@ static float initCamR_z = 0.0;
         } else {
             continue;
         }
-        
-        
-//        if ([arr_building1Nodes containsObject:hit.node]) {
-//            [self loopBuildingNode:hit.node inArray:arr_building1Nodes];
-//            break;
-//        } else if ([arr_building0Nodes containsObject:hit.node]){
-//            [self loopBuildingNode:hit.node inArray:arr_building0Nodes];
-//            break;
-//        } else if ([arr_duplicateNodes containsObject:hit.node]) {
-//            [self loopBuildingNode:hit.node inArray:arr_duplicateNodes];
-//            break;
-//        } else if ([arr_building2Nodes containsObject:hit.node]) {
-//            [self loopBuildingNode:hit.node inArray:arr_building2Nodes];
-//            break;
-//        } else {
-//            continue;
-//        }
-        
     }
 }
 
+/*
+ * By the name of the node, get the index of the building in array
+ */
 - (void)checkBuildingTypeBy:(SCNNode *)node {
     NSString *name = node.name;
     for (singleBuilding *building in arr_building0Nodes) {
@@ -937,6 +795,9 @@ static float initCamR_z = 0.0;
     }
 }
 
+/*
+ * Loop through the building array from current building's index
+ */
 - (void)loopBuildingInArray:(NSArray *)arr_building atIndex:(int)index andCurrentNode:(SCNNode *)node {
     SCNVector3 thePosition = node.position;
     SCNVector4 theRotation = node.rotation;
@@ -948,27 +809,6 @@ static float initCamR_z = 0.0;
     }
     singleBuilding *building = arr_building[index];
     SCNNode *theNode = [building.buildingNode copy];
-    theNode.position = thePosition;
-    theNode.rotation = theRotation;
-    if (editMode) {
-        theNode.opacity = 0.6;
-        selectedNode.opacity = 1.0;
-        selectedNode = theNode;
-    }
-    [container addChildNode:theNode];
-}
-
-- (void)loopBuildingNode:(SCNNode *)node inArray:(NSArray *)arr_building {
-    SCNVector3 thePosition = node.position;
-    SCNVector4 theRotation = node.rotation;
-    SCNNode *container = node.parentNode;
-    [node removeFromParentNode];
-    int index_building = [arr_building indexOfObject: node];
-    index_building++;
-    if (index_building == arr_building.count) {
-        index_building = 0;
-    }
-    SCNNode *theNode = arr_building[index_building];
     theNode.position = thePosition;
     theNode.rotation = theRotation;
     if (editMode) {
@@ -1006,22 +846,24 @@ static float initCamR_z = 0.0;
             break;
         }
     }
+
     if (gesture.state == UIGestureRecognizerStateBegan) {
         startPoint = [gesture locationInView: _myscene];
     }
-    if (gesture.state == UIGestureRecognizerStateChanged) {
+    /*
+     * Long press and move to change building's position
+     */
 
+    if (gesture.state == UIGestureRecognizerStateChanged) {
+        
+        CGPoint movePoint = [gesture locationInView:_myscene];
         SCNVector3 projectedPlaneCenter = [_myscene projectPoint:_myscene.scene.rootNode.position];
         float projectedDepth = projectedPlaneCenter.z;
-
-        SCNVector3 location_3d = [_myscene unprojectPoint:SCNVector3Make(point.x, point.y, projectedDepth)];
-        SCNVector3 prevLocation_3d = [_myscene unprojectPoint:SCNVector3Make(startPoint.x, startPoint.y, projectedDepth)];
-        
-        CGFloat x_var = location_3d.x - prevLocation_3d.x;
-        NSLog(@"\n\n %f \n\n", x_var);
-        CGFloat y_var = location_3d.y - prevLocation_3d.y;
-        
-        selectedNode.position = SCNVector3Make(selectedNode.position.x + x_var*0.15, selectedNode.position.y + y_var *0.15, selectedNode.position.z);
+        [self moveNodebyPrePoint:startPoint andCurPoint:movePoint andZValue:projectedDepth andNode:selectedNode];
+        /*
+         * Update start point to current position
+         */
+        startPoint = movePoint;
     }
     if (gesture.state == UIGestureRecognizerStateEnded) {
         startPoint = CGPointZero;
@@ -1043,20 +885,34 @@ static float initCamR_z = 0.0;
     return;
 }
 
+- (void)moveNodebyPrePoint:(CGPoint)prePoint andCurPoint:(CGPoint)curPointn andZValue:(float)zValue andNode:(SCNNode *)node {
+    
+    
+    SCNVector3 location_3d = [_myscene unprojectPoint:SCNVector3Make(curPointn.x, curPointn.y, zValue)];
+    SCNVector3 prevLocation_3d = [_myscene unprojectPoint:SCNVector3Make(prePoint.x, prePoint.y, zValue)];
+    
+    CGFloat x_var = location_3d.x - prevLocation_3d.x;
+    CGFloat y_var = location_3d.y - prevLocation_3d.y;
+    
+    node.position = SCNVector3Make(node.position.x + x_var, node.position.y + y_var, node.position.z);
+}
+
 #pragma mark Pinch & zoom
 
 - (void)addPinchGesture {
     UIPinchGestureRecognizer *pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handlePinch:)];
     [_myscene addGestureRecognizer:pinchGesture];
 }
-
+/*
+ * Pich to change position of camera (only Y & Z value)
+ */
 - (void)handlePinch:(UIPinchGestureRecognizer *)gesture {
     
     if (gesture.state == UIGestureRecognizerStateChanged) {
         float scale = gesture.scale;
-        if (scale > 1) {
-            scale *= 0.7;
-        }
+//        if (scale > 1) {
+//            scale *= 0.7;
+//        }
         SCNVector3 currentCamera = cameraNode.position;
         if (ABS(currentCamera.y*(1/scale)) < 5000 || ABS(currentCamera.y*(1/scale)) > 30000.0) {
             return;
@@ -1143,13 +999,7 @@ static float initCamR_z = 0.0;
 
         CGPoint location = [touch locationInView:_myscene];
         CGPoint prevLocation = [touch previousLocationInView:_myscene];
-        SCNVector3 location_3d = [_myscene unprojectPoint:SCNVector3Make(location.x, location.y, hitPositionZ)];
-        SCNVector3 prevLocation_3d = [_myscene unprojectPoint:SCNVector3Make(prevLocation.x, prevLocation.y, hitPositionZ)];
-        
-        CGFloat x_varible = location_3d.x - prevLocation_3d.x;
-        CGFloat y_varible = location_3d.y - prevLocation_3d.y;
-         NSLog(@"\n\n %f \n\n", x_varible);
-        selectedNode.position = SCNVector3Make(selectedNode.position.x + x_varible, selectedNode.position.y + y_varible , selectedNode.position.z);
+        [self moveNodebyPrePoint:prevLocation andCurPoint:location andZValue:hitPositionZ andNode:selectedNode];
     }
 }
 
