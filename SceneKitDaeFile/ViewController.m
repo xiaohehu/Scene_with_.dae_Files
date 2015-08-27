@@ -961,7 +961,7 @@ static float initCamR_z = 0.0;
      */
     if (touches.count == 1 && !editMode) {
         
-        float x_rotation = lastXRotation-M_PI_2 * (moveYDistance/_myscene.frame.size.height);
+        float x_rotation = lastXRotation-M_PI_2 * (moveYDistance/self.view.frame.size.height);
         if (x_rotation >= M_PI_4) {
             x_rotation = M_PI_4;
         }
@@ -969,7 +969,7 @@ static float initCamR_z = 0.0;
             x_rotation = -M_PI_2*0.6;
         }
         
-        float y_rotation = lastYRotation-2.0 * M_PI * (moveXDistance/_myscene.frame.size.width);
+        float y_rotation = lastYRotation-2.0 * M_PI * (moveXDistance/self.view.frame.size.width);
         /*
          * If the movement is less than 50, ignore it
          */
@@ -999,13 +999,13 @@ static float initCamR_z = 0.0;
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     
-//    if (cameraOrbit.eulerAngles.y < 0) {
-//        lastYRotation =  -cameraOrbit.eulerAngles.z ;
-//    }
-//    else {
-        lastYRotation = cameraOrbit.eulerAngles.z ;
-//    }
-    
+    if (cameraOrbit.eulerAngles.y < 0) {
+        lastYRotation =  -cameraOrbit.eulerAngles.z ;
+    }
+    else {
+        lastYRotation = cameraOrbit.eulerAngles.z;
+    }
+
     lastXRotation = cameraOrbit.eulerAngles.x;
 }
 
