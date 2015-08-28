@@ -52,8 +52,8 @@
 						
 		"buildingBolock": 	[
 								{
-									"fileName" : "BLDG_Group_00",
-									"ID" : "Box154",
+									"fileName" : "Context_BLDGs_04_02",
+									"ID" : "Context_BLDGs_04",
 									"poistion" : "0, 0, 0",
 									"isDefault" : "YES",
 									"isSelected" : "NO"

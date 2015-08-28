@@ -8,6 +8,18 @@
 
 /* Begin PBXBuildFile section */
 		822823F81B8656E3004154E7 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 822823F71B8656E3004154E7 /* MBProgressHUD.m */; };
+		823464C01B910064005DA3E0 /* Context_BLDGs_00_02.dae in Resources */ = {isa = PBXBuildFile; fileRef = 823464B41B910064005DA3E0 /* Context_BLDGs_00_02.dae */; };
+		823464C11B910064005DA3E0 /* Context_BLDGs_01_02.dae in Resources */ = {isa = PBXBuildFile; fileRef = 823464B51B910064005DA3E0 /* Context_BLDGs_01_02.dae */; };
+		823464C21B910064005DA3E0 /* Context_BLDGs_02_02.dae in Resources */ = {isa = PBXBuildFile; fileRef = 823464B61B910064005DA3E0 /* Context_BLDGs_02_02.dae */; };
+		823464C31B910064005DA3E0 /* Context_BLDGs_03_02.dae in Resources */ = {isa = PBXBuildFile; fileRef = 823464B71B910064005DA3E0 /* Context_BLDGs_03_02.dae */; };
+		823464C41B910064005DA3E0 /* Context_BLDGs_04_02.dae in Resources */ = {isa = PBXBuildFile; fileRef = 823464B81B910064005DA3E0 /* Context_BLDGs_04_02.dae */; };
+		823464C51B910064005DA3E0 /* Docks_02.dae in Resources */ = {isa = PBXBuildFile; fileRef = 823464B91B910064005DA3E0 /* Docks_02.dae */; };
+		823464C61B910064005DA3E0 /* Harbor_Point_02.dae in Resources */ = {isa = PBXBuildFile; fileRef = 823464BA1B910064005DA3E0 /* Harbor_Point_02.dae */; };
+		823464C71B910064005DA3E0 /* Land_And_Water_02.dae in Resources */ = {isa = PBXBuildFile; fileRef = 823464BB1B910064005DA3E0 /* Land_And_Water_02.dae */; };
+		823464C81B910064005DA3E0 /* Model_Base_02.dae in Resources */ = {isa = PBXBuildFile; fileRef = 823464BC1B910064005DA3E0 /* Model_Base_02.dae */; };
+		823464C91B910064005DA3E0 /* Playground_01_A_02.dae in Resources */ = {isa = PBXBuildFile; fileRef = 823464BD1B910064005DA3E0 /* Playground_01_A_02.dae */; };
+		823464CA1B910064005DA3E0 /* Playground_02_A_02.dae in Resources */ = {isa = PBXBuildFile; fileRef = 823464BE1B910064005DA3E0 /* Playground_02_A_02.dae */; };
+		823464CB1B910064005DA3E0 /* Project_Site_02.dae in Resources */ = {isa = PBXBuildFile; fileRef = 823464BF1B910064005DA3E0 /* Project_Site_02.dae */; };
 		824B9B911B557F5A006C58DF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 824B9B901B557F5A006C58DF /* main.m */; };
 		824B9B941B557F5A006C58DF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 824B9B931B557F5A006C58DF /* AppDelegate.m */; };
 		824B9B971B557F5A006C58DF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 824B9B961B557F5A006C58DF /* ViewController.m */; };
@@ -37,6 +49,18 @@
 /* Begin PBXFileReference section */
 		822823F61B8656E3004154E7 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		822823F71B8656E3004154E7 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		823464B41B910064005DA3E0 /* Context_BLDGs_00_02.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = Context_BLDGs_00_02.dae; sourceTree = "<group>"; };
+		823464B51B910064005DA3E0 /* Context_BLDGs_01_02.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = Context_BLDGs_01_02.dae; sourceTree = "<group>"; };
+		823464B61B910064005DA3E0 /* Context_BLDGs_02_02.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = Context_BLDGs_02_02.dae; sourceTree = "<group>"; };
+		823464B71B910064005DA3E0 /* Context_BLDGs_03_02.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = Context_BLDGs_03_02.dae; sourceTree = "<group>"; };
+		823464B81B910064005DA3E0 /* Context_BLDGs_04_02.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = Context_BLDGs_04_02.dae; sourceTree = "<group>"; };
+		823464B91B910064005DA3E0 /* Docks_02.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = Docks_02.dae; sourceTree = "<group>"; };
+		823464BA1B910064005DA3E0 /* Harbor_Point_02.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = Harbor_Point_02.dae; sourceTree = "<group>"; };
+		823464BB1B910064005DA3E0 /* Land_And_Water_02.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = Land_And_Water_02.dae; sourceTree = "<group>"; };
+		823464BC1B910064005DA3E0 /* Model_Base_02.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = Model_Base_02.dae; sourceTree = "<group>"; };
+		823464BD1B910064005DA3E0 /* Playground_01_A_02.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = Playground_01_A_02.dae; sourceTree = "<group>"; };
+		823464BE1B910064005DA3E0 /* Playground_02_A_02.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = Playground_02_A_02.dae; sourceTree = "<group>"; };
+		823464BF1B910064005DA3E0 /* Project_Site_02.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = Project_Site_02.dae; sourceTree = "<group>"; };
 		824B9B8B1B557F5A006C58DF /* SceneKitDaeFile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SceneKitDaeFile.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		824B9B8F1B557F5A006C58DF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		824B9B901B557F5A006C58DF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -80,6 +104,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		823464B31B910064005DA3E0 /* 08:28_models */ = {
+			isa = PBXGroup;
+			children = (
+				823464B41B910064005DA3E0 /* Context_BLDGs_00_02.dae */,
+				823464B51B910064005DA3E0 /* Context_BLDGs_01_02.dae */,
+				823464B61B910064005DA3E0 /* Context_BLDGs_02_02.dae */,
+				823464B71B910064005DA3E0 /* Context_BLDGs_03_02.dae */,
+				823464B81B910064005DA3E0 /* Context_BLDGs_04_02.dae */,
+				823464B91B910064005DA3E0 /* Docks_02.dae */,
+				823464BA1B910064005DA3E0 /* Harbor_Point_02.dae */,
+				823464BB1B910064005DA3E0 /* Land_And_Water_02.dae */,
+				823464BC1B910064005DA3E0 /* Model_Base_02.dae */,
+				823464BD1B910064005DA3E0 /* Playground_01_A_02.dae */,
+				823464BE1B910064005DA3E0 /* Playground_02_A_02.dae */,
+				823464BF1B910064005DA3E0 /* Project_Site_02.dae */,
+			);
+			path = "08:28_models";
+			sourceTree = "<group>";
+		};
 		824B9B821B557F5A006C58DF = {
 			isa = PBXGroup;
 			children = (
@@ -116,6 +159,7 @@
 				824B9BC41B559306006C58DF /* GoogleEarth.jpg */,
 				822823F61B8656E3004154E7 /* MBProgressHUD.h */,
 				822823F71B8656E3004154E7 /* MBProgressHUD.m */,
+				823464B31B910064005DA3E0 /* 08:28_models */,
 				825126FE1B7549C900E81511 /* scenes.scnassets */,
 				824B9B9B1B557F5A006C58DF /* Images.xcassets */,
 				824B9B9D1B557F5A006C58DF /* LaunchScreen.xib */,
@@ -235,9 +279,21 @@
 				824B9B9A1B557F5A006C58DF /* Main.storyboard in Resources */,
 				8251FE5E1B7A951C0021C1BA /* singleBuilding.json in Resources */,
 				824B9BC51B559306006C58DF /* GoogleEarth.jpg in Resources */,
+				823464C51B910064005DA3E0 /* Docks_02.dae in Resources */,
+				823464C81B910064005DA3E0 /* Model_Base_02.dae in Resources */,
+				823464C71B910064005DA3E0 /* Land_And_Water_02.dae in Resources */,
+				823464C61B910064005DA3E0 /* Harbor_Point_02.dae in Resources */,
+				823464CB1B910064005DA3E0 /* Project_Site_02.dae in Resources */,
 				824B9B9F1B557F5A006C58DF /* LaunchScreen.xib in Resources */,
+				823464C11B910064005DA3E0 /* Context_BLDGs_01_02.dae in Resources */,
 				8251FE6E1B7CD5830021C1BA /* groupBuildings.json in Resources */,
+				823464CA1B910064005DA3E0 /* Playground_02_A_02.dae in Resources */,
+				823464C21B910064005DA3E0 /* Context_BLDGs_02_02.dae in Resources */,
 				824B9B9C1B557F5A006C58DF /* Images.xcassets in Resources */,
+				823464C31B910064005DA3E0 /* Context_BLDGs_03_02.dae in Resources */,
+				823464C01B910064005DA3E0 /* Context_BLDGs_00_02.dae in Resources */,
+				823464C41B910064005DA3E0 /* Context_BLDGs_04_02.dae in Resources */,
+				823464C91B910064005DA3E0 /* Playground_01_A_02.dae in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
