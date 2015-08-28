@@ -104,7 +104,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		823464B31B910064005DA3E0 /* 08:28_models */ = {
+		823464B31B910064005DA3E0 /* 08_28_models */ = {
 			isa = PBXGroup;
 			children = (
 				823464B41B910064005DA3E0 /* Context_BLDGs_00_02.dae */,
@@ -120,6 +120,7 @@
 				823464BE1B910064005DA3E0 /* Playground_02_A_02.dae */,
 				823464BF1B910064005DA3E0 /* Project_Site_02.dae */,
 			);
+			name = 08_28_models;
 			path = "08:28_models";
 			sourceTree = "<group>";
 		};
@@ -159,7 +160,7 @@
 				824B9BC41B559306006C58DF /* GoogleEarth.jpg */,
 				822823F61B8656E3004154E7 /* MBProgressHUD.h */,
 				822823F71B8656E3004154E7 /* MBProgressHUD.m */,
-				823464B31B910064005DA3E0 /* 08:28_models */,
+				823464B31B910064005DA3E0 /* 08_28_models */,
 				825126FE1B7549C900E81511 /* scenes.scnassets */,
 				824B9B9B1B557F5A006C58DF /* Images.xcassets */,
 				824B9B9D1B557F5A006C58DF /* LaunchScreen.xib */,
