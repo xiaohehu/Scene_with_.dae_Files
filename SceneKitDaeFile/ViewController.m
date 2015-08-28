@@ -190,15 +190,15 @@ static float initCamR_z = 0.0;
     
     // Create container node
     position1Node = [SCNNode node];
-    position1Node.position = SCNVector3Make(-6973.152344, -2661.582764, -0.000244);
+    position1Node.position = SCNVector3Make(-6973.152344, -2661.582764, 0.0);
     [self.myscene.scene.rootNode addChildNode: position1Node];
     
     position2Node = [SCNNode node];
-    position2Node.position = SCNVector3Make(-6915.738281, -5808.296387, -0.000854);
+    position2Node.position = SCNVector3Make(-6915.738281, -5808.296387, 0.0);
     [self.myscene.scene.rootNode addChildNode: position2Node];
     
     position3Node = [SCNNode node];
-    position3Node.position = SCNVector3Make(-6850.738281, -8808.296387, -0.000854);
+    position3Node.position = SCNVector3Make(-6850.738281, -8808.296387, 0.0);
     [self.myscene.scene.rootNode addChildNode: position3Node];
     
     arr_containerNodes = @[
