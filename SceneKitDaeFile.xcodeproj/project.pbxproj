@@ -34,6 +34,7 @@
 		8251FE5C1B793B8D0021C1BA /* groupBuildings.m in Sources */ = {isa = PBXBuildFile; fileRef = 8251FE5B1B793B8D0021C1BA /* groupBuildings.m */; };
 		8251FE5E1B7A951C0021C1BA /* singleBuilding.json in Resources */ = {isa = PBXBuildFile; fileRef = 8251FE5D1B7A951C0021C1BA /* singleBuilding.json */; };
 		8251FE6E1B7CD5830021C1BA /* groupBuildings.json in Resources */ = {isa = PBXBuildFile; fileRef = 8251FE6D1B7CD5830021C1BA /* groupBuildings.json */; };
+		8819D8621BB854F000015AF5 /* playground.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8819D8611BB854F000015AF5 /* playground.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,6 +84,7 @@
 		8251FE5B1B793B8D0021C1BA /* groupBuildings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = groupBuildings.m; sourceTree = "<group>"; };
 		8251FE5D1B7A951C0021C1BA /* singleBuilding.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = singleBuilding.json; sourceTree = "<group>"; };
 		8251FE6D1B7CD5830021C1BA /* groupBuildings.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = groupBuildings.json; sourceTree = "<group>"; };
+		8819D8611BB854F000015AF5 /* playground.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = playground.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -163,6 +165,7 @@
 				823464B31B910064005DA3E0 /* 08_28_models */,
 				825126FE1B7549C900E81511 /* scenes.scnassets */,
 				824B9B9B1B557F5A006C58DF /* Images.xcassets */,
+				8819D8611BB854F000015AF5 /* playground.xcassets */,
 				824B9B9D1B557F5A006C58DF /* LaunchScreen.xib */,
 				824B9B8E1B557F5A006C58DF /* Supporting Files */,
 			);
@@ -284,6 +287,7 @@
 				823464C81B910064005DA3E0 /* Model_Base_02.dae in Resources */,
 				823464C71B910064005DA3E0 /* Land_And_Water_02.dae in Resources */,
 				823464C61B910064005DA3E0 /* Harbor_Point_02.dae in Resources */,
+				8819D8621BB854F000015AF5 /* playground.xcassets in Resources */,
 				823464CB1B910064005DA3E0 /* Project_Site_02.dae in Resources */,
 				824B9B9F1B557F5A006C58DF /* LaunchScreen.xib in Resources */,
 				823464C11B910064005DA3E0 /* Context_BLDGs_01_02.dae in Resources */,

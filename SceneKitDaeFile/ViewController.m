@@ -59,6 +59,7 @@ static float initCamR_z = 0.0;
 @property (weak, nonatomic) IBOutlet UIButton *uib_reset;
 @property (weak, nonatomic) IBOutlet UIButton *uib_cam1;
 @property (weak, nonatomic) IBOutlet UIButton *uib_cam2;
+@property (weak, nonatomic) IBOutlet UILabel *uil_rotationDegres;
 
 // Bottom control panel
 @property (weak, nonatomic) IBOutlet UIView *uiv_controlPanel;
@@ -102,7 +103,7 @@ static float initCamR_z = 0.0;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    _uiv_controlPanel.transform = CGAffineTransformMakeTranslation(0, 150);
+    _uiv_controlPanel.transform = CGAffineTransformMakeTranslation(0, _uiv_controlPanel.frame.size.height);
     _uiv_sideMenu.transform = CGAffineTransformMakeTranslation(_uiv_sideMenu.frame.size.width, 0);
     _myscene.alpha = 0.0;
     _uib_start.alpha = 0.0;
@@ -912,7 +913,7 @@ static float initCamR_z = 0.0;
     editMode = NO;
     [UIView animateWithDuration:0.33 animations:^(void){
         selectedNode.opacity = 1.0;
-        _uiv_controlPanel.transform = CGAffineTransformMakeTranslation(0, _uiv_controlPanel.frame.size.height);
+        _uiv_controlPanel.transform = CGAffineTransformMakeTranslation(0, _uiv_controlPanel.frame.size.height*1.1);
     } completion:^(BOOL finished){
         selectedNode = nil;
     }];
@@ -931,6 +932,7 @@ static float initCamR_z = 0.0;
 
 - (IBAction)degreeSliderChangeValue:(id)sender {
    selectedNode.rotation = SCNVector4Make(0, 0, 1, DEGREES_TO_RADIANS(_uisld_degreeSlider.value));
+    _uil_rotationDegres.text = [NSString stringWithFormat:@"%i°",(int)_uisld_degreeSlider.value];
 }
 #pragma mark - Edit menu
 
